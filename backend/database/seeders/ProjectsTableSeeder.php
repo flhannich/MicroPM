@@ -24,7 +24,9 @@ class ProjectsTableSeeder extends Seeder
          for ($i = 0; $i < 5; $i++) {
              Project::create([
                  'name' => $faker->sentence,
-                 'description' => $faker->paragraph
+                 'description' => $faker->paragraph,
+                 'client_id' => '',
+                 'user_id' => '',
              ]);
          };
      }

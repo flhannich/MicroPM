@@ -20,6 +20,8 @@ class CreateTasksTable extends Migration
             $table->string('status');
             $table->longText('description');
             $table->string('files')->nullable();
+            $table->string('project_id');
+            $table->string('user_id');
         });
     }
 

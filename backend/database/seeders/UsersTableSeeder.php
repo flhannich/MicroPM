@@ -25,6 +25,7 @@ class UsersTableSeeder extends Seeder
            User::create([
                'name' => 'admin',
                'email' => 'admin@test.com',
+               'role' => 'admin',
                'password' => $password,
            ]);
 
@@ -32,7 +33,8 @@ class UsersTableSeeder extends Seeder
                User::create([
                    'name' => $faker->name,
                    'email' => $faker->email,
-                   'password' => $password
+                   'role' => 'user',
+                   'password' => $password,
                ]);
            };
        }
