@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
     public function index()
     {
-        return Project::all();
+        $projects = Project::with('task')->where('client_id', '1')->get();
+        
+        return response()->json($projects, 201);
     }
 
     public function show(Project $project)
