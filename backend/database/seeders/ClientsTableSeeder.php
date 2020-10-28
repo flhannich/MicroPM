@@ -19,11 +19,12 @@ class ClientsTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
+        $secret = Hash::make('1234');
+
         for ($i = 0; $i < 3; $i++) {
             Client::create([
-                'name' => $faker->sentence,
-                'email' => $faker->email,
-                'secret' => $faker->randomNumber,
+                'name' => $faker->name,
+                'secret' => $secret,
             ]);
         };
     }

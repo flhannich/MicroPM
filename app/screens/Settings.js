@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignItems: 'center',
   },
+  button: {
+    color: '#000',
+    paddingTop: 6,
+    paddingBottom: 32,
+  },
   id_title: {
     paddingTop: 40,
   },

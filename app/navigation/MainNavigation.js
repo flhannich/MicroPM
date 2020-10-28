@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Button, Text, View, StyleSheet } from 'react-native'
+import { Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 
@@ -46,7 +46,7 @@ const MainNavigation = () => {
       }
     </>
   )
-
 }
+
 
 export default MainNavigation

@@ -17,6 +17,6 @@ class ClientController extends Controller
       //
       // $projects = Project::with('task')->where('client_id', $client->id)->get();
 
-      return response()->json($client, 201);
+      return response()->json($client[0], 201);
   }
 }

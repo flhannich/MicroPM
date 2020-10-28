@@ -30,7 +30,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
-Route::group(['middleware' => ['cors', 'json.response']], function () {
+// Route::group(['middleware' => ['cors', 'json.response']], function () {
   // public routes will go in here
 
   Route::post('/login', [ApiAuthController::class, 'login']);
@@ -53,4 +53,4 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   // Route::delete('projects/{project}', 'ArticleController@delete');
 
 
-});
+// });

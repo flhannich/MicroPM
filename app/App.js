@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect, useReducer } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
+import { Button, Text, View, TextInput } from 'react-native'
 
 import MainNavigation from './navigation/MainNavigation';
 import Login from './screens/Login';
@@ -67,43 +67,11 @@ export default function App() {
          <MainNavigation />
          <Login
             errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
             setId={setId}
             validate={_validate}
           />
       </AppContext.Provider>
 
   )
-
 }
-
-
-const styles = StyleSheet.create({
-  screen: {
-    marginTop: 40,
-    alignItems: 'center',
-  },
-  text: {
-    paddingTop: 32,
-    paddingBottom: 24,
-    fontSize: 13
-  },
-  error: {
-    paddingTop: 0,
-    paddingBottom: 24,
-    fontSize: 13,
-    color: 'red'
-  },
-  input: {
-    width: 200,
-    fontSize: 16,
-    textAlign: 'center',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#777',
-    marginBottom: 32
-  },
-})

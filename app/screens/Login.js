@@ -1,34 +1,40 @@
 import React, { useState, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Text, View, StyleSheet, TextInput } from 'react-native'
+import { Button, Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
 import MainNavigation from './../navigation/MainNavigation';
 
 import { AppContext } from './../context/AppContext.js'
 
+import { Colors, Typography, Spacing, Forms } from './../styles'
+
 export default function Login( probs ) {
 
   const { isValidated } = (useContext(AppContext));
 
-  
+
+  const handleSubmit = () => {
+    probs.setErrorMessage(false)
+  }
+
   return(
     <>
     {!isValidated &&
-      <View style={styles.screen}>
-       <Text style={styles.text}>Enter your ID </Text>
+      <SafeAreaView style={styles.container}>
+       <Text style={styles.label}>Your ID </Text>
        <TextInput
          style={styles.input}
          onChangeText={text => probs.setId(text)}
        />
+       <Text style={styles.info}>We save your credentials on your phone</Text>
        {probs.errorMessage &&
-         <Text style={styles.error}>{probs.errorMessage}</Text>
+         <Text style={styles.errorMessage}>{probs.errorMessage}</Text>
        }
        <Button
-         styles={styles.button}
          onPress={probs.validate}
-         title="View your Status"
+         title="Log in"
        />
-     </View>
+     </SafeAreaView>
      }
   </>
   )
@@ -36,33 +42,35 @@ export default function Login( probs ) {
 }
 
 
+
+
 const styles = StyleSheet.create({
-  screen: {
-    marginTop: 40,
-    alignItems: 'center',
+  container: {
+    marginTop: Spacing.p8,
+    ...Spacing.container,
+    ...Colors.container,
   },
-  text: {
-    paddingTop: 32,
-    paddingBottom: 24,
-    fontSize: 13
+  info: {
+    ...Forms.label,
+    ...Typography.label,
+    ...Colors.textLight,
+    marginBottom: Spacing.p4,
   },
-  error: {
-    paddingTop: 0,
-    paddingBottom: 24,
-    fontSize: 13,
-    color: 'red'
+  errorMessage: {
+    ...Forms.label,
+    ...Typography.label,
+    ...Colors.textError,
+    marginBottom: Spacing.p3,
+  },
+  label: {
+    ...Forms.label,
+    ...Typography.label,
+    ...Colors.textLight,
   },
   input: {
-    width: 200,
-    fontSize: 16,
-    textAlign: 'center',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#777',
-    marginBottom: 32
+    ...Forms.input,
+    ...Typography.input,
+    marginTop: Spacing.p2,
+    marginBottom: Spacing.p4,
   },
 })
