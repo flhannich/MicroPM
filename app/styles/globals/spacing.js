@@ -1,13 +1,7 @@
 
 export const container = {
-  marginHorizontal: 24,
-  paddingVertical: 24,
-}
-
-export const stackNavigator = {
-  marginHorizontal: 24,
-  paddingVertical: 24,
-  paddingHorizontal: 24,
+  paddingHorizontal: 12,
+  paddingTop: 16,
 }
 
 export const p1 = 4;

@@ -2,8 +2,6 @@ import React, { useState, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
-import MainNavigation from './../navigation/MainNavigation';
-
 import { AppContext } from './../context/AppContext.js'
 
 import { Colors, Typography, Spacing, Forms } from './../styles'

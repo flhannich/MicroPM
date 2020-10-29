@@ -1,3 +1,7 @@
+export const textLightest = {
+  color: 'rgba(0, 0 ,0, .38)',
+}
+
 export const textLight = {
   color: 'rgba(0, 0 ,0, .54)',
 }

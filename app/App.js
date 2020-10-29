@@ -21,9 +21,7 @@ export default function App() {
       } else {
         setErrorMessage('Please enter your ID')
       }
-
       // if not ->
-      //
   }
 
   const _logout = () => {

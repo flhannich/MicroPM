@@ -6,7 +6,13 @@ export const lineHeight = {
 
 export const label = {
   fontSize: 14,
-  fontWeight: '300',
+}
+
+export const status = {
+  fontSize: 12,
+  fontWeight: '600',
+  textTransform: 'uppercase',
+  letterSpacing: 0.4,
 }
 
 export const input = {
@@ -14,14 +20,14 @@ export const input = {
 }
 
 export const title = {
-  fontSize: 18,
+  fontSize: 16,
   fontWeight: '600',
   lineHeight: 24,
 }
 
 export const description = {
-  fontSize: 16,
-  lineHeight: 24,
+  fontSize: 14,
+  lineHeight: 20,
 }
 
 export const info = {
