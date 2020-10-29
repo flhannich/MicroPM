@@ -38,9 +38,9 @@ class Client extends Model
     ];
 
 
-    public function project()
+    public function projects()
     {
-        return $this->hasMany(Project::class)->with('task');
+        return $this->hasMany(Project::class)->with('tasks');
     }
 
 }

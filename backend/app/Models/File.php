@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Task;
 use App\Models\Project;
-use App\Models\File;
 
-class Task extends Model
+class File extends Model
 {
     use HasFactory;
 
@@ -18,19 +18,19 @@ class Task extends Model
      */
     protected $fillable = [
         'name',
-        'status',
-        'description',
-        'files'
+        'path',
+        'type',
     ];
+
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 
     public function project()
     {
         return $this->belongsTo(Project::class);
-    }
-
-    public function files()
-    {
-        return $this->hasMany(File::class);
     }
 
 }

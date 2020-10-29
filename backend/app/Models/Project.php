@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Task;
 use App\Models\Client;
+use App\Models\File;
 
 class Project extends Model
 {
@@ -22,9 +23,14 @@ class Project extends Model
         'description'
     ];
 
-    public function task()
+    public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class)->with('files');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
     }
 
     public function client()

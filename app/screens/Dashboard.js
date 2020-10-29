@@ -12,6 +12,7 @@ export default function Dashboard({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
+console.log(data);
     useEffect(() => {
       if(!id) return;
       fetch(`http://192.168.178.35:8000/api/client/${id}`)

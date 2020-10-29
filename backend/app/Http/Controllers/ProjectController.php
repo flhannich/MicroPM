@@ -9,8 +9,8 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('task')->where('client_id', '1')->get();
-        
+        $projects = Project::with('tasks')->where('client_id', '1')->get();
+
         return response()->json($projects, 201);
     }
 

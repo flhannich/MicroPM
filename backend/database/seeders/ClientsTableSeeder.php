@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use Database\Seeders\Hash;
 use App\Models\Client;
 
 class ClientsTableSeeder extends Seeder
@@ -19,12 +19,10 @@ class ClientsTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        $secret = Hash::make('1234');
-
         for ($i = 0; $i < 3; $i++) {
             Client::create([
                 'name' => $faker->name,
-                'secret' => $secret,
+                'secret' => '1234',
             ]);
         };
     }
