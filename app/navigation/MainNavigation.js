@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import Dashboard from './../screens/Dashboard';
 import Settings from './../screens/Settings';
@@ -16,12 +16,33 @@ import { AppContext } from '../context/AppContext.js'
 const TaskStackOptions = ({ navigation }) => {
   return {
     headerRight: () => (
-      <MaterialCommunityIcons
-        name="information-variant"
-        onPress={() => navigation.navigate('Settings')}
-        color='#999'
-        size='24'
-      />
+      <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
+         <TouchableOpacity>
+           <Ionicons
+             name="ios-chatboxes"
+             onPress={() => navigation.navigate('Settings')}
+             color='#007AFF'
+             size='24'
+           />
+         </TouchableOpacity>
+       </View>
+    )
+  }
+}
+
+const DashboardStackOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
+         <TouchableOpacity>
+           <Ionicons
+             name="ios-help-circle"
+             onPress={() => navigation.navigate('Settings')}
+             color='#007AFF'
+             size='24'
+           />
+         </TouchableOpacity>
+       </View>
     )
   }
 }
@@ -35,11 +56,12 @@ function DashboardStackScreen() {
     <DashboardStack.Screen
       name="Dashboard"
       component={Dashboard}
+      options={DashboardStackOptions}
     />
     <DashboardStack.Screen
       name="Task"
       component={Task}
-      // options={TaskStackOptions}
+      options={TaskStackOptions}
       />
    </DashboardStack.Navigator>
 
@@ -105,9 +127,9 @@ const MainNavigation = () => {
           name="Dashboard"
           component={DashboardStackScreen}
           options={{
-            tabBarLabel: 'Tasks',
+            tabBarLabel: 'Dashboard',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
+              <Ionicons name="ios-list-box" color={color} size={size} />
             ),
           }}
         />
@@ -117,7 +139,7 @@ const MainNavigation = () => {
           options={{
             tabBarLabel: 'Messages',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="message-outline" color={color} size={size} />
+              <Ionicons name="ios-chatboxes" color={color} size={size} />
             ),
           }}
         />
@@ -127,7 +149,7 @@ const MainNavigation = () => {
           options={{
             tabBarLabel: 'Account',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account-box" color={color} size={size} />
+              <Ionicons name="ios-person" color={color} size={size} />
             ),
           }}
         />

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, FlatList, Button, Text, View, StyleSheet, TouchableHighlight } from 'react-native'
 
-import { Colors, Typography, Spacing, Forms, Cards } from './../styles'
+import { Colors, Typography, Spacing, Forms, Cards, Buttons } from './../styles'
 
 import { AppContext } from '../context/AppContext.js'
 
@@ -12,7 +12,7 @@ export default function Dashboard({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-console.log(data);
+
     useEffect(() => {
       if(!id) return;
       fetch(`http://192.168.178.35:8000/api/client/${id}`)
@@ -29,9 +29,14 @@ console.log(data);
           navigation.navigate('Task', { item: item })
         }
       >
+
+
         <View style={styles.card}>
           <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.info}>{item.task.length} Tasks</Text>
+          {item.tasks.find(x => x.status === 'review') &&
+            <Text style={styles.badgeReview}>Review</Text>
+          }
+          <Text style={styles.info}>{item.tasks.length} Tasks</Text>
         </View>
       </TouchableHighlight>
 
@@ -40,6 +45,7 @@ console.log(data);
     const renderItem = ({ item }) => (
       <Item item={item} />
     );
+
 
   return(
 
@@ -50,7 +56,7 @@ console.log(data);
         : (
           <>
             <FlatList
-              data={data.project}
+              data={data.projects}
               style={styles.flatList}
               renderItem={renderItem}
               keyExtractor={(item, index) => 'key'+index}
@@ -88,5 +94,11 @@ const styles = StyleSheet.create({
     ...Forms.label,
     ...Typography.label,
     ...Colors.textLight,
+  },
+  badgeReview: {
+    ...Typography.badge,
+    ...Colors.textWhiteFull,
+    ...Buttons.badgeReview,
+    marginBottom: Spacing.p2,
   },
 })

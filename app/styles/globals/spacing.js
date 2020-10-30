@@ -1,7 +1,8 @@
 
 export const container = {
   paddingHorizontal: 12,
-  paddingTop: 16,
+  paddingVertical: 16,
+  backgroundColor: '#fff',
 }
 
 export const p1 = 4;
@@ -14,3 +15,10 @@ export const p7 = 64;
 export const p8 = 80;
 export const p9 = 96;
 export const p10 = 114;
+
+
+
+export const badgeReview = {
+  backgroundColor: '#fff',
+  borderRadius: 10,
+};

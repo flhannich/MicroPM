@@ -17,3 +17,23 @@ export const textDark = {
 export const textError = {
   color: 'rgba(255, 0 ,0, .85)',
 }
+
+export const textWhiteNormal = {
+  color: 'rgba(255, 255 ,255, 0.85)'
+}
+
+export const textWhiteLightest = {
+  color: 'rgba(255, 255 ,255, 0.38)',
+}
+
+export const textWhiteLight = {
+  color: 'rgba(255, 255 ,255, 0.54)',
+}
+
+export const textWhiteFull = {
+  color: 'rgba(255, 255 ,255, 1)',
+}
+
+export const textBrand = {
+  color: '#007AFF',
+}

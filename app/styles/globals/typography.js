@@ -19,9 +19,14 @@ export const input = {
   fontSize: 16,
 }
 
+export const badge = {
+  fontSize: 12,
+  fontWeight: '500',
+}
+
 export const title = {
   fontSize: 16,
-  fontWeight: '600',
+  fontWeight: '400',
   lineHeight: 24,
 }
 
@@ -31,6 +36,6 @@ export const description = {
 }
 
 export const info = {
-  fontSize: 13,
+  fontSize: 12,
   lineHeight: 20,
 }

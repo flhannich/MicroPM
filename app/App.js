@@ -1,6 +1,7 @@
 import React, { useState, createContext, useEffect, useReducer } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Text, View, TextInput } from 'react-native'
+import { StatusBar } from 'expo-status-bar';
 
 import MainNavigation from './navigation/MainNavigation';
 import Login from './screens/Login';
@@ -69,6 +70,7 @@ export default function App() {
             setId={setId}
             validate={_validate}
           />
+          <StatusBar style="dark" />
       </AppContext.Provider>
 
   )
