@@ -37,3 +37,8 @@ export const textWhiteFull = {
 export const textBrand = {
   color: '#007AFF',
 }
+
+
+export const borderLight = 'rgba(0, 0 ,0, .15)'
+
+export const brand = '#007AFF'

@@ -18,10 +18,11 @@ class CreateTasksTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('status');
+            $table->integer('weight');
             $table->longText('description');
-            $table->string('files')->nullable();
             $table->string('project_id');
             $table->string('user_id');
+            $table->string('client_id');
         });
     }
 

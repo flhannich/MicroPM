@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { Icons, Files, Spacing } from './../styles'
+import { Icons, Files, Spacing } from './../../styles'
 
 const FilePreview = ({item}) => {
 
@@ -21,13 +21,6 @@ const FilePreview = ({item}) => {
       {item.type === 'jpg' &&
         <Ionicons
           name="ios-image"
-          size={20}
-          color='rgba(0,0,0,.30)'
-        />
-      }
-      {item.type === 'zip' &&
-        <Ionicons
-          name="ios-archive"
           size={20}
           color='rgba(0,0,0,.30)'
         />

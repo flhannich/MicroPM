@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\File;
 
 class Client extends Model
 {
@@ -41,6 +42,11 @@ class Client extends Model
     public function projects()
     {
         return $this->hasMany(Project::class)->with('tasks');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Task::class)->where('status', 'review')->with('project')->with('file');
     }
 
 }

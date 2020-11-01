@@ -25,8 +25,21 @@ export const badge = {
 }
 
 export const title = {
-  fontSize: 16,
+  fontSize: 24,
+  lineHeight: 34,
   fontWeight: '400',
+  lineHeight: 24,
+}
+
+export const mainTitle = {
+  fontSize: 34,
+  fontWeight: '800',
+  lineHeight: 34,
+}
+
+export const cardTitle = {
+  fontSize: 16,
+  fontWeight: '600',
   lineHeight: 24,
 }
 

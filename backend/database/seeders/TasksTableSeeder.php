@@ -24,9 +24,10 @@ class TasksTableSeeder extends Seeder
                 'status' => 'not_started',
                 'name' => $faker->sentence,
                 'description' => $faker->paragraph,
-                'files' => null,
+                'weight' => 1,
                 'project_id' => '',
                 'user_id' => '',
+                'client_id' => '',
             ]);
         };
     }

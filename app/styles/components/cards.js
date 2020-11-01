@@ -5,6 +5,26 @@ export const base = {
 
 }
 
+export const shadow = {
+  shadowColor: "#000",
+  shadowOffset: {
+  	width: 2,
+  	height: 4,
+  },
+  shadowOpacity: 0.18,
+  shadowRadius: 8,}
+
+export const cardProject = {
+  backgroundColor: '#fff',
+  borderRadius: 10,
+  paddingLeft: 16,
+  paddingRight: 16,
+  paddingTop: 20,
+  paddingBottom: 20,
+  borderWidth: 1,
+  borderColor: '#ccc',
+  ...base,
+};
 
 export const cardReview = {
   backgroundColor: '#007AFF',
@@ -13,13 +33,7 @@ export const cardReview = {
   paddingRight: 16,
   paddingTop: 20,
   paddingBottom: 20,
-  shadowColor: "#000",
-  shadowOffset: {
-  	width: 2,
-  	height: 4,
-  },
-  shadowOpacity: 0.18,
-  shadowRadius: 8,
+  ...shadow,
   ...base,
 };
 
@@ -51,9 +65,19 @@ export const cardCompleted = {
   ...base,
 };
 
-export const cardTitle = {
+export const cardStatus = {
   display: 'flex',
   flexDirection:"row",
   alignItems: 'center',
-  justifyContent:'space-between',
+};
+
+export const cardTitle = {
+  display: 'flex',
+  flexDirection:"row",
+  flexWrap: "wrap",
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: 8,
+  maxWidth: '100%',
+  overflow: 'hidden'
 };

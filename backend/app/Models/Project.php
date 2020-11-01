@@ -25,7 +25,7 @@ class Project extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class)->with('files');
+        return $this->hasMany(Task::class)->with('file');
     }
 
     public function files()

@@ -1,16 +1,23 @@
 
 import React, { useState, useEffect, useContext } from 'react'
-import { ActivityIndicator, FlatList, Button, Text, View, StyleSheet, TouchableHighlight } from 'react-native'
+import { ActivityIndicator, FlatList, Button, Text, View, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
 
-import { Colors, Typography, Spacing, Forms, Cards, Buttons } from './../styles'
+import { Colors, Typography, Spacing, Forms, Cards, Buttons, Files } from './../styles'
+
+import { format } from "date-fns";
+import { de } from 'date-fns/locale'
+import { parseISO } from 'date-fns/parseISO'
 
 import { AuthContext } from '../context/AuthContext.js'
 
-export default function Home( probs, { navigation }) {
-  
-  console.log(probs);
+import { FilePreview } from '../components'
+import { CardProject } from '../components'
+import { CardReview } from '../components'
+
+export default function Home({ navigation }) {
 
   const { id } = useContext(AuthContext);
+
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -21,51 +28,61 @@ export default function Home( probs, { navigation }) {
 
     useEffect(() => {
       if(!id) return;
-      fetch(`http://192.168.178.83:8000/api/client/${id}`)
+      fetch(`http://192.168.178.35:8000/api/client/${id}`)
         .then((response) => response.json())
-        .then((json) => setData(json))
+        .then((json) => {
+          setData(json)
+        })
         .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+        .finally((json) => setLoading(false));
     }, [id]);
 
-    const ProjectListItem = ({ item }) => {
-
-      const reviews = item.tasks.filter(item => item.status.indexOf('review') !== -1);
-
-      return (
-          <TouchableHighlight
-            onPress={() =>
-              navigation.navigate('Project', { item: item })
-            }
-          >
-            <View style={styles.card}>
-              <Text style={styles.title}>{item.name}</Text>
-              {reviews.length > 0 &&
-                <Text style={styles.badgeReview}> {reviews.length} Review</Text>
-              }
-              <Text style={styles.info}>{item.tasks.length} Tasks</Text>
-            </View>
-          </TouchableHighlight>
-      )
-    };
 
   return (
 
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
 
       {isLoading
         ? <ActivityIndicator/>
         : (
           <>
-            <FlatList
-              data={data.projects}
-              style={styles.flatList}
-              renderItem={ProjectListItem}
-              keyExtractor={(item, index) => 'key'+index}
-            />
+          <Text style={styles.mainTitle}>Welcome</Text>
+
+          {data.reviews.length > 0 &&
+            <View style={styles.listReviews}>
+              <View style={styles.cardTitle}>
+                <Text style={styles.status}>Open Reviews</Text>
+              </View>
+
+              { data.reviews.map((item, index) =>
+                <CardReview
+                  key={index}
+                  item={item}
+                  navigation={navigation}
+                />
+              )}
+            </View>
+          }
+
+          {data.projects.length > 0 &&
+            <>
+              <View style={styles.cardTitle}>
+                <Text style={styles.status}>Timelines</Text>
+              </View>
+
+              { data.projects.map((item, index) =>
+                <CardProject
+                  key={index}
+                  item={item}
+                  navigation={navigation}
+                />
+              )}
+            </>
+          }
+
           </>
         )}
-    </View>
+    </ScrollView>
 
   )
 
@@ -77,30 +94,14 @@ const styles = StyleSheet.create({
     ...Spacing.container,
     flex: 1,
   },
-  card: {
-    ...Cards.card,
-    marginBottom: Spacing.p2,
+  mainTitle: {
+    ...Typography.mainTitle,
+    marginBottom: Spacing.p5,
   },
-  flatList: {
-    paddingTop: Spacing.p4,
+  listReviews: {
+    marginBottom: Spacing.p5,
   },
-  client: {
-    ...Typography.label,
-    marginBottom: Spacing.p4,
-  },
-  title: {
-    ...Typography.title,
-    marginBottom: Spacing.p2,
-  },
-  info: {
-    ...Forms.label,
-    ...Typography.label,
-    ...Colors.textLight,
-  },
-  badgeReview: {
-    ...Typography.badge,
-    ...Colors.textWhiteFull,
-    ...Buttons.badgeReview,
-    marginBottom: Spacing.p2,
+  cardTitle: {
+    marginBottom: Spacing.p3,
   },
 })

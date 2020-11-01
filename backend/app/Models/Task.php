@@ -28,7 +28,7 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function files()
+    public function file()
     {
         return $this->hasMany(File::class);
     }

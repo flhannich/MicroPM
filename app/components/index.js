@@ -1,4 +1,13 @@
 
 
-export { default as FilePreview } from './FilePreview'
-export { default as TaskListItem } from './TaskListItem'
+export { default as FilePreview } from './file/FilePreview'
+export { default as FileImage } from './file/FileImage'
+export { default as FilePDF } from './file/FilePDF'
+
+export { default as HeaderNavigation } from './headerNavigation'
+
+export { default as ButtonPrimary } from './buttons/ButtonPrimary'
+
+export { default as CardTask } from './cards/CardTask'
+export { default as CardProject } from './cards/CardProject'
+export { default as CardReview } from './cards/CardReview'

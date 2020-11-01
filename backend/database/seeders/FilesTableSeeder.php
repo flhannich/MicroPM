@@ -21,6 +21,7 @@ class FilesTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             File::create([
                 'name' => $faker->firstNameFemale,
+                'description' => $faker->paragraph,
                 'path' => $faker->url,
                 'type' => $faker->fileExtension,
                 'task_id' => '',
