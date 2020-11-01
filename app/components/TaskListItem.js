@@ -1,25 +1,19 @@
-
-import React, { useState, useEffect, useContext } from 'react'
-import { ActivityIndicator, FlatList, Button, Text, View, StyleSheet, ScrollView } from 'react-native'
+import React from 'react'
+import { Text, View, StyleSheet } from 'react-native'
 
 import { format } from "date-fns";
 import { de } from 'date-fns/locale'
 import { parseISO } from 'date-fns/parseISO'
 
+import { Ionicons } from '@expo/vector-icons';
+
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../styles'
 
-import { FilePreview } from './../components'
+import { FilePreview } from './'
 
-import { AppContext } from '../context/AppContext.js'
+const TaskListItem = ({item}) => {
 
-export default function Task(projects) {
-
-  console.log(projects.route.params.item.tasks);
-
-  const { id } = useContext(AppContext);
-
-
-  const Item = ({ item }) => (
+  return (
     <>
       {item.status == 'review' &&
         <View style={styles.cardPreview}>
@@ -63,66 +57,14 @@ export default function Task(projects) {
         </View>
       }
     </>
-  );
-
-  const renderItem = ({ item }) => (
-      <Item item={item} />
-  );
-
-  const tasks = projects.route.params.item.tasks;
-
-  const tasksReview = tasks.filter(task => task.status == 'review');
-  const tasksCompleted = tasks.filter(task => task.status == 'completed');
-  const tasksInProgress = tasks.filter(task => task.status == 'in_progress');
-
-  return(
-
-    <ScrollView style={styles.container}>
-
-      {tasksReview.map((item, index) => (
-        <Item
-          item={item}
-          key={'key' + index}
-        />
-      ))}
-
-
-      <View style={styles.cardTitle}>
-        <Text style={styles.status}>In Progress </Text>
-      </View>
-
-      {tasksInProgress.map((item, index) => (
-        <Item
-          item={item}
-          key={'key' + index}
-        />
-      ))}
-
-
-      <View style={styles.cardTitle}>
-        <Text style={styles.status}>Completed</Text>
-        <Text style={styles.date}>{tasksCompleted.length} Tasks</Text>
-      </View>
-
-      {tasksCompleted.map((item, index) => (
-        <Item
-          item={item}
-          key={'key' + index}
-        />
-      ))}
-
-    </ScrollView>
-
   )
-
 }
+
+export default TaskListItem;
+
 
 
 const styles = StyleSheet.create({
-  container: {
-    ...Spacing.container,
-    flex: 1,
-  },
   card: {
     ...Cards.card,
   },

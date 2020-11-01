@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import Dashboard from './../screens/Dashboard';
+import Home from './../screens/Home';
 import Settings from './../screens/Settings';
 import Contact from './../screens/Settings';
-import Task from './../screens/Task';
+import Project from './../screens/Project';
 
-import { AppContext } from '../context/AppContext.js'
+import { AuthContext } from '../context/AuthContext.js'
 
+const ProjectStackOptions = ({ navigation }) => {
 
-const TaskStackOptions = ({ navigation }) => {
   return {
     headerRight: () => (
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
@@ -22,7 +22,7 @@ const TaskStackOptions = ({ navigation }) => {
              name="ios-chatboxes"
              onPress={() => navigation.navigate('Settings')}
              color='#007AFF'
-             size='24'
+             size={24}
            />
          </TouchableOpacity>
        </View>
@@ -30,7 +30,7 @@ const TaskStackOptions = ({ navigation }) => {
   }
 }
 
-const DashboardStackOptions = ({ navigation }) => {
+const HomeStackOptions = ({ navigation }) => {
   return {
     headerRight: () => (
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
@@ -39,7 +39,7 @@ const DashboardStackOptions = ({ navigation }) => {
              name="ios-help-circle"
              onPress={() => navigation.navigate('Settings')}
              color='#007AFF'
-             size='24'
+             size={24}
            />
          </TouchableOpacity>
        </View>
@@ -47,23 +47,26 @@ const DashboardStackOptions = ({ navigation }) => {
   }
 }
 
-const DashboardStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-function DashboardStackScreen() {
+
+
+
+function HomeStackScreen() {
 
  return (
-   <DashboardStack.Navigator>
-    <DashboardStack.Screen
-      name="Dashboard"
-      component={Dashboard}
-      options={DashboardStackOptions}
+   <HomeStack.Navigator>
+    <HomeStack.Screen
+      name="Home"
+      component={Home}
+      options={HomeStackOptions}
     />
-    <DashboardStack.Screen
-      name="Task"
-      component={Task}
-      options={TaskStackOptions}
+    <HomeStack.Screen
+      name="Project"
+      component={Project}
+      options={ProjectStackOptions}
       />
-   </DashboardStack.Navigator>
+   </HomeStack.Navigator>
 
   );
 }
@@ -99,18 +102,13 @@ function ContactStackScreen() {
 
 const Tab = createBottomTabNavigator();
 
-const MainNavigation = () => {
-
-  const { isValidated } = (useContext(AppContext));
+const MainNavigation = ({ data }) => {
 
   return (
 
-    <>
-    {isValidated &&
-
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Dashboard"
+        initialRouteName="Home"
         tabBarOptions={{
           activeTintColor: '#007AFF',
           // labelStyle: {
@@ -124,10 +122,11 @@ const MainNavigation = () => {
         }}
       >
         <Tab.Screen
-          name="Dashboard"
-          component={DashboardStackScreen}
+          name="Home"
+          component={HomeStackScreen}
+          data={data}
           options={{
-            tabBarLabel: 'Dashboard',
+            tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-list-box" color={color} size={size} />
             ),
@@ -155,9 +154,6 @@ const MainNavigation = () => {
         />
       </Tab.Navigator>
     </NavigationContainer>
-
-    }
-  </>
 
   );
 }

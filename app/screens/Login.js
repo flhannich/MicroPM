@@ -2,29 +2,24 @@ import React, { useState, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
-import { AppContext } from './../context/AppContext.js'
+import { AuthContext } from './../context/AuthContext.js'
 
 import { Colors, Typography, Spacing, Forms } from './../styles'
 
 export default function Login( probs ) {
-
-  const { isValidated } = (useContext(AppContext));
-
 
   const handleSubmit = () => {
     probs.setErrorMessage(false)
   }
 
   return(
-    <>
-    {!isValidated &&
-      <SafeAreaView style={styles.container}>
-       <Text style={styles.label}>Your ID </Text>
+
+      <View style={styles.container}>
+       <Text style={styles.label}>Your Secret</Text>
        <TextInput
          style={styles.input}
          onChangeText={text => probs.setId(text)}
        />
-       <Text style={styles.info}>We save your credentials on your phone</Text>
        {probs.errorMessage &&
          <Text style={styles.errorMessage}>{probs.errorMessage}</Text>
        }
@@ -32,9 +27,8 @@ export default function Login( probs ) {
          onPress={probs.validate}
          title="Log in"
        />
-     </SafeAreaView>
-     }
-  </>
+     </View>
+
   )
 
 }

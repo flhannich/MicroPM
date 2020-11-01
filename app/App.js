@@ -1,21 +1,28 @@
 import React, { useState, createContext, useEffect, useReducer } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Text, View, TextInput } from 'react-native'
-import { StatusBar } from 'expo-status-bar';
+import { Button, Text, View, TextInput, ActivityIndicator } from 'react-native'
+import { StatusBar } from 'expo-status-bar'; //check for bundle size issues
 
 import MainNavigation from './navigation/MainNavigation';
 import Login from './screens/Login';
 
-import { AppContext } from './context/AppContext.js'
+import { AuthContext } from './context/AuthContext.js'
 
 export default function App() {
 
   const [id, setId] = useState('');
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const _validate = () => {
-      // fetch from api if exists ->
+
+      // fetch(`http://192.168.178.83:8000/api/client/${id}`)
+      //   .then((response) => response.json())
+      //   .then((json) => setData(json))
+      //   .catch((error) => console.error(error))
+      //   .finally(() => setIsValidated(true));
+
       if(id !== '') {
         setIsValidated(true);
         _store();
@@ -40,7 +47,7 @@ export default function App() {
     }
   };
 
-  const _get = async () => {
+  const _getStoredId = async () => {
     try {
       const storedValue = AsyncStorage.getItem('id');
       if(storedValue !== null) {
@@ -51,27 +58,40 @@ export default function App() {
   };
 
   useEffect(() => {
-    _get().then((res) => {
-      if(res !== null) {
+    _getStoredId().then((result) => {
+      if(result !== null) {
         setIsValidated(true);
-        setId(res);
+        setId(result);
       }
     })
   }, []);
 
 
+//192.168.178.83 mbpro
+//192.168.178.35 imac
+// php artisan serve --host=192.168.178.35 --port=8000
+// php artisan serve --host=192.168.178.83 --port=8000
+
+
   return(
 
-      <AppContext.Provider value={{id, isValidated, _logout}}>
-         <MainNavigation />
-         <Login
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
-            setId={setId}
-            validate={_validate}
-          />
-          <StatusBar style="dark" />
-      </AppContext.Provider>
+    <AuthContext.Provider value={{id, _logout}}>
+
+      {isValidated
+
+        ?  <MainNavigation />
+        :  <Login
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
+              setId={setId}
+              validate={_validate}
+            />
+
+      }
+
+      <StatusBar style="dark" />
+
+    </AuthContext.Provider>
 
   )
 }

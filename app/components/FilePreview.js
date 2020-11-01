@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Icons, Files, Spacing } from './../styles'
 
-
 const FilePreview = ({item}) => {
 
   return (

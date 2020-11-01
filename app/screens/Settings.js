@@ -2,17 +2,15 @@ import React, { useContext, useState } from 'react'
 import { Button, Text, View, StyleSheet } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { AppContext } from '../context/AppContext.js'
+import { AuthContext } from '../context/AuthContext.js'
 
 export default function Settings() {
 
-  const {id, isValidated, _logout} = useContext(AppContext);
+  const {_logout} = useContext(AuthContext);
 
   return(
     <View style={styles.screen}>
       <Text style={styles.title}>Profile</Text>
-      <Text style={styles.id_title}>Your ID</Text>
-      <Text style={styles.id}>{id}</Text>
       <Button
         style={styles.button}
         onPress={_logout}

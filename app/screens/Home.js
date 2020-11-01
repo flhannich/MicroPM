@@ -4,50 +4,52 @@ import { ActivityIndicator, FlatList, Button, Text, View, StyleSheet, TouchableH
 
 import { Colors, Typography, Spacing, Forms, Cards, Buttons } from './../styles'
 
-import { AppContext } from '../context/AppContext.js'
+import { AuthContext } from '../context/AuthContext.js'
 
-export default function Dashboard({ navigation }) {
+export default function Home( probs, { navigation }) {
+  
+  console.log(probs);
 
-  const { id } = useContext(AppContext);
+  const { id } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
+//192.168.178.83 mbpro
+//192.168.178.35 imac
+// php artisan serve --host=192.168.178.35 --port=8000
+// php artisan serve --host=192.168.178.83 --port=8000
 
     useEffect(() => {
       if(!id) return;
-      fetch(`http://192.168.178.35:8000/api/client/${id}`)
+      fetch(`http://192.168.178.83:8000/api/client/${id}`)
         .then((response) => response.json())
         .then((json) => setData(json))
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     }, [id]);
 
-    const Item = ({ item }) => (
+    const ProjectListItem = ({ item }) => {
 
-      <TouchableHighlight
-        onPress={() =>
-          navigation.navigate('Task', { item: item })
-        }
-      >
+      const reviews = item.tasks.filter(item => item.status.indexOf('review') !== -1);
 
+      return (
+          <TouchableHighlight
+            onPress={() =>
+              navigation.navigate('Project', { item: item })
+            }
+          >
+            <View style={styles.card}>
+              <Text style={styles.title}>{item.name}</Text>
+              {reviews.length > 0 &&
+                <Text style={styles.badgeReview}> {reviews.length} Review</Text>
+              }
+              <Text style={styles.info}>{item.tasks.length} Tasks</Text>
+            </View>
+          </TouchableHighlight>
+      )
+    };
 
-        <View style={styles.card}>
-          <Text style={styles.title}>{item.name}</Text>
-          {item.tasks.find(x => x.status === 'review') &&
-            <Text style={styles.badgeReview}>Review</Text>
-          }
-          <Text style={styles.info}>{item.tasks.length} Tasks</Text>
-        </View>
-      </TouchableHighlight>
-
-    );
-
-    const renderItem = ({ item }) => (
-      <Item item={item} />
-    );
-
-
-  return(
+  return (
 
     <View style={styles.container}>
 
@@ -58,7 +60,7 @@ export default function Dashboard({ navigation }) {
             <FlatList
               data={data.projects}
               style={styles.flatList}
-              renderItem={renderItem}
+              renderItem={ProjectListItem}
               keyExtractor={(item, index) => 'key'+index}
             />
           </>
