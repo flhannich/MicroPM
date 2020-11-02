@@ -46,7 +46,6 @@ export default function Home({ navigation }) {
         ? <ActivityIndicator/>
         : (
           <>
-          <Text style={styles.mainTitle}>Welcome</Text>
 
           {data.reviews.length > 0 &&
             <View style={styles.listReviews}>
@@ -103,5 +102,9 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     marginBottom: Spacing.p3,
+  },
+  status: {
+    ...Typography.status,
+    marginLeft: Spacing.p2,
   },
 })

@@ -1,7 +1,7 @@
 
 export const badgeReview = {
   backgroundColor: '#007AFF',
-  borderRadius: 11,
+  borderRadius: 10,
   flexDirection: 'row',
   alignSelf: 'flex-start',
   paddingHorizontal: 12,

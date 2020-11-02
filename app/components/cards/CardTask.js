@@ -25,7 +25,7 @@ const CardTask = ({item, navigation}) => {
             onPress={() => navigation.navigate('Review', { item: item }) }
             underlayColor="white"
           >
-            <View style={styles.card}>
+            <View style={styles.cardTask}>
               <Text style={styles.cardTitle}>{item.name}</Text>
                 <View style={styles.files}>
                   {item.file.length > 0 && item.file.map((item, index) => (
@@ -46,7 +46,7 @@ const CardTask = ({item, navigation}) => {
             onPress={() => navigation.navigate('Task', { item: item }) }
             underlayColor="white"
           >
-            <View style={styles.card}>
+            <View style={styles.cardTask}>
               <Text style={styles.cardTitle}>{item.name}</Text>
                 <View style={styles.files}>
                   {item.file.length > 0 && item.file.map((item, index) => (
@@ -65,7 +65,7 @@ const CardTask = ({item, navigation}) => {
             onPress={() => navigation.navigate('Task', { item: item }) }
             underlayColor="white"
           >
-            <View style={styles.cardCompleted}>
+            <View style={styles.cardTask}>
               <Text style={styles.cardTitle}>{item.name}</Text>
                 <View style={styles.files}>
                   {item.file.length > 0 && item.file.map((item, index) => (
@@ -91,32 +91,22 @@ export default CardTask;
 
 
 const styles = StyleSheet.create({
-  card: {
-    ...Cards.card,
-  },
-  cardCompleted: {
-    ...Cards.cardCompleted,
+  cardTask: {
+    ...Cards.cardTask,
+    marginBottom: Spacing.p3,
   },
   cardTitle: {
     ...Cards.cardTitle,
-    marginTop: Spacing.p5,
-    marginBottom: Spacing.p3,
+    ...Typography.cardTitle,
+    marginBottom: 0,
   },
   files: {
     ...Files.container,
     marginTop: Spacing.p2,
   },
-  cardTitle: {
-    ...Typography.cardTitle,
-  },
   date: {
     ...Typography.label,
-    ...Colors.textLightest,
+    ...Colors.textLight,
     marginLeft: Spacing.p1,
-  },
-  status: {
-    ...Forms.label,
-    ...Typography.status,
-    ...Colors.textLightest,
   },
 })

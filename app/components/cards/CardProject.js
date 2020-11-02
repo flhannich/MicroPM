@@ -52,11 +52,8 @@ const progressWidth = { width: progress + '%' };
               <Text style={styles.badgeReview} numberOfLines={1}>{hasReviews.length} Review</Text>
             }
           </View>
+
           <Text style={styles.date}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
-
-
-
-
         </View>
       </TouchableHighlight>
   )
@@ -69,7 +66,7 @@ export default CardProject;
 const styles = StyleSheet.create({
   cardProject: {
     ...Cards.cardProject,
-    marginBottom: Spacing.p3,
+    marginBottom: Spacing.p2,
   },
   cardTitle: {
     ...Cards.cardTitle,
@@ -80,7 +77,7 @@ const styles = StyleSheet.create({
     ...Typography.cardTitle,
   },
   progressBarWrapper: {
-    marginTop: Spacing.p3,
+    marginBottom: Spacing.p2,
   },
   progressBarActive: {
     height: 5,
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
     ...Buttons.badgeReview,
   },
   date: {
-    ...Typography.label,
+    ...Typography.date,
     ...Colors.textLightest,
   },
   status: {

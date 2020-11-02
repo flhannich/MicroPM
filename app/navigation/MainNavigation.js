@@ -52,7 +52,7 @@ function HomeStackScreen() {
  return (
    <HomeStack.Navigator>
     <HomeStack.Screen
-      name="Dashboard"
+      name="Home"
       component={Home}
       options={StackOptions}
 

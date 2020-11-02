@@ -65,7 +65,7 @@ export default function Project( data ) {
         <>
           <View style={ styles.cardStatus }>
             <Text style={ styles.status }>Completed</Text>
-            <Text style={ styles.counter }>{ tasksCompleted.length } Tasks</Text>
+            <Text style={ styles.counter }>{ tasksCompleted.length }</Text>
           </View>
 
           { tasksCompleted.map((item, index) =>
@@ -102,13 +102,11 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.p3,
   },
   counter: {
-    ...Typography.info,
+    ...Typography.status,
     ...Colors.textLightest,
     marginLeft: Spacing.p1,
   },
   status: {
-    ...Forms.label,
     ...Typography.status,
-    ...Colors.textLightest,
   },
 })
