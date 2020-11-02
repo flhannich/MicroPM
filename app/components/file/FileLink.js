@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Icons, Typography, Files, Spacing, Cards, Colors } from './../../styles'
 
-const FilePDF = ({item}) => {
+const FileLink = ({item}) => {
 
   return (
 
@@ -15,7 +15,7 @@ const FilePDF = ({item}) => {
           <View style={styles.cardFile}>
             <Ionicons
               style={styles.cardIcon}
-              name="ios-document"
+              name="ios-attach"
               size={24}
               color='rgba(0,0,0,.30)'
             />
@@ -29,7 +29,7 @@ const FilePDF = ({item}) => {
   )
 }
 
-export default FilePDF
+export default FileLink
 
 const styles = StyleSheet.create({
   description: {

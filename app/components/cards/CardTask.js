@@ -55,6 +55,7 @@ const CardTask = ({item, navigation}) => {
                       item={item}
                     />
                   ))}
+                  <Text style={styles.date}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
                 </View>
             </View>
           </TouchableHighlight>
@@ -74,7 +75,26 @@ const CardTask = ({item, navigation}) => {
                       item={item}
                     />
                   ))}
-                  <Text style={styles.date}>{format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
+                  <Text style={styles.date}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
+                </View>
+            </View>
+          </TouchableHighlight>
+        }
+
+        {item.status == 'not_started' &&
+          <TouchableHighlight
+            onPress={() => navigation.navigate('Task', { item: item }) }
+            underlayColor="white"
+          >
+            <View style={styles.cardTask}>
+              <Text style={styles.cardTitle}>{item.name}</Text>
+                <View style={styles.files}>
+                  {item.file.length > 0 && item.file.map((item, index) => (
+                    <FilePreview
+                      key={index}
+                      item={item}
+                    />
+                  ))}
                 </View>
             </View>
           </TouchableHighlight>

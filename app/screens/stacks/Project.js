@@ -4,7 +4,7 @@ import { ActivityIndicator, TouchableHighlight, FlatList, Button, Text, View, St
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons, Nav } from './../../styles'
 
-import { CardTask } from './../../components'
+import { CardTask, CardReview } from './../../components'
 
 import { AuthContext } from '../../context/AuthContext.js'
 
@@ -18,6 +18,7 @@ export default function Project( data ) {
   const tasksReview = tasks.filter(task => task.status == 'review');
   const tasksCompleted = tasks.filter(task => task.status == 'completed');
   const tasksInProgress = tasks.filter(task => task.status == 'in_progress');
+  const notStarted = tasks.filter(task => task.status == 'not_started');
 
   return (
 
@@ -31,10 +32,11 @@ export default function Project( data ) {
         <>
           <View style={ styles.cardStatus }>
             <Text style={ styles.status }>Review </Text>
+            <Text style={ styles.counter }>{ tasksReview.length }</Text>
           </View>
 
           { tasksReview.map((item, index) =>
-            <CardTask
+            <CardReview
               key={ index }
               item={ item }
               navigation={ navigation }
@@ -49,6 +51,7 @@ export default function Project( data ) {
         <>
           <View style={ styles.cardStatus }>
             <Text style={ styles.status }>In Progress </Text>
+            <Text style={ styles.counter }>{ tasksInProgress.length }</Text>
           </View>
 
           { tasksInProgress.map((item, index) =>
@@ -56,6 +59,23 @@ export default function Project( data ) {
               key={ index }
               item={ item }
               navigation= { navigation }
+            />
+          )}
+        </>
+      }
+
+      { notStarted.length > 0 &&
+        <>
+          <View style={ styles.cardStatus }>
+            <Text style={ styles.status }>Not Started</Text>
+            <Text style={ styles.counter }>{ notStarted.length }</Text>
+          </View>
+
+          { notStarted.map((item, index) =>
+            <CardTask
+              key={ index }
+              item={ item }
+              navigation={ navigation }
             />
           )}
         </>

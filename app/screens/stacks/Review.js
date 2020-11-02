@@ -4,10 +4,7 @@ import { TextInput, Text, ScrollView, View, StyleSheet } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
-import { FileImage } from './../../components'
-import { FileArchive } from './../../components'
-import { FilePDF } from './../../components'
-import { ButtonPrimary } from './../../components'
+import { FileImage, FileLink, FilePDF, ButtonPrimary, ButtonSecondary } from './../../components'
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -26,6 +23,7 @@ export default function Review( item ) {
 
   const pdf = data.file.filter(item => item.type === 'pdf');
   const images = data.file.filter(item => item.type === 'jpg');
+  const link = data.file.filter(item => item.type === 'link');
 
   let projectName;
 
@@ -44,13 +42,10 @@ export default function Review( item ) {
       }
       <Text style={styles.title}>{data.name}</Text>
 
-      <View style={styles.titleInfo}>
+      <View style={styles.meta}>
         <Text style={styles.badgeReview} numberOfLines={1}>Review</Text>
         <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
       </View>
-
-
-
 
         <View style={styles.files}>
           {pdf.length > 0 &&
@@ -59,26 +54,28 @@ export default function Review( item ) {
           {images.length > 0 &&
             <FileImage item={images} />
           }
+          {link.length > 0 &&
+            <FileLink item={link} />
+          }
         </View>
 
-        <View>
+        <View styles={{marginBottom: Spacing.p3}}>
+
           <ButtonPrimary
             target={() => navigation.goBack() }
             text='Accept'
           />
+
         </View>
 
         <View>
-          <Text style={styles.title}>- or call me -</Text>
 
-          <ButtonPrimary
+          <ButtonSecondary
             target={() => navigation.navigate('Feedback', { item: data }) }
             text='Call'
           />
-        </View>
 
-        <View>
-          <Text style={styles.title}>Or send Feedback</Text>
+          <Text style={styles.info}>Or send Feedback</Text>
 
           <TextInput
             multiline={true}
@@ -115,7 +112,7 @@ const styles = StyleSheet.create({
     ...Typography.title,
     marginBottom: Spacing.p2,
   },
-  titleInfo: {
+  meta: {
     display: 'flex',
     flexDirection:"row",
     alignItems: 'center',
@@ -124,7 +121,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },
-
+  buttonSpacing: {
+    paddingBottom: Spacing.p2
+  },
   titleAttachment: {
     display: 'flex',
     flexDirection:"row",
@@ -158,10 +157,16 @@ const styles = StyleSheet.create({
     ...Colors.textLight,
     marginLeft: Spacing.p2,
   },
+  info: {
+    ...Typography.info,
+    ...Colors.textLightest,
+    textAlign: 'center',
+    marginTop: Spacing.p2,
+  },
   input: {
     ...Forms.input,
     ...Typography.input,
     marginTop: Spacing.p2,
-    marginBottom: Spacing.p4,
+    marginBottom: Spacing.p3,
   },
 })

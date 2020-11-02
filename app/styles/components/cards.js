@@ -29,6 +29,18 @@ export const cardReview = {
 };
 
 export const cardTask = {
+  backgroundColor: '#fff',
+  ...shadow,
+  ...base,
+};
+
+export const cardFile = {
+  display: 'flex',
+  flexDirection:"row",
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  ...shadow,
+  ...base,
 };
 
 

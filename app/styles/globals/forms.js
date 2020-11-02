@@ -10,7 +10,7 @@ export const size = {
 };
 
 export const color = {
-  backgroundColor: '#eee'
+  backgroundColor: '#fff'
 };
 
 export const label = {
