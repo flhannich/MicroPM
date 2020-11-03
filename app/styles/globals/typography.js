@@ -49,7 +49,7 @@ export const description = {
 }
 
 export const info = {
-  fontSize: 12,
+  fontSize: 13,
   lineHeight: 20,
 }
 

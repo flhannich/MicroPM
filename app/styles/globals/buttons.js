@@ -24,7 +24,7 @@ export const secondary = {
   paddingHorizontal: 24,
   paddingVertical: 12,
   overflow: 'hidden',
-  borderWidth: 1,
-  borderColor: '#007AFF',
+  // borderWidth: 1,
+  // borderColor: '#007AFF',
   textAlign: 'center',
 };

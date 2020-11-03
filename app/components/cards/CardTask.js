@@ -26,15 +26,15 @@ const CardTask = ({item, navigation}) => {
             underlayColor="white"
           >
             <View style={styles.cardTask}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
-                <View style={styles.files}>
+              <Text style={styles.title}>{item.name}</Text>
+                <View style={styles.meta}>
                   {item.file.length > 0 && item.file.map((item, index) => (
                     <FilePreview
                       key={index}
                       item={item}
                     />
                   ))}
-                  <Text style={styles.date}>{elapsedTime(item.updated_at)}</Text>
+                  <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
                 </View>
             </View>
           </TouchableHighlight>
@@ -48,14 +48,8 @@ const CardTask = ({item, navigation}) => {
           >
             <View style={styles.cardTask}>
               <Text style={styles.cardTitle}>{item.name}</Text>
-                <View style={styles.files}>
-                  {item.file.length > 0 && item.file.map((item, index) => (
-                    <FilePreview
-                      key={index}
-                      item={item}
-                    />
-                  ))}
-                  <Text style={styles.date}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
+                <View style={styles.meta}>
+                  <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
                 </View>
             </View>
           </TouchableHighlight>
@@ -68,14 +62,8 @@ const CardTask = ({item, navigation}) => {
           >
             <View style={styles.cardTask}>
               <Text style={styles.cardTitle}>{item.name}</Text>
-                <View style={styles.files}>
-                  {item.file.length > 0 && item.file.map((item, index) => (
-                    <FilePreview
-                      key={index}
-                      item={item}
-                    />
-                  ))}
-                  <Text style={styles.date}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
+                <View style={styles.meta}>
+                  <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
                 </View>
             </View>
           </TouchableHighlight>
@@ -88,7 +76,7 @@ const CardTask = ({item, navigation}) => {
           >
             <View style={styles.cardTask}>
               <Text style={styles.cardTitle}>{item.name}</Text>
-                <View style={styles.files}>
+                <View style={styles.meta}>
                   {item.file.length > 0 && item.file.map((item, index) => (
                     <FilePreview
                       key={index}
@@ -116,17 +104,14 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.p3,
   },
   cardTitle: {
-    ...Cards.cardTitle,
     ...Typography.cardTitle,
-    marginBottom: 0,
   },
-  files: {
+  meta: {
     ...Files.container,
-    marginTop: Spacing.p2,
+    marginTop: Spacing.p1,
   },
-  date: {
-    ...Typography.label,
+  info: {
+    ...Typography.info,
     ...Colors.textLight,
-    marginLeft: Spacing.p1,
   },
 })

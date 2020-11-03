@@ -40,27 +40,24 @@ export default function Review( item ) {
     <>
 
     <ScrollView style={styles.container}>
-      {projectName &&
-        <Text style={styles.status}>{projectName}</Text>
-      }
-      <Text style={styles.title}>{data.name}</Text>
-
       <View style={styles.meta}>
         <Text style={styles.badgeReview} numberOfLines={1}>{data.status}</Text>
         <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
       </View>
 
         <View style={styles.files}>
-          {pdf.length > 0 &&
-            <FilePDF item={pdf} />
-          }
           {images.length > 0 &&
             <FileImage item={images} />
+          }
+          {pdf.length > 0 &&
+            <FilePDF item={pdf} />
           }
           {link.length > 0 &&
             <FileLink item={link} />
           }
         </View>
+
+        <Text style={styles.description}>{data.description}</Text>
 
     </ScrollView>
     </>
@@ -108,18 +105,12 @@ const styles = StyleSheet.create({
     ...Buttons.badgeReview,
   },
   description: {
-    ...Colors.textLight,
+    ...Typography.description,
   },
   status: {
     ...Forms.label,
     ...Typography.status,
     ...Colors.textLightest,
-    marginBottom: Spacing.p3,
-  },
-  statusColor: {
-    ...Forms.label,
-    ...Typography.status,
-    ...Colors.textBrand,
   },
   date: {
     ...Typography.date,

@@ -31,7 +31,7 @@ export default function Project( data ) {
       { tasksReview.length > 0 &&
         <>
           <View style={ styles.cardStatus }>
-            <Text style={ styles.status }>Review </Text>
+            <Text style={ styles.status }>Open Review </Text>
             <Text style={ styles.counter }>{ tasksReview.length }</Text>
           </View>
 
@@ -128,5 +128,6 @@ const styles = StyleSheet.create({
   },
   status: {
     ...Typography.status,
+    ...Colors.textLightest,
   },
 })

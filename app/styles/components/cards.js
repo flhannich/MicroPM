@@ -10,16 +10,17 @@ export const shadow = {
   shadowColor: "#000",
   shadowOffset: {
   	width: 0,
-  	height: 1,
+  	height: 1.2,
   },
-  shadowOpacity: 0.2,
+  shadowOpacity: 0.3,
   shadowRadius: 2,
 }
 
 export const cardProject = {
   backgroundColor: '#fff',
-  ...shadow,
-  ...base,
+  borderBottomWidth: 1,
+  borderBottomColor: '#e5e5e5',
+  paddingBottom: 16,
 };
 
 export const cardReview = {
@@ -30,8 +31,9 @@ export const cardReview = {
 
 export const cardTask = {
   backgroundColor: '#fff',
-  ...shadow,
-  ...base,
+  borderBottomWidth: 1,
+  borderBottomColor: '#e5e5e5',
+  paddingBottom: 16,
 };
 
 export const cardFile = {

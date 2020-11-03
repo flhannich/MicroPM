@@ -35,12 +35,8 @@ export default function Review( item ) {
 
   return (
     <>
-
+    <View style={{flex: 1}}>
     <ScrollView style={styles.container}>
-      {projectName &&
-        <Text style={styles.status}>{projectName}</Text>
-      }
-      <Text style={styles.title}>{data.name}</Text>
 
       <View style={styles.meta}>
         <Text style={styles.badgeReview} numberOfLines={1}>Review</Text>
@@ -58,40 +54,22 @@ export default function Review( item ) {
             <FileLink item={link} />
           }
         </View>
-
-        <View styles={{marginBottom: Spacing.p3}}>
-
-          <ButtonPrimary
-            target={() => navigation.goBack() }
-            text='Accept'
-          />
-
-        </View>
-
-        <View>
-
-          <ButtonSecondary
-            target={() => navigation.navigate('Feedback', { item: data }) }
-            text='Call'
-          />
-
-          <Text style={styles.info}>Or send Feedback</Text>
-
-          <TextInput
-            multiline={true}
-            style={styles.input}
-            numberOfLines={4}
-            onChangeText={(text) => this.setState({text})}
-          />
-
-          <ButtonPrimary
-            target={() => navigation.navigate('Feedback', { item: data }) }
-            text='Send'
-          />
-        </View>
-
+        <Text style={styles.description}>{data.description}</Text>
 
     </ScrollView>
+
+    <View style={styles.footer}>
+      <ButtonSecondary
+        target={() => navigation.goBack() }
+        text='Add a note'
+      />
+      <ButtonSecondary
+        target={() => navigation.goBack() }
+        text='Accept'
+      />
+    </View>
+
+  </View>
     </>
   )
 
@@ -102,6 +80,13 @@ const styles = StyleSheet.create({
   container: {
     ...Spacing.container,
     flex: 1,
+  },
+  footer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: Spacing.p2,
+    backgroundColor: '#fff',
   },
   counter: {
     ...Typography.info,
@@ -116,8 +101,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection:"row",
     alignItems: 'center',
-    marginBottom: Spacing.p4,
-    paddingBottom: Spacing.p4,
+    marginBottom: Spacing.p3,
+    paddingBottom: Spacing.p3,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },
@@ -139,7 +124,7 @@ const styles = StyleSheet.create({
     ...Buttons.badgeReview,
   },
   description: {
-    ...Colors.textLight,
+    ...Typography.description,
   },
   status: {
     ...Forms.label,

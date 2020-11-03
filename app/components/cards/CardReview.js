@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     ...Colors.textLight,
   },
   dateReview: {
-    ...Typography.label,
+    ...Typography.info,
     ...Colors.textWhiteLight,
     marginLeft: Spacing.p2,
   },

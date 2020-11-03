@@ -53,7 +53,7 @@ const progressWidth = { width: progress + '%' };
             }
           </View>
 
-          <Text style={styles.date}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
+          <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
         </View>
       </TouchableHighlight>
   )
@@ -66,14 +66,13 @@ export default CardProject;
 const styles = StyleSheet.create({
   cardProject: {
     ...Cards.cardProject,
-    marginBottom: Spacing.p2,
+    marginBottom: Spacing.p3,
   },
   cardTitle: {
     ...Cards.cardTitle,
-    marginBottom: Spacing.p3,
+    marginBottom: Spacing.p2,
   },
   title: {
-    ...Colors.textBrand,
     ...Typography.cardTitle,
   },
   progressBarWrapper: {
@@ -92,22 +91,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     borderRadius: 2.5,
   },
-  info: {
-    ...Typography.label,
-    marginBottom: Spacing.p1,
-  },
   badgeReview: {
     ...Typography.badge,
     ...Colors.textWhiteFull,
     ...Buttons.badgeReview,
   },
-  date: {
-    ...Typography.date,
-    ...Colors.textLightest,
-  },
-  status: {
-    ...Forms.label,
-    ...Typography.status,
-    ...Colors.textLightest,
+  info: {
+    ...Typography.info,
+    ...Colors.textLight,
   },
 })

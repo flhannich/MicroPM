@@ -21,7 +21,6 @@ const FilePDF = ({item}) => {
             />
           <Text>{item.name}</Text>
          </View>
-         <Text style={styles.description}>{item.description}</Text>
        </View>
      ))}
     </>

@@ -20,7 +20,7 @@ const FilePreview = ({item}) => {
       }
       {item.type === 'link' &&
         <Ionicons
-          name="ios-attach"
+          name="ios-link"
           size={20}
           color='rgba(0,0,0,.30)'
         />

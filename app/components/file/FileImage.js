@@ -16,7 +16,6 @@ const FileImage = ({item}) => {
           source={{uri: item.path}}
         />
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.description}>{item.description}</Text>
         </>
        ))}
     </View>

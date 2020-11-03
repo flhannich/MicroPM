@@ -15,13 +15,12 @@ const FileLink = ({item}) => {
           <View style={styles.cardFile}>
             <Ionicons
               style={styles.cardIcon}
-              name="ios-attach"
+              name="ios-link"
               size={24}
               color='rgba(0,0,0,.30)'
             />
           <Text>{item.name}</Text>
          </View>
-         <Text style={styles.description}>{item.description}</Text>
        </View>
      ))}
     </>

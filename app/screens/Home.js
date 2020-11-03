@@ -105,6 +105,6 @@ const styles = StyleSheet.create({
   },
   status: {
     ...Typography.status,
-    marginLeft: Spacing.p2,
+    ...Colors.textLightest,
   },
 })
