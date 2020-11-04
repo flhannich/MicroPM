@@ -12,6 +12,7 @@ export default function Project( data ) {
 
   const { id } = useContext(AuthContext);
 
+  const item = data.route.params.item;
   const tasks = data.route.params.item.tasks;
   const navigation = data.navigation;
 
@@ -33,22 +34,25 @@ export default function Project( data ) {
 
       <>
 
-      { tasksReview.length > 0 &&
+      <Text style={styles.mainTitle}>{item.name}</Text>
+
+      <Text style={styles.title}>you have {tasksReview.length} open reviews</Text>
+
+      { tasksReview.length === 0 &&
         <>
           <View style={ styles.titleWrapper }>
             <Badge status={nameReview} count={tasksReview.length}/>
           </View>
 
           { tasksReview.map((item, index) =>
-            <CardReview
+            <CardTask
               key={ index }
               item={ item }
-              navigation={ navigation }
+              navigation= { navigation }
             />
           )}
         </>
       }
-
 
 
       { tasksInProgress.length > 0 &&
@@ -70,7 +74,7 @@ export default function Project( data ) {
       { tasksCompleted.length > 0 &&
         <>
           <View style={ styles.titleWrapper }>
-            <Badge status={nameCompleted} count={tasksCompleted.length}/>
+            <Badge status={nameCompleted} count={tasksCompleted.length}/><Text>👍</Text>
           </View>
 
           { tasksCompleted.map((item, index) =>
@@ -116,6 +120,10 @@ const styles = StyleSheet.create({
   },
   headerNavigation: {
     ...Nav.header,
+  },
+  mainTitle: {
+    ...Typography.mainTitle,
+    marginBottom: Spacing.p3,
   },
   titleWrapper: {
     ...Cards.cardStatus,

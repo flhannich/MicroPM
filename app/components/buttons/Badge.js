@@ -5,7 +5,7 @@ import { TouchableHighlight, View, Text, StyleSheet } from 'react-native'
 import { Buttons, Colors, Typography } from './../../styles'
 
 const Badge = ( { status, count } ) => {
-  console.log(count);
+
   return (
     <>
       {status === "review" &&

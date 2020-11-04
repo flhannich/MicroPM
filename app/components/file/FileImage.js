@@ -8,16 +8,11 @@ const FileImage = ({item}) => {
   return (
 
     <View>
-      {item.map((item, index) => (
-        <>
-        <Image
-          key={index}
-          style={styles.image}
-          source={{uri: item.path}}
-        />
-        <Text style={styles.name}>{item.name}</Text>
-        </>
-       ))}
+      <Image
+        style={styles.image}
+        source={{uri: item.path}}
+      />
+      <Text style={styles.name}>{item.name}</Text>
     </View>
 
   )

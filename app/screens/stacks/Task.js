@@ -35,6 +35,9 @@ export default function Review( item ) {
     <>
 
     <ScrollView style={styles.container}>
+
+      <Text style={styles.mainTitle}>{data.name}</Text>
+
       <View style={styles.meta}>
         <Badge status={data.status}/>
         <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
@@ -70,6 +73,10 @@ const styles = StyleSheet.create({
     ...Typography.info,
     ...Colors.textLightest,
     marginLeft: Spacing.p1,
+  },
+  mainTitle: {
+    ...Typography.mainTitle,
+    marginBottom: Spacing.p4,
   },
   title: {
     ...Typography.title,

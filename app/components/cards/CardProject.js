@@ -6,6 +6,7 @@ import { de } from 'date-fns/locale'
 import { parseISO } from 'date-fns/parseISO'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
+import { Counter } from './../../components'
 
 const CardProject = ({item, navigation}) => {
 
@@ -30,7 +31,7 @@ useEffect(() => {
 
   setProgress(res);
 
-  
+
   // <View style={styles.progressBarWrapper}>
   //   <View style={styles.progressBarBackground}></View>
   //   <View style={[styles.progressBarActive, progressWidth]}></View>
@@ -50,9 +51,14 @@ const progressWidth = { width: progress + '%' };
         <View style={styles.cardProject}>
           <View style={styles.cardTitle}>
             <Text style={styles.title}>{item.name}</Text>
-            {hasReviews.length > 0 &&
-              <Text style={styles.badgeReview} numberOfLines={1}>{hasReviews.length} Review</Text>
-            }
+            <View style={styles.countWrapper}>
+              {hasReviews.length > 0 &&
+                <Counter status={'review'} count={hasReviews.length} />
+              }
+              {item.tasks.length > 0 &&
+                <Counter status={'task'} count={item.tasks.length} />
+              }
+            </View>
           </View>
           <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
         </View>
@@ -71,7 +77,10 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     ...Cards.cardTitle,
-    marginBottom: Spacing.p3,
+  },
+  countWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
   },
   title: {
     ...Typography.cardTitle,

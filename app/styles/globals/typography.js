@@ -9,7 +9,7 @@ export const label = {
 }
 
 export const status = {
-  fontSize: 13,
+  fontSize: 12,
   fontWeight: '600',
   textTransform: 'uppercase',
   letterSpacing: 0,
@@ -32,15 +32,17 @@ export const title = {
 }
 
 export const mainTitle = {
-  fontSize: 34,
+  fontSize: 28,
   fontWeight: '800',
   lineHeight: 34,
+  letterSpacing: -1
 }
 
 export const cardTitle = {
   fontSize: 16,
-  fontWeight: '400',
+  fontWeight: '500',
   lineHeight: 24,
+  letterSpacing: -0.05
 }
 
 export const description = {

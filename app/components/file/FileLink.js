@@ -9,9 +9,7 @@ const FileLink = ({item}) => {
 
   return (
 
-    <>
-      {item.map((item, index) => (
-        <View key={item}>
+        <View>
           <View style={styles.cardFile}>
             <Ionicons
               style={styles.cardIcon}
@@ -22,8 +20,6 @@ const FileLink = ({item}) => {
           <Text>{item.name}</Text>
          </View>
        </View>
-     ))}
-    </>
 
   )
 }

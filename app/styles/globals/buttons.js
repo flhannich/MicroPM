@@ -1,4 +1,26 @@
 
+export const badgeCounter = {
+  borderRadius: 11,
+  borderWidth: 1,
+  flexDirection: 'row',
+  alignSelf: 'flex-start',
+  minWidth: 23,
+  paddingHorizontal: 5,
+  paddingVertical: 3,
+  overflow: 'hidden',
+  textAlign: 'center',
+}
+
+export const badgeCounterReview = {
+  borderColor: '#007AFF',
+  ...badgeCounter,
+};
+export const badgeCounterTask = {
+  backgroundColor: '#E4EDFE',
+  borderColor: '#E4EDFE',
+  ...badgeCounter,
+};
+
 export const badge = {
   borderRadius: 11,
   borderWidth: 1,
@@ -15,15 +37,18 @@ export const badgeReview = {
   ...badge,
 };
 export const badgeCompleted = {
-  borderColor: '#000',
+  backgroundColor: '#E4EDFE',
+  borderColor: '#E4EDFE',
   ...badge,
 };
 export const badgeNotStarted = {
-  borderColor: '#000',
+  backgroundColor: '#eee',
+  borderColor: '#eee',
   ...badge,
 };
 export const badgeInProgress = {
-  borderColor: '#000',
+  backgroundColor: '#E4EDFE',
+  borderColor: '#E4EDFE',
   ...badge,
 };
 

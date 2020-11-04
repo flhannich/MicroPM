@@ -7,13 +7,16 @@ import MainNavigation from './navigation/MainNavigation';
 import Login from './screens/Login';
 
 import { AuthContext } from './context/AuthContext.js'
+import { ReviewContext } from './context/ReviewContext.js'
 
 export default function App() {
+
 
   const [id, setId] = useState('');
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState('test');
 
   const _validate = () => {
 
@@ -76,6 +79,7 @@ export default function App() {
   return(
 
     <AuthContext.Provider value={{id, _logout}}>
+      <ReviewContext.Provider value={{reviews, setReviews}}>
 
       {isValidated
 
@@ -91,6 +95,7 @@ export default function App() {
 
       <StatusBar style="dark" />
 
+      </ReviewContext.Provider>
     </AuthContext.Provider>
 
   )

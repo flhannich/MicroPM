@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, Text, View, TouchableOpacity } from 'react-native';
+import { Button, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,10 +14,13 @@ import Project from './../screens/stacks/Project';
 import Task from './../screens/stacks/Task';
 import Review from './../screens/stacks/Review';
 
+import { Badge } from '../components'
 
 import { AuthContext } from '../context/AuthContext.js'
+import { ReviewContext } from '../context/ReviewContext.js'
 
-const StackOptions = ({ navigation }) => {
+const StackOptions = ( { navigation }) => {
+
 
   return {
     // title: '',
@@ -30,14 +33,28 @@ const StackOptions = ({ navigation }) => {
     headerBackTitle: ' ',
     headerRight: () => (
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
-         <TouchableOpacity>
+
+         <TouchableOpacity
+          onPress={() => navigation.navigate('Review')}
+         >
+           <Badge
+              style={styles.badge}
+             status={'review'}
+             count={'2'}
+           />
+         </TouchableOpacity>
+
+         <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+         >
            <Ionicons
+              style={styles.icon}
              name="ios-more"
-             onPress={() => navigation.navigate('Settings')}
              color='#007AFF'
              size={24}
            />
          </TouchableOpacity>
+
        </View>
     )
   }
@@ -46,7 +63,10 @@ const StackOptions = ({ navigation }) => {
 
 const HomeStack = createStackNavigator();
 
+
 const MainNavigation = ({ data }) => {
+
+  const { reviews } = useContext(ReviewContext);
 
   return (
 
@@ -84,3 +104,11 @@ const MainNavigation = ({ data }) => {
 }
 
 export default MainNavigation
+
+
+const styles = StyleSheet.create({
+  icon: {
+    paddingHorizontal: Spacing.p2,
+    marginLeft: Spacing.p2,
+  },
+})

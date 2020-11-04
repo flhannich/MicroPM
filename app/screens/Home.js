@@ -9,10 +9,13 @@ import { de } from 'date-fns/locale'
 import { parseISO } from 'date-fns/parseISO'
 
 import { AuthContext } from '../context/AuthContext.js'
+import { ReviewContext } from '../context/ReviewContext.js'
 
 import { FilePreview, CardProject, CardReview, Badge } from '../components'
 
 export default function Home({ navigation }) {
+
+  const { setReviews } = useContext(ReviewContext);
 
   const { id } = useContext(AuthContext);
 
@@ -30,6 +33,7 @@ export default function Home({ navigation }) {
         .then((response) => response.json())
         .then((json) => {
           setData(json)
+          setReviews(json.reviews)
         })
         .catch((error) => console.error(error))
         .finally((json) => setLoading(false));
@@ -44,28 +48,9 @@ export default function Home({ navigation }) {
         ? <ActivityIndicator/>
         : (
           <>
-
-          {data.reviews.length > 0 &&
-            <View style={styles.reviewsWrapper}>
-              <View style={styles.titleWrapper}>
-                <Text style={styles.status}>Open Reviews</Text>
-              </View>
-
-              { data.reviews.map((item, index) =>
-                <CardReview
-                  key={index}
-                  item={item}
-                  navigation={navigation}
-                />
-              )}
-            </View>
-          }
-
+          <Text style={styles.mainTitle}>Your Projects</Text>
           {data.projects.length > 0 &&
             <>
-              <View style={styles.titleWrapper}>
-                <Text style={styles.status}>Timelines</Text>
-              </View>
 
               { data.projects.map((item, index) =>
                 <CardProject
@@ -93,7 +78,7 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     ...Typography.mainTitle,
-    marginBottom: Spacing.p5,
+    marginBottom: Spacing.p6,
   },
   reviewsWrapper: {
     marginBottom: Spacing.p5,
