@@ -24,8 +24,8 @@ export const cardProject = {
 };
 
 export const cardReview = {
-  backgroundColor: '#007AFF',
-  ...shadow,
+  borderWidth: 1,
+  borderColor: '#007AFF',
   ...base,
 };
 
@@ -34,6 +34,14 @@ export const cardTask = {
   borderBottomWidth: 1,
   borderBottomColor: '#e5e5e5',
   paddingBottom: 16,
+};
+
+export const cardNotStarted = {
+  backgroundColor: '#fff',
+  borderBottomWidth: 1,
+  borderBottomColor: '#e5e5e5',
+  paddingTop: 16,
+  paddingBottom: 10,
 };
 
 export const cardFile = {

@@ -11,27 +11,11 @@ const FilePreview = ({item}) => {
     <View
       style={styles.icon}
     >
-      {item.type === 'pdf' &&
         <Ionicons
-          name="ios-document"
+          name="ios-attach"
           size={20}
           color='rgba(0,0,0,.30)'
         />
-      }
-      {item.type === 'link' &&
-        <Ionicons
-          name="ios-link"
-          size={20}
-          color='rgba(0,0,0,.30)'
-        />
-      }
-      {item.type === 'jpg' &&
-        <Ionicons
-          name="ios-image"
-          size={20}
-          color='rgba(0,0,0,.30)'
-        />
-      }
     </View>
   )
 }

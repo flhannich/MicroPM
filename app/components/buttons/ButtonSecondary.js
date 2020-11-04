@@ -6,7 +6,7 @@ import { Buttons, Colors } from './../../styles'
 
 
 const ButtonSecondary = ( { target, text } ) => {
-
+ 
   return (
     <View style={styles.header}>
       <TouchableHighlight

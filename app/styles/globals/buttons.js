@@ -1,13 +1,30 @@
 
-export const badgeReview = {
-  backgroundColor: '#007AFF',
-  borderRadius: 10,
+export const badge = {
+  borderRadius: 11,
+  borderWidth: 1,
   flexDirection: 'row',
   alignSelf: 'flex-start',
   paddingHorizontal: 12,
   paddingVertical: 3,
   overflow: 'hidden',
   textAlign: 'center',
+}
+
+export const badgeReview = {
+  borderColor: '#007AFF',
+  ...badge,
+};
+export const badgeCompleted = {
+  borderColor: '#000',
+  ...badge,
+};
+export const badgeNotStarted = {
+  borderColor: '#000',
+  ...badge,
+};
+export const badgeInProgress = {
+  borderColor: '#000',
+  ...badge,
 };
 
 export const primary = {

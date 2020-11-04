@@ -28,15 +28,14 @@ const CardReview = ({ item, navigation }) => {
       underlayColor="white"
     >
       <View style={styles.cardReview}>
-        <Text style={styles.titleReview}>{item.name}</Text>
-        <View style={styles.files}>
-          {item.file.length > 0 && item.file.map((item, index) => (
+        <Text style={styles.title}>{item.name}</Text>
+        <View style={styles.meta}>
+          {item.file.length > 0 &&
             <FilePreview
-              key={index}
               item={item}
             />
-          ))}
-          <Text style={styles.dateReview}>{elapsedTime(item.updated_at)}</Text>
+          }
+          <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
         </View>
       </View>
     </TouchableHighlight>
@@ -52,26 +51,19 @@ const styles = StyleSheet.create({
     ...Cards.cardReview,
     marginBottom: Spacing.p2,
   },
-  titleReview: {
+  title: {
     ...Typography.cardTitle,
-    ...Colors.textWhiteFull,
+    // ...Colors.textWhiteFull,
+    ...Colors.textBrand,
   },
-  files: {
+  meta: {
     ...Files.container,
     marginTop: Spacing.p2,
   },
   info: {
-    ...Typography.label,
-    ...Colors.textLight,
-  },
-  dateReview: {
     ...Typography.info,
-    ...Colors.textWhiteLight,
-    marginLeft: Spacing.p2,
-  },
-  status: {
-    ...Forms.label,
-    ...Typography.status,
-    ...Colors.textLightest,
+    // ...Colors.textWhiteLight,
+    ...Colors.textLight,
+    marginLeft: Spacing.p1,
   },
 })

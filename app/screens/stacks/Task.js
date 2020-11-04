@@ -4,10 +4,7 @@ import { TextInput, Text, ScrollView, View, StyleSheet } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
-import { FileImage } from './../../components'
-import { FileLink } from './../../components'
-import { FilePDF } from './../../components'
-import { ButtonPrimary } from './../../components'
+import { FileImage, FileLink, FilePDF, ButtonPrimary, Badge } from './../../components'
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -34,14 +31,12 @@ export default function Review( item ) {
   ? projectName = data.project.name
   : projectName = false;
 
-  console.log(projectName);
-
   return (
     <>
 
     <ScrollView style={styles.container}>
       <View style={styles.meta}>
-        <Text style={styles.badgeReview} numberOfLines={1}>{data.status}</Text>
+        <Badge status={data.status}/>
         <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
       </View>
 

@@ -9,6 +9,7 @@ export { default as HeaderNavigation } from './headerNavigation'
 
 export { default as ButtonPrimary } from './buttons/ButtonPrimary'
 export { default as ButtonSecondary } from './buttons/ButtonSecondary'
+export { default as Badge } from './buttons/Badge'
 
 export { default as CardTask } from './cards/CardTask'
 export { default as CardProject } from './cards/CardProject'

@@ -10,9 +10,7 @@ import { parseISO } from 'date-fns/parseISO'
 
 import { AuthContext } from '../context/AuthContext.js'
 
-import { FilePreview } from '../components'
-import { CardProject } from '../components'
-import { CardReview } from '../components'
+import { FilePreview, CardProject, CardReview, Badge } from '../components'
 
 export default function Home({ navigation }) {
 
@@ -28,7 +26,7 @@ export default function Home({ navigation }) {
 
     useEffect(() => {
       if(!id) return;
-      fetch(`http://192.168.178.83:8000/api/client/${id}`)
+      fetch(`http://192.168.178.35:8000/api/client/${id}`)
         .then((response) => response.json())
         .then((json) => {
           setData(json)
@@ -48,8 +46,8 @@ export default function Home({ navigation }) {
           <>
 
           {data.reviews.length > 0 &&
-            <View style={styles.listReviews}>
-              <View style={styles.cardTitle}>
+            <View style={styles.reviewsWrapper}>
+              <View style={styles.titleWrapper}>
                 <Text style={styles.status}>Open Reviews</Text>
               </View>
 
@@ -65,7 +63,7 @@ export default function Home({ navigation }) {
 
           {data.projects.length > 0 &&
             <>
-              <View style={styles.cardTitle}>
+              <View style={styles.titleWrapper}>
                 <Text style={styles.status}>Timelines</Text>
               </View>
 
@@ -97,10 +95,10 @@ const styles = StyleSheet.create({
     ...Typography.mainTitle,
     marginBottom: Spacing.p5,
   },
-  listReviews: {
+  reviewsWrapper: {
     marginBottom: Spacing.p5,
   },
-  cardTitle: {
+  titleWrapper: {
     marginBottom: Spacing.p3,
   },
   status: {

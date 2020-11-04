@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   badgeReview: {
     ...Typography.badge,
-    ...Colors.textWhiteFull,
+    ...Colors.textBrand,
     ...Buttons.badgeReview,
   },
   description: {

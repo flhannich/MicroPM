@@ -4,7 +4,7 @@ import { ActivityIndicator, TouchableHighlight, FlatList, Button, Text, View, St
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons, Nav } from './../../styles'
 
-import { CardTask, CardReview } from './../../components'
+import { CardTask, CardReview, Badge } from './../../components'
 
 import { AuthContext } from '../../context/AuthContext.js'
 
@@ -15,10 +15,15 @@ export default function Project( data ) {
   const tasks = data.route.params.item.tasks;
   const navigation = data.navigation;
 
-  const tasksReview = tasks.filter(task => task.status == 'review');
-  const tasksCompleted = tasks.filter(task => task.status == 'completed');
-  const tasksInProgress = tasks.filter(task => task.status == 'in_progress');
-  const notStarted = tasks.filter(task => task.status == 'not_started');
+  const nameReview = 'review';
+  const nameCompleted = 'completed';
+  const nameInProgress = 'in_progress';
+  const nameNotStarted = 'not_started';
+
+  const tasksReview = tasks.filter(task => task.status == nameReview);
+  const tasksCompleted = tasks.filter(task => task.status == nameCompleted);
+  const tasksInProgress = tasks.filter(task => task.status == nameInProgress);
+  const notStarted = tasks.filter(task => task.status == nameNotStarted);
 
   return (
 
@@ -30,9 +35,8 @@ export default function Project( data ) {
 
       { tasksReview.length > 0 &&
         <>
-          <View style={ styles.cardStatus }>
-            <Text style={ styles.status }>Open Review </Text>
-            <Text style={ styles.counter }>{ tasksReview.length }</Text>
+          <View style={ styles.titleWrapper }>
+            <Badge status={nameReview} count={tasksReview.length}/>
           </View>
 
           { tasksReview.map((item, index) =>
@@ -49,9 +53,8 @@ export default function Project( data ) {
 
       { tasksInProgress.length > 0 &&
         <>
-          <View style={ styles.cardStatus }>
-            <Text style={ styles.status }>In Progress </Text>
-            <Text style={ styles.counter }>{ tasksInProgress.length }</Text>
+          <View style={ styles.titleWrapper }>
+            <Badge status={nameInProgress} count={tasksInProgress.length}/>
           </View>
 
           { tasksInProgress.map((item, index) =>
@@ -64,14 +67,13 @@ export default function Project( data ) {
         </>
       }
 
-      { notStarted.length > 0 &&
+      { tasksCompleted.length > 0 &&
         <>
-          <View style={ styles.cardStatus }>
-            <Text style={ styles.status }>Not Started</Text>
-            <Text style={ styles.counter }>{ notStarted.length }</Text>
+          <View style={ styles.titleWrapper }>
+            <Badge status={nameCompleted} count={tasksCompleted.length}/>
           </View>
 
-          { notStarted.map((item, index) =>
+          { tasksCompleted.map((item, index) =>
             <CardTask
               key={ index }
               item={ item }
@@ -81,14 +83,13 @@ export default function Project( data ) {
         </>
       }
 
-      { tasksCompleted.length > 0 &&
+      { notStarted.length > 0 &&
         <>
-          <View style={ styles.cardStatus }>
-            <Text style={ styles.status }>Completed</Text>
-            <Text style={ styles.counter }>{ tasksCompleted.length }</Text>
+          <View style={ styles.titleWrapper }>
+            <Badge status={nameNotStarted} count={notStarted.length}/>
           </View>
 
-          { tasksCompleted.map((item, index) =>
+          { notStarted.map((item, index) =>
             <CardTask
               key={ index }
               item={ item }
@@ -116,9 +117,9 @@ const styles = StyleSheet.create({
   headerNavigation: {
     ...Nav.header,
   },
-  cardStatus: {
+  titleWrapper: {
     ...Cards.cardStatus,
-    marginTop: Spacing.p5,
+    marginTop: Spacing.p4,
     marginBottom: Spacing.p3,
   },
   counter: {

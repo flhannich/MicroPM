@@ -30,10 +30,12 @@ useEffect(() => {
 
   setProgress(res);
 
+  
   // <View style={styles.progressBarWrapper}>
   //   <View style={styles.progressBarBackground}></View>
   //   <View style={[styles.progressBarActive, progressWidth]}></View>
   // </View>
+
 
 }, [])
 
@@ -52,7 +54,6 @@ const progressWidth = { width: progress + '%' };
               <Text style={styles.badgeReview} numberOfLines={1}>{hasReviews.length} Review</Text>
             }
           </View>
-
           <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
         </View>
       </TouchableHighlight>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     ...Cards.cardTitle,
-    marginBottom: Spacing.p2,
+    marginBottom: Spacing.p3,
   },
   title: {
     ...Typography.cardTitle,
@@ -79,21 +80,21 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.p2,
   },
   progressBarActive: {
-    height: 5,
+    height: 4,
     width: '50%',
     backgroundColor: Colors.brand,
     borderRadius: 2.5,
   },
   progressBarBackground: {
     position: 'absolute',
-    height: 5,
+    height: 4,
     width: '100%',
     backgroundColor: '#ddd',
     borderRadius: 2.5,
   },
   badgeReview: {
     ...Typography.badge,
-    ...Colors.textWhiteFull,
+    ...Colors.textBrand,
     ...Buttons.badgeReview,
   },
   info: {

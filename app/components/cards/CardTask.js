@@ -28,12 +28,11 @@ const CardTask = ({item, navigation}) => {
             <View style={styles.cardTask}>
               <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.meta}>
-                  {item.file.length > 0 && item.file.map((item, index) => (
+                  {item.file.length > 0 &&
                     <FilePreview
-                      key={index}
                       item={item}
                     />
-                  ))}
+                  }
                   <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
                 </View>
             </View>
@@ -47,8 +46,13 @@ const CardTask = ({item, navigation}) => {
             underlayColor="white"
           >
             <View style={styles.cardTask}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
+              <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.meta}>
+                  {item.file.length > 0 &&
+                    <FilePreview
+                      item={item}
+                    />
+                  }
                   <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
                 </View>
             </View>
@@ -61,8 +65,13 @@ const CardTask = ({item, navigation}) => {
             underlayColor="white"
           >
             <View style={styles.cardTask}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
+              <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.meta}>
+                  {item.file.length > 0 &&
+                    <FilePreview
+                      item={item}
+                    />
+                  }
                   <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
                 </View>
             </View>
@@ -74,8 +83,8 @@ const CardTask = ({item, navigation}) => {
             onPress={() => navigation.navigate('Task', { item: item }) }
             underlayColor="white"
           >
-            <View style={styles.cardTask}>
-              <Text style={styles.cardTitle}>{item.name}</Text>
+            <View style={styles.cardNotStarted}>
+              <Text style={styles.title}>{item.name}</Text>
                 <View style={styles.meta}>
                   {item.file.length > 0 && item.file.map((item, index) => (
                     <FilePreview
@@ -103,7 +112,10 @@ const styles = StyleSheet.create({
     ...Cards.cardTask,
     marginBottom: Spacing.p3,
   },
-  cardTitle: {
+  cardNotStarted: {
+    ...Cards.cardNotStarted,
+  },
+  title: {
     ...Typography.cardTitle,
   },
   meta: {

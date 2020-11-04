@@ -38,7 +38,7 @@ export const mainTitle = {
 }
 
 export const cardTitle = {
-  fontSize: 15,
+  fontSize: 16,
   fontWeight: '400',
   lineHeight: 24,
 }
