@@ -5,8 +5,7 @@ import { TouchableHighlight, View, Text, StyleSheet } from 'react-native'
 import { Buttons, Colors, Typography, Spacing } from './../../styles'
 
 const Counter = ( { status, count } ) => {
-  console.log(status)
-  console.log(count)
+
   return (
     <>
       {status === "review" &&
@@ -27,11 +26,10 @@ const styles = StyleSheet.create({
     ...Typography.badge,
     ...Colors.textBrand,
     ...Buttons.badgeCounterReview,
-    marginLeft: Spacing.p1,
   },
   badgeCounterTask: {
     ...Typography.badge,
     ...Buttons.badgeCounterTask,
-    marginLeft: Spacing.p1,
+    marginLeft: Spacing.p2,
   },
 })

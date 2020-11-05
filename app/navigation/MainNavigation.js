@@ -19,8 +19,7 @@ import { Badge } from '../components'
 import { AuthContext } from '../context/AuthContext.js'
 import { ReviewContext } from '../context/ReviewContext.js'
 
-const StackOptions = ( { navigation }) => {
-
+const stackOptions = ( { navigation } ) => {
 
   return {
     // title: '',
@@ -75,27 +74,27 @@ const MainNavigation = ({ data }) => {
        <HomeStack.Screen
          name="Home"
          component={Home}
-         options={StackOptions}
+         options={stackOptions}
        />
        <HomeStack.Screen
          name="Project"
          component={Project}
-         options={StackOptions}
+         options={stackOptions}
        />
        <HomeStack.Screen
          name="Review"
          component={Review}
-         options={StackOptions}
+         options={stackOptions}
        />
        <HomeStack.Screen
          name="Task"
          component={Task}
-         options={StackOptions}
+         options={stackOptions}
        />
        <HomeStack.Screen
          name="Settings"
          component={Settings}
-         options={StackOptions}
+         options={stackOptions}
        />
       </HomeStack.Navigator>
     </NavigationContainer>

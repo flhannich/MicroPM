@@ -4,19 +4,14 @@ import { ActivityIndicator, FlatList, Button, Text, View, ScrollView, StyleSheet
 
 import { Colors, Typography, Spacing, Forms, Cards, Buttons, Files } from './../styles'
 
-import { format } from "date-fns";
-import { de } from 'date-fns/locale'
-import { parseISO } from 'date-fns/parseISO'
-
 import { AuthContext } from '../context/AuthContext.js'
 import { ReviewContext } from '../context/ReviewContext.js'
 
-import { FilePreview, CardProject, CardReview, Badge } from '../components'
+import { CardProject } from '../components'
 
 export default function Home({ navigation }) {
 
   const { setReviews } = useContext(ReviewContext);
-
   const { id } = useContext(AuthContext);
 
   const [isLoading, setLoading] = useState(true);
@@ -39,7 +34,6 @@ export default function Home({ navigation }) {
         .finally((json) => setLoading(false));
     }, [id]);
 
-
   return (
 
     <ScrollView style={styles.container}>
@@ -61,10 +55,10 @@ export default function Home({ navigation }) {
               )}
             </>
           }
-
           </>
         )}
-    </ScrollView>
+
+      </ScrollView>
 
   )
 
@@ -79,15 +73,5 @@ const styles = StyleSheet.create({
   mainTitle: {
     ...Typography.mainTitle,
     marginBottom: Spacing.p6,
-  },
-  reviewsWrapper: {
-    marginBottom: Spacing.p5,
-  },
-  titleWrapper: {
-    marginBottom: Spacing.p3,
-  },
-  status: {
-    ...Typography.status,
-    ...Colors.textLightest,
   },
 })

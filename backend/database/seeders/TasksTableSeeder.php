@@ -24,6 +24,7 @@ class TasksTableSeeder extends Seeder
                 'status' => 'not_started',
                 'name' => $faker->sentence,
                 'description' => $faker->paragraph,
+                'is_review' => 0,
                 'weight' => 1,
                 'project_id' => '',
                 'user_id' => '',

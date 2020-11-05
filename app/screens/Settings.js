@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Spacing } from './../styles'
 
-import { ButtonPrimary } from './../components'
+import { ButtonPrimary, ButtonSecondary } from './../components'
 
 import { AuthContext } from '../context/AuthContext.js'
 
@@ -14,9 +14,13 @@ export default function Settings() {
 
   return(
     <View style={styles.container}>
-      <ButtonPrimary
+      <ButtonSecondary
         target={_logout}
         text='Log out'
+      />
+      <ButtonSecondary
+        target={() => navigation.goBack() }
+        text='Make a Request'
       />
     </View>
   )

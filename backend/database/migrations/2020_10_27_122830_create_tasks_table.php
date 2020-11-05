@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('status');
+            $table->integer('is_review')->default(0);
             $table->integer('weight');
             $table->longText('description');
             $table->string('project_id');

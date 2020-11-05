@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
 import { AuthContext } from './../context/AuthContext.js'
-import { ButtonPrimary } from './../components'
+import { ButtonSecondary } from './../components'
 
 import { Colors, Typography, Spacing, Forms } from './../styles'
 
@@ -24,7 +24,7 @@ export default function Login( probs ) {
        {probs.errorMessage &&
          <Text style={styles.errorMessage}>{probs.errorMessage}</Text>
        }
-       <ButtonPrimary
+       <ButtonSecondary
          target={probs.validate}
          text='Log in'
        />

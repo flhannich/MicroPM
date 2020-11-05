@@ -1,106 +1,165 @@
 
-import React, { useState, useEffect, useContext } from 'react'
-import { TextInput, Text, ScrollView, View, StyleSheet } from 'react-native'
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { Text, ScrollView, View, StyleSheet, Dimensions, TouchableHighlight } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
-import { FileImage, FileLink, FilePDF, ButtonPrimary, ButtonSecondary, Badge } from './../../components'
-
-import { Ionicons } from '@expo/vector-icons';
+import { FileImage, FileLink, FilePDF, ButtonSecondary, Badge, FeedbackModal } from './../../components'
 
 import { ReviewContext } from './../../context/ReviewContext'
+
+import { Ionicons } from '@expo/vector-icons';
 
 import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
-export default function Review( data ) {
+export default function Review( item ) {
 
-  const navigation = data.navigation;
+  const navigation = item.navigation;
 
   const { reviews } = useContext(ReviewContext);
 
-  console.log(reviews);
+  const [modalState, setModalState] = useState(false);
+
+  const [activeItem, setActiveItem] = useState(0);
+  const [width, setWidth] = useState(0);
+
+  const scrollRef = useRef(0);
+
+  const handleScroll = (event) => {
+    let offset = event.nativeEvent.contentOffset.x;
+    setActiveItem(offset / width);
+  }
+
+  const handleClick = (index) => {
+    scrollRef.current.scrollTo({x: width * index, y: 0, animated: true});
+  }
+
+  useEffect(() => {
+    let totalWidth = width * reviews.length;
+    setWidth(Dimensions.get('window').width)
+
+  }, [])
 
   const elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
   }
-  //
-  // const pdf = data.file.filter(item => item.type === 'pdf');
-  const images = (
-    '432'
-
-  )
-
-
-  console.log(images)
-  // const link = data.file.filter(item => item.type === 'link');
-  //
-  // let projectName;
-  //
-  // (data.project !== undefined)
-  // ? projectName = data.project.name
-  // : projectName = false;
-  //
-  // console.log(projectName);
 
   return (
-    <>
 
-        <ScrollView
-          horizontal={true}
-          style={styles.container}
-        >
-          { reviews.map((item, index) =>
+    <>
+    <ScrollView
+      ref={scrollRef}
+      horizontal={true}
+      nestedScrollEnabled={true}
+      showsHorizontalScrollIndicator={false}
+      scrollEventThrottle={200}
+      decelerationRate="fast"
+      pagingEnabled
+      onScroll={handleScroll}
+    >
+
+          { reviews.map((item, index) => {
+
+            return (
+
+
             <View
-              style={styles.reviewWrapper}
               key={index}
+              style={{flex: '1', width: width}}
             >
+
+            <FeedbackModal
+              review={item}
+              state={modalState}
+              setState={setModalState}
+            />
+
+            <ScrollView
+              style={styles.container}
+              nestedScrollEnabled={true}
+            >
+
 
               <Text style={styles.mainTitle}>{item.name}</Text>
 
               <View style={styles.meta}>
+
                 <Badge status={item.status}/>
+
                 <Text style={styles.date}>{elapsedTime(item.updated_at)}</Text>
+
               </View>
 
-              <View style={styles.files}>
-              {item.file.map((file, index) =>
-                <>
-                  {file.type === 'document' &&
-                    <FilePDF item={file} />
+              <View>
+
+                { item.file.map((item, index) => {
+
+                  return (
+
+                  <View key={index}>
+
+                  {item.type === 'link' &&
+                    <FileLink item={item} />
                   }
-                  {file.type === 'image' &&
-                    <FileImage item={file} />
+
+                  {item.type === 'document' &&
+                    <FilePDF item={item} />
                   }
-                  {file.type === 'link' &&
-                    <FileLink item={file} />
+
+                  {item.type === 'image' &&
+                    <FileImage item={item} />
                   }
-                </>
-              )}
+
+                  </View>
+
+                )})}
+
               </View>
 
               <Text style={styles.description}>{item.description}</Text>
 
+            </ScrollView>
+
+              <View style={styles.footer}>
+                <ButtonSecondary
+                  target={() => setModalState(true) }
+                  text='Make a Call'
+                />
+                <ButtonSecondary
+                  target={() => setModalState(true) }
+                  text='Accept'
+                />
+              </View>
+
             </View>
-          )}
-        </ScrollView>
 
-        <View style={styles.footer}>
-          <ButtonSecondary
-            target={() => navigation.goBack() }
-            text='Add a note'
-          />
-          <ButtonSecondary
-            target={() => navigation.goBack() }
-            text='Accept'
-          />
-        </View>
+          )})}
 
-    </>
-  )
+    </ScrollView>
 
-}
+    <View style={styles.sliderFooter}>
+
+      { reviews.map((item, index) => {
+        return (
+          <TouchableHighlight
+            style={styles.bulletWrapper}
+            onPress={() => {handleClick(index)}}
+            key={index}
+            underlayColor="white"
+          >
+          <Text style={{...styles.bullet, opacity: activeItem === index ? 1 : 0.5 }}></Text>
+          </TouchableHighlight>
+        )
+      })}
+
+    </View>
+
+
+  </>
+
+)}
 
 
 const styles = StyleSheet.create({
@@ -108,24 +167,28 @@ const styles = StyleSheet.create({
     ...Spacing.container,
     flex: 1,
   },
-  reviewWrapper: {
-    marginRight: Spacing.p4,
-  },
   footer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    padding: Spacing.p2,
+    paddingTop: Spacing.p2,
+    paddingHorizontal: Spacing.p2,
     backgroundColor: '#fff',
   },
-  mainTitle: {
-    ...Typography.mainTitle,
-    marginBottom: Spacing.p4,
+  sliderFooter: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   counter: {
     ...Typography.info,
     ...Colors.textLightest,
     marginLeft: Spacing.p1,
+  },
+  mainTitle: {
+    ...Typography.mainTitle,
+    marginBottom: Spacing.p4,
   },
   title: {
     ...Typography.title,
@@ -135,14 +198,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection:"row",
     alignItems: 'center',
-    marginBottom: Spacing.p3,
-    paddingBottom: Spacing.p3,
+    marginBottom: Spacing.p4,
+    paddingBottom: Spacing.p4,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },
-  buttonSpacing: {
-    paddingBottom: Spacing.p2
-  },
+
   titleAttachment: {
     display: 'flex',
     flexDirection:"row",
@@ -154,7 +215,7 @@ const styles = StyleSheet.create({
   },
   badgeReview: {
     ...Typography.badge,
-    ...Colors.textBrand,
+    ...Colors.textWhiteFull,
     ...Buttons.badgeReview,
   },
   description: {
@@ -164,28 +225,29 @@ const styles = StyleSheet.create({
     ...Forms.label,
     ...Typography.status,
     ...Colors.textLightest,
-    marginBottom: Spacing.p3,
   },
-  statusColor: {
-    ...Forms.label,
-    ...Typography.status,
-    ...Colors.textBrand,
+  bulletWrapper: {
+    paddingHorizontal: Spacing.p3,
+    paddingVertical: Spacing.p2,
+    marginBottom: Spacing.p3,
+    marginTop: Spacing.p2,
+  },
+  bullet: {
+    width: 8,
+    height: 8,
+    backgroundColor: Colors.text,
+    borderRadius: 4,
+    overflow: 'hidden',
   },
   date: {
     ...Typography.date,
     ...Colors.textLight,
     marginLeft: Spacing.p2,
   },
-  info: {
-    ...Typography.info,
-    ...Colors.textLightest,
-    textAlign: 'center',
-    marginTop: Spacing.p2,
-  },
   input: {
     ...Forms.input,
     ...Typography.input,
     marginTop: Spacing.p2,
-    marginBottom: Spacing.p3,
+    marginBottom: Spacing.p4,
   },
 })

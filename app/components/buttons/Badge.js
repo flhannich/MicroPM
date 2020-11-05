@@ -15,7 +15,7 @@ const Badge = ( { status, count } ) => {
         <Text style={styles.badgeCompleted} numberOfLines={1}>Completed</Text>
       }
       {status === "not_started" &&
-        <Text style={styles.badgeNotStarted} numberOfLines={1}>Not Started</Text>
+        <Text style={styles.badgeInProgress} numberOfLines={1}>Not Started</Text>
       }
       {status === "in_progress" &&
         <Text style={styles.badgeInProgress} numberOfLines={1}>In Progress</Text>

@@ -46,7 +46,7 @@ class Client extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Task::class)->where('status', 'review')->with('project')->with('file');
+        return $this->hasMany(Task::class)->where('is_review', 1)->with('project')->with('file');
     }
 
 }

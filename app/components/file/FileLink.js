@@ -17,7 +17,7 @@ const FileLink = ({item}) => {
               size={24}
               color='rgba(0,0,0,.30)'
             />
-          <Text>{item.name}</Text>
+          <Text style={styles.cardName}>{item.name}</Text>
          </View>
        </View>
 
@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
   description: {
     marginBottom: Spacing.p6,
     ...Typography.description,
+  },
+  cardName: {
+    ...Typography.cardTitle,
   },
   cardFile: {
     ...Cards.cardFile,

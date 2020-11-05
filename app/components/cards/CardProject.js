@@ -10,7 +10,7 @@ import { Counter } from './../../components'
 
 const CardProject = ({item, navigation}) => {
 
-const hasReviews = item.tasks.filter(item => item.status.indexOf('review') !== -1);
+const hasReviews = item.tasks.filter(item => item.is_review.indexOf('1') !== -1);
 const [progress, setProgress] = useState(null)
 
 
@@ -60,7 +60,9 @@ const progressWidth = { width: progress + '%' };
               }
             </View>
           </View>
-          <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
+          <View style={styles.meta}>
+            <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
+          </View>
         </View>
       </TouchableHighlight>
   )
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     ...Cards.cardTitle,
+    paddingRight: Spacing.p1,
   },
   countWrapper: {
     flexDirection: 'row',
@@ -105,6 +108,10 @@ const styles = StyleSheet.create({
     ...Typography.badge,
     ...Colors.textBrand,
     ...Buttons.badgeReview,
+  },
+  meta: {
+    ...Files.container,
+    marginTop: Spacing.p1,
   },
   info: {
     ...Typography.info,

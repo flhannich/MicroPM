@@ -59,6 +59,8 @@ export const primary = {
   paddingVertical: 12,
   overflow: 'hidden',
   textAlign: 'center',
+  alignSelf: 'center',
+  width: '100%',
 };
 
 export const secondary = {

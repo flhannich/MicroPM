@@ -40,7 +40,7 @@ export const cardNotStarted = {
   backgroundColor: '#fff',
   borderBottomWidth: 1,
   borderBottomColor: '#e5e5e5',
-  paddingTop: 16,
+  marginBottom: 10,
   paddingBottom: 10,
 };
 
@@ -49,8 +49,6 @@ export const cardFile = {
   flexDirection:"row",
   alignItems: 'center',
   backgroundColor: '#fff',
-  ...shadow,
-  ...base,
 };
 
 
@@ -66,7 +64,6 @@ export const cardTitle = {
   flexWrap: "wrap",
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginBottom: 8,
   maxWidth: '100%',
   overflow: 'hidden'
 };

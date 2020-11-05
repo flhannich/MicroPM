@@ -42,3 +42,5 @@ export const textBrand = {
 export const borderLight = 'rgba(0, 0 ,0, .15)'
 
 export const brand = '#007AFF'
+
+export const text = 'rgba(0, 0 ,0, .85)'

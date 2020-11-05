@@ -12,6 +12,8 @@ export { default as ButtonSecondary } from './buttons/ButtonSecondary'
 export { default as Badge } from './buttons/Badge'
 export { default as Counter } from './buttons/Counter'
 
+export { default as FeedbackModal } from './modals/FeedbackModal'
+export { default as SettingsModal } from './modals/SettingsModal'
+
 export { default as CardTask } from './cards/CardTask'
 export { default as CardProject } from './cards/CardProject'
-export { default as CardReview } from './cards/CardReview'

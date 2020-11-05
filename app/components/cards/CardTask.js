@@ -15,30 +15,12 @@ import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../
 
 import { FilePreview } from './../'
 
+import { Badge } from './../../components'
+
 const CardTask = ({item, navigation}) => {
 
   return (
       <>
-
-        {item.status == 'review' &&
-          <TouchableHighlight
-            onPress={() => navigation.navigate('Review', { item: item }) }
-            underlayColor="white"
-          >
-            <View style={styles.cardTask}>
-              <Text style={styles.title}>{item.name}</Text>
-                <View style={styles.meta}>
-                  {item.file.length > 0 &&
-                    <FilePreview
-                      item={item}
-                    />
-                  }
-                  <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
-                </View>
-            </View>
-          </TouchableHighlight>
-
-        }
 
         {item.status == 'in_progress' &&
           <TouchableHighlight
@@ -46,15 +28,22 @@ const CardTask = ({item, navigation}) => {
             underlayColor="white"
           >
             <View style={styles.cardTask}>
-              <Text style={styles.title}>{item.name}</Text>
-                <View style={styles.meta}>
-                  {item.file.length > 0 &&
-                    <FilePreview
-                      item={item}
-                    />
+              <View style={styles.cardTitle}>
+                <Text style={styles.title}>{item.name}</Text>
+                <View>
+                  {item.is_review === '1' &&
+                    <Badge status={'review'}/>
                   }
-                  <Text style={styles.info}>Last Update: {elapsedTime(item.updated_at)}</Text>
                 </View>
+              </View>
+              <View style={styles.meta}>
+                {item.file.length > 0 &&
+                  <FilePreview
+                    item={item}
+                  />
+                }
+                <Text style={styles.info}>Last Update: {elapsedTime(item.updated_at)}</Text>
+              </View>
             </View>
           </TouchableHighlight>
         }
@@ -111,6 +100,10 @@ const styles = StyleSheet.create({
   cardTask: {
     ...Cards.cardTask,
     marginBottom: Spacing.p3,
+  },
+  cardTitle: {
+    ...Cards.cardTitle,
+    paddingRight: Spacing.p1,
   },
   cardNotStarted: {
     ...Cards.cardNotStarted,
