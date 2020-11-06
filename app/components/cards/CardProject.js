@@ -3,7 +3,11 @@ import { TouchableHighlight, Text, View, StyleSheet } from 'react-native'
 
 import { format } from "date-fns";
 import { de } from 'date-fns/locale'
-import { parseISO } from 'date-fns/parseISO'
+import formatDistance from 'date-fns/formatDistance'
+
+const elapsedTime = (time) => {
+  return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
+}
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 import { Counter } from './../../components'
@@ -61,7 +65,7 @@ const progressWidth = { width: progress + '%' };
             </View>
           </View>
           <View style={styles.meta}>
-            <Text style={styles.info}>Last Update: {format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
+            <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
           </View>
         </View>
       </TouchableHighlight>

@@ -42,7 +42,7 @@ const CardTask = ({item, navigation}) => {
                     item={item}
                   />
                 }
-                <Text style={styles.info}>Last Update: {elapsedTime(item.updated_at)}</Text>
+                <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
               </View>
             </View>
           </TouchableHighlight>

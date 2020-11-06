@@ -17,6 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('secret');
+            $table->string('remember_token')->nullable();
             $table->timestamps();
         });
     }

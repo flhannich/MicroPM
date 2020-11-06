@@ -13,6 +13,7 @@ export default function App() {
 
 
   const [id, setId] = useState('');
+  const [username, setUsername] = useState('');
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -87,6 +88,7 @@ export default function App() {
         :  <Login
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              setUsername={setUsername}
               setId={setId}
               validate={_validate}
             />

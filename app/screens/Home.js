@@ -24,7 +24,7 @@ export default function Home({ navigation }) {
 
     useEffect(() => {
       if(!id) return;
-      fetch(`http://192.168.178.35:8000/api/client/${id}`)
+      fetch(`http://192.168.178.83:8000/api/client/${id}`)
         .then((response) => response.json())
         .then((json) => {
           setData(json)

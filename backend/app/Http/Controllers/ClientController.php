@@ -11,11 +11,18 @@ class ClientController extends Controller
 {
   public function index(Request $request, $secret)
   {
-
       $client = Client::where('secret', $secret)
       ->with('projects')
       ->with('reviews')
       ->get();
+
+      return response()->json($client[0], 201);
+  }
+
+  public function login(Request $request, $secret)
+  {
+
+      $token = $user->createToken('Laravel Password Grant Client')->accessToken;
 
       return response()->json($client[0], 201);
   }

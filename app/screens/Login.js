@@ -16,7 +16,12 @@ export default function Login( probs ) {
   return(
 
       <View style={styles.container}>
-       <Text style={styles.label}>Your Secret</Text>
+       <Text style={styles.label}>Username</Text>
+       <TextInput
+         style={styles.input}
+         onChangeText={text => probs.setUsername(text)}
+       />
+       <Text style={styles.label}>Password</Text>
        <TextInput
          style={styles.input}
          onChangeText={text => probs.setId(text)}

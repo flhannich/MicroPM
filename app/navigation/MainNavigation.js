@@ -30,6 +30,7 @@ const stackOptions = ( { navigation } ) => {
       shadowColor: 'transparent',
     },
     headerBackTitle: ' ',
+    mode: 'modal',
     headerRight: () => (
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
 
