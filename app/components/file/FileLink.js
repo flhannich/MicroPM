@@ -15,7 +15,7 @@ const FileLink = ({item}) => {
               style={styles.cardIcon}
               name="ios-link"
               size={24}
-              color='rgba(0,0,0,.30)'
+              color='rgba(0,0,0,1)'
             />
           <Text style={styles.cardName}>{item.name}</Text>
          </View>
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
     ...Typography.description,
   },
   cardName: {
-    ...Typography.cardTitle,
+    ...Typography.fileTitle,
   },
   cardFile: {
     ...Cards.cardFile,
-    marginBottom: Spacing.p4,
+    marginBottom: Spacing.p3,
   },
   cardIcon: {
     marginRight: Spacing.p3,

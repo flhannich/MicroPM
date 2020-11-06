@@ -40,7 +40,14 @@ export const mainTitle = {
 
 export const cardTitle = {
   fontSize: 16,
-  fontWeight: '500',
+  fontWeight: '600',
+  lineHeight: 24,
+  letterSpacing: -0.05
+}
+
+export const fileTitle = {
+  fontSize: 14,
+  fontWeight: '400',
   lineHeight: 24,
   letterSpacing: -0.05
 }

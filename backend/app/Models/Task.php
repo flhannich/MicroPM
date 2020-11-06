@@ -30,7 +30,7 @@ class Task extends Model
 
     public function file()
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(File::class)->orderBy('type', 'DESC');;
     }
 
 }

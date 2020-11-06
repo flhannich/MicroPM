@@ -20,7 +20,7 @@ export default function Settings() {
       />
       <ButtonSecondary
         target={() => navigation.goBack() }
-        text='Make a Request'
+        text='Make a Call'
       />
     </View>
   )

@@ -81,6 +81,7 @@ export default function Review( item ) {
               nestedScrollEnabled={true}
             >
 
+            <View style={{paddingBottom: Spacing.p6}}>
 
               <Text style={styles.mainTitle}>{item.name}</Text>
 
@@ -88,11 +89,15 @@ export default function Review( item ) {
 
                 <Badge status={item.status}/>
 
+                <View style={{ marginLeft: Spacing.p1 }} >
+                  <Badge status='review'/>
+                </View>
+
                 <Text style={styles.date}>{elapsedTime(item.updated_at)}</Text>
 
               </View>
 
-              <View>
+              <View style={{marginBottom: Spacing.p3}}>
 
                 { item.file.map((item, index) => {
 
@@ -100,17 +105,17 @@ export default function Review( item ) {
 
                   <View key={index}>
 
-                  {item.type === 'link' &&
-                    <FileLink item={item} />
-                  }
+                    {item.type === 'link' &&
+                      <FileLink item={item} />
+                    }
 
-                  {item.type === 'document' &&
-                    <FilePDF item={item} />
-                  }
+                    {item.type === 'document' &&
+                      <FilePDF item={item} />
+                    }
 
-                  {item.type === 'image' &&
-                    <FileImage item={item} />
-                  }
+                    {item.type === 'image' &&
+                      <FileImage item={item} />
+                    }
 
                   </View>
 
@@ -119,6 +124,8 @@ export default function Review( item ) {
               </View>
 
               <Text style={styles.description}>{item.description}</Text>
+
+              </View>
 
             </ScrollView>
 
@@ -141,7 +148,7 @@ export default function Review( item ) {
 
     <View style={styles.sliderFooter}>
 
-      { reviews.map((item, index) => {
+      { reviews.length > 1 && reviews.map((item, index) => {
         return (
           <TouchableHighlight
             style={styles.bulletWrapper}
@@ -171,9 +178,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingTop: Spacing.p2,
+    paddingVertical: Spacing.p2,
     paddingHorizontal: Spacing.p2,
     backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
   },
   sliderFooter: {
     display: 'flex',

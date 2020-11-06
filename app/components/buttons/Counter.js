@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
   badgeCounterTask: {
     ...Typography.badge,
     ...Buttons.badgeCounterTask,
-    marginLeft: Spacing.p2,
+    marginLeft: Spacing.p1,
   },
 })

@@ -27,6 +27,7 @@ class ProjectsTableSeeder extends Seeder
                  'description' => $faker->paragraph,
                  'client_id' => '',
                  'user_id' => '',
+                 'status' => 'not_started',
              ]);
          };
      }

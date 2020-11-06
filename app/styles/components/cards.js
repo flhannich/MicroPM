@@ -21,12 +21,7 @@ export const cardProject = {
   borderBottomWidth: 1,
   borderBottomColor: '#e5e5e5',
   paddingBottom: 16,
-};
-
-export const cardReview = {
-  borderWidth: 1,
-  borderColor: '#007AFF',
-  ...base,
+  paddingHorizontal: 4,
 };
 
 export const cardTask = {
@@ -34,6 +29,7 @@ export const cardTask = {
   borderBottomWidth: 1,
   borderBottomColor: '#e5e5e5',
   paddingBottom: 16,
+  paddingHorizontal: 0,
 };
 
 export const cardNotStarted = {
@@ -42,15 +38,18 @@ export const cardNotStarted = {
   borderBottomColor: '#e5e5e5',
   marginBottom: 10,
   paddingBottom: 10,
+  paddingHorizontal: 0,
 };
 
 export const cardFile = {
   display: 'flex',
   flexDirection:"row",
   alignItems: 'center',
-  backgroundColor: '#fff',
+  backgroundColor: '#eee',
+  paddingHorizontal: 16,
+  paddingVertical: 12,
+  borderRadius: 5,
 };
-
 
 export const cardStatus = {
   display: 'flex',

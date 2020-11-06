@@ -20,6 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('description');
             $table->string('client_id');
             $table->string('user_id');
+            $table->string('status')->default('not_started');
         });
     }
 

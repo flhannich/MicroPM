@@ -10,13 +10,14 @@ const elapsedTime = (time) => {
 }
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
-import { Counter } from './../../components'
+import { Counter, Badge } from './../../components'
 
 const CardProject = ({item, navigation}) => {
 
 const hasReviews = item.tasks.filter(item => item.is_review.indexOf('1') !== -1);
 const [progress, setProgress] = useState(null)
 
+console.log(item);
 
 useEffect(() => {
   let completed = null;
@@ -59,8 +60,11 @@ const progressWidth = { width: progress + '%' };
               {hasReviews.length > 0 &&
                 <Counter status={'review'} count={hasReviews.length} />
               }
-              {item.tasks.length > 0 &&
+              {item.status !== 'completed' && item.tasks.length > 0 &&
                 <Counter status={'task'} count={item.tasks.length} />
+              }
+              {item.status === 'completed' &&
+                <Badge status={item.status} />
               }
             </View>
           </View>

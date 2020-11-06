@@ -30,60 +30,59 @@ export default function Project( data ) {
 
     <ScrollView style={ styles.container }>
 
-      <>
+      <View style={{paddingBottom: Spacing.p6}}>
 
-      <Text style={styles.mainTitle}>{item.name}</Text>
+        <Text style={styles.mainTitle}>{item.name}</Text>
 
+        { tasksInProgress.length > 0 &&
+          <>
+            <View style={ styles.titleWrapper }>
+              <Badge status={nameInProgress} count={tasksInProgress.length}/>
+            </View>
 
-      { tasksInProgress.length > 0 &&
-        <>
-          <View style={ styles.titleWrapper }>
-            <Badge status={nameInProgress} count={tasksInProgress.length}/>
-          </View>
+            { tasksInProgress.map((item, index) =>
+              <CardTask
+                key={ index }
+                item={ item }
+                navigation= { navigation }
+              />
+            )}
+          </>
+        }
 
-          { tasksInProgress.map((item, index) =>
-            <CardTask
-              key={ index }
-              item={ item }
-              navigation= { navigation }
-            />
-          )}
-        </>
-      }
+        { tasksCompleted.length > 0 &&
+          <>
+            <View style={ styles.titleWrapper }>
+              <Badge status={nameCompleted} count={tasksCompleted.length}/><Text>👍</Text>
+            </View>
 
-      { tasksCompleted.length > 0 &&
-        <>
-          <View style={ styles.titleWrapper }>
-            <Badge status={nameCompleted} count={tasksCompleted.length}/><Text>👍</Text>
-          </View>
+            { tasksCompleted.map((item, index) =>
+              <CardTask
+                key={ index }
+                item={ item }
+                navigation={ navigation }
+              />
+            )}
+          </>
+        }
 
-          { tasksCompleted.map((item, index) =>
-            <CardTask
-              key={ index }
-              item={ item }
-              navigation={ navigation }
-            />
-          )}
-        </>
-      }
+        { notStarted.length > 0 &&
+          <>
+            <View style={ styles.titleWrapper }>
+              <Badge status={nameNotStarted} count={notStarted.length}/>
+            </View>
 
-      { notStarted.length > 0 &&
-        <>
-          <View style={ styles.titleWrapper }>
-            <Badge status={nameNotStarted} count={notStarted.length}/>
-          </View>
+            { notStarted.map((item, index) =>
+              <CardTask
+                key={ index }
+                item={ item }
+                navigation={ navigation }
+              />
+            )}
+          </>
+        }
 
-          { notStarted.map((item, index) =>
-            <CardTask
-              key={ index }
-              item={ item }
-              navigation={ navigation }
-            />
-          )}
-        </>
-      }
-
-      </>
+      </View>
 
     </ScrollView>
 

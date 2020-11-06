@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Spacing } from './../styles';
+import { Colors, Spacing, Buttons, Typography } from './../styles';
 
 import Home from './../screens/Home';
 import Settings from './../screens/Settings';
@@ -19,7 +19,9 @@ import { Badge } from '../components'
 import { AuthContext } from '../context/AuthContext.js'
 import { ReviewContext } from '../context/ReviewContext.js'
 
-const stackOptions = ( { navigation } ) => {
+let reviewLength;
+
+const stackOptions = ( { navigation, route } ) => {
 
   return {
     // title: '',
@@ -34,13 +36,24 @@ const stackOptions = ( { navigation } ) => {
     headerRight: () => (
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
 
+      {reviewLength !== 0 &&
          <TouchableOpacity
           onPress={() => navigation.navigate('Review')}
          >
-           <Badge
-              style={styles.badge}
-             status={'review'}
-             count={'2'}
+           <View style={styles.reviewButtonWrapper}>
+             <Text style={styles.reviewButton} numberOfLines={1}>{reviewLength} {reviewLength > 1 ? 'Reviews' : 'Review'}</Text>
+           </View>
+         </TouchableOpacity>
+      }
+
+         <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+         >
+           <Ionicons
+              style={styles.icon}
+             name="ios-call"
+             color='#007AFF'
+             size={24}
            />
          </TouchableOpacity>
 
@@ -67,6 +80,8 @@ const HomeStack = createStackNavigator();
 const MainNavigation = ({ data }) => {
 
   const { reviews } = useContext(ReviewContext);
+
+  reviewLength = reviews.length;
 
   return (
 
@@ -110,5 +125,21 @@ const styles = StyleSheet.create({
   icon: {
     paddingHorizontal: Spacing.p2,
     marginLeft: Spacing.p2,
+  },
+  reviewButtonWrapper: {
+    marginRight: Spacing.p1,
+  },
+  reviewButton: {
+    ...Typography.badge,
+    ...Colors.textBrand,
+    ...Buttons.badgeReview,
+  },
+  reviewButtonsCounter: {
+    position: 'absolute',
+    top: -4,
+    right: -8,
+    ...Typography.badge,
+    ...Colors.textWhiteFull,
+    ...Buttons.badgeCounterHeader,
   },
 })

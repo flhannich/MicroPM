@@ -61,7 +61,7 @@ const CardTask = ({item, navigation}) => {
                       item={item}
                     />
                   }
-                  <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
+                  <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
                 </View>
             </View>
           </TouchableHighlight>

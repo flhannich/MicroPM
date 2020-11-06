@@ -37,39 +37,52 @@ export default function Task( item ) {
 
     <ScrollView style={styles.container}>
 
-      <Text style={styles.mainTitle}>{data.name}</Text>
+      <View style={{paddingBottom: Spacing.p6}}>
 
-      <View style={styles.meta}>
+        <Text style={styles.mainTitle}>{data.name}</Text>
 
-         <Badge status={data.status}/>
+        <View style={styles.meta}>
 
-        <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
-      </View>
+           <Badge status={data.status}/>
 
-        { data.file.map((item, index) => {
+           {data.is_review === '1' &&
+             <View style={{ marginLeft: Spacing.p1 }} >
+               <Badge status='review'/>
+             </View>
+           }
 
-          return (
+          <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
+        </View>
 
-          <View key={index}>
+        <View style={{marginBottom: Spacing.p3}}>
 
-          {item.type === 'link' &&
-            <FileLink item={item} />
-          }
+          { data.file.map((item, index) => {
 
-          {item.type === 'document' &&
-            <FilePDF item={item} />
-          }
+            return (
 
-          {item.type === 'image' &&
-            <FileImage item={item} />
-          }
+            <View key={index}>
 
-          </View>
+            {item.type === 'link' &&
+              <FileLink item={item} />
+            }
 
-        )})}
+            {item.type === 'document' &&
+              <FilePDF item={item} />
+            }
 
+            {item.type === 'image' &&
+              <FileImage item={item} />
+            }
+
+            </View>
+
+          )})}
+
+        </View>
 
         <Text style={styles.description}>{data.description}</Text>
+
+      </View>
 
     </ScrollView>
 
@@ -77,7 +90,7 @@ export default function Task( item ) {
       <View style={styles.footer}>
         <ButtonSecondary
           target={() => navigation.goBack() }
-          text='Add a note'
+          text='Make a Call'
         />
         <ButtonSecondary
           target={() => navigation.goBack() }
@@ -101,13 +114,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    padding: Spacing.p2,
+    paddingVertical: Spacing.p2,
+    paddingHorizontal: Spacing.p2,
     backgroundColor: '#fff',
-  },
-  counter: {
-    ...Typography.info,
-    ...Colors.textLightest,
-    marginLeft: Spacing.p1,
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
   },
   mainTitle: {
     ...Typography.mainTitle,
@@ -117,6 +128,9 @@ const styles = StyleSheet.create({
     ...Typography.title,
     marginBottom: Spacing.p2,
   },
+  description: {
+    ...Typography.description,
+  },
   meta: {
     display: 'flex',
     flexDirection:"row",
@@ -125,24 +139,6 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.p4,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
-  },
-
-  titleAttachment: {
-    display: 'flex',
-    flexDirection:"row",
-    alignItems: 'center',
-    marginBottom: Spacing.p4,
-  },
-  iconAttachment: {
-    marginRight: Spacing.p2,
-  },
-  badgeReview: {
-    ...Typography.badge,
-    ...Colors.textWhiteFull,
-    ...Buttons.badgeReview,
-  },
-  description: {
-    ...Typography.description,
   },
   status: {
     ...Forms.label,

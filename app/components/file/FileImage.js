@@ -22,8 +22,9 @@ export default FileImage
 
 const styles = StyleSheet.create({
   name: {
-    marginBottom: Spacing.p4,
+    marginBottom: Spacing.p3,
     ...Colors.textLightest,
+    ...Typography.info,
   },
   description: {
     marginBottom: Spacing.p6,
@@ -34,5 +35,6 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'cover',
     marginBottom: Spacing.p2,
+    borderRadius: 5,
   },
 });

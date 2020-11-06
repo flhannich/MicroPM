@@ -84,7 +84,7 @@ export default function App() {
 
       {isValidated
 
-        ?  <MainNavigation />
+        ?  <MainNavigation reviews={reviews} />
         :  <Login
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}

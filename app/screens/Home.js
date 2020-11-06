@@ -24,7 +24,7 @@ export default function Home({ navigation }) {
 
     useEffect(() => {
       if(!id) return;
-      fetch(`http://192.168.178.83:8000/api/client/${id}`)
+      fetch(`http://192.168.178.35:8000/api/client/${id}`)
         .then((response) => response.json())
         .then((json) => {
           setData(json)
@@ -38,25 +38,29 @@ export default function Home({ navigation }) {
 
     <ScrollView style={styles.container}>
 
-      {isLoading
-        ? <ActivityIndicator/>
-        : (
-          <>
-          <Text style={styles.mainTitle}>Your Projects</Text>
-          {data.projects.length > 0 &&
-            <>
+      <View style={{paddingBottom: Spacing.p6}}>
 
-              { data.projects.map((item, index) =>
-                <CardProject
-                  key={index}
-                  item={item}
-                  navigation={navigation}
-                />
-              )}
+        {isLoading
+          ? <ActivityIndicator/>
+          : (
+            <>
+            <Text style={styles.mainTitle}>Your Projects</Text>
+            {data.projects.length > 0 &&
+              <>
+
+                { data.projects.map((item, index) =>
+                  <CardProject
+                    key={index}
+                    item={item}
+                    navigation={navigation}
+                  />
+                )}
+              </>
+            }
             </>
-          }
-          </>
-        )}
+          )}
+
+        </View>
 
       </ScrollView>
 

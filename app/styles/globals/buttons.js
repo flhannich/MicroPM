@@ -15,6 +15,20 @@ export const badgeCounterReview = {
   borderColor: '#007AFF',
   ...badgeCounter,
 };
+
+export const badgeCounterHeader = {
+  borderColor: '#007AFF',
+  backgroundColor: '#007AFF',
+  borderRadius: 9,
+  borderWidth: 1,
+  flexDirection: 'row',
+  alignSelf: 'flex-start',
+  minWidth: 17,
+  paddingVertical: 0,
+  overflow: 'hidden',
+  textAlign: 'center',
+};
+
 export const badgeCounterTask = {
   backgroundColor: '#E4EDFE',
   borderColor: '#E4EDFE',
