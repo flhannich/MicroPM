@@ -7,13 +7,13 @@ const FileImage = ({item}) => {
 
   return (
 
-    <View>
-      <Image
-        style={styles.image}
-        source={{uri: item.path}}
-      />
-      <Text style={styles.name}>{item.name}</Text>
-    </View>
+      <View>
+        <Image
+          style={styles.image}
+          source={{uri: item.path}}
+        />
+        <Text style={styles.name}>{item.name}</Text>
+      </View>
 
   )
 }

@@ -8,15 +8,15 @@ import { Icons, Files, Spacing } from './../../styles'
 const FilePreview = ({item}) => {
 
   return (
-    <View
-      style={styles.icon}
-    >
-        <Ionicons
-          name="ios-attach"
-          size={20}
-          color='rgba(0,0,0,.30)'
-        />
-    </View>
+
+        <View style={styles.icon} >
+          <Ionicons
+            name="ios-attach"
+            size={20}
+            color='rgba(0,0,0,.30)'
+          />
+        </View>
+
   )
 }
 

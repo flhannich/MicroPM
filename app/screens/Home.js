@@ -5,18 +5,17 @@ import { ActivityIndicator, FlatList, Button, Text, View, ScrollView, StyleSheet
 import { Colors, Typography, Spacing, Forms, Cards, Buttons, Files } from './../styles'
 
 import { AuthContext } from '../context/AuthContext.js'
-import { ReviewContext } from '../context/ReviewContext.js'
+import { DataContext } from '../context/DataContext.js'
 
 import { CardProject } from '../components'
 
 export default function Home({ navigation }) {
 
-  const { reviews, setReviews } = useContext(ReviewContext);
+  const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
-
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
 //192.168.178.83 mbpro
 //192.168.178.35 imac
@@ -36,10 +35,9 @@ export default function Home({ navigation }) {
         .then((response) => response.json())
         .then((json) => {
           setData(json)
-          setReviews(json.reviews)
+          setLoading(false);
         })
         .catch((error) => console.error(error))
-        .finally((json) => setLoading(false));
     }, [token]);
 
   return (

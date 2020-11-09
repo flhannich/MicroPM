@@ -14,37 +14,39 @@ import { Counter, Badge } from './../../components'
 
 const CardProject = ({item, navigation}) => {
 
-const hasReviews = item.tasks.filter(item => item.is_review.indexOf('1') !== -1);
-const [progress, setProgress] = useState(null)
-
-useEffect(() => {
-  let completed = null;
-  let total = null;
-
-  item.tasks.forEach((item, i) => {
-    if(item.weight !== null && item.status === 'completed') {
-      completed += parseInt(item.weight);
-    }
-    if(item.weight !== null) {
-      total += parseInt(item.weight);
-    }
-  });
-
-  let res = Math.round(completed / total * 100);
-
-  setProgress(res);
+// const [progress, setProgress] = useState(null)
 
 
-  // <View style={styles.progressBarWrapper}>
-  //   <View style={styles.progressBarBackground}></View>
-  //   <View style={[styles.progressBarActive, progressWidth]}></View>
-  // </View>
+const hasReviews = item.tasks.filter(item => item.is_review === '1' && item.is_accepted === '0')
+
+// useEffect(() => {
+//   let completed = null;
+//   let total = null;
+//
+//   item.tasks.forEach((item, i) => {
+//     if(item.weight !== null && item.status === 'completed') {
+//       completed += parseInt(item.weight);
+//     }
+//     if(item.weight !== null) {
+//       total += parseInt(item.weight);
+//     }
+//   });
+//
+//   let res = Math.round(completed / total * 100);
+//
+//   setProgress(res);
+//
+//
+//   // <View style={styles.progressBarWrapper}>
+//   //   <View style={styles.progressBarBackground}></View>
+//   //   <View style={[styles.progressBarActive, progressWidth]}></View>
+//   // </View>
+//
+//
+// }, [])
 
 
-}, [])
-
-
-const progressWidth = { width: progress + '%' };
+// const progressWidth = { width: progress + '%' };
 
   return (
       <TouchableHighlight

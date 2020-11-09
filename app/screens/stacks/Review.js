@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import { Text, ScrollView, View, StyleSheet, Dimensions, TouchableHighlight } from 'react-native'
+import { Text, ScrollView, View, StyleSheet, Dimensions, TouchableHighlight, Linking } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
 import { FileImage, FileLink, FilePDF, ButtonSecondary, Badge } from './../../components'
 
 import { AuthContext } from './../../context/AuthContext'
-import { ReviewContext } from './../../context/ReviewContext'
+import { DataContext } from './../../context/DataContext'
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -15,40 +14,46 @@ import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
-export default function Review( item ) {
+export default function Review() {
 
-  const { reviews, setReviews } = useContext(ReviewContext);
+  const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
-  const [rerender, setRerender] = useState(0); // **HACK** ReviewContext doesnt update
+  const [reviews, setReviews] = useState([]);
 
   const [activeItem, setActiveItem] = useState(0);
   const [width, setWidth] = useState(0);
 
   const scrollRef = useRef(0);
 
-  const handleScroll = (event) => {
+  const _setActivePagination = (event) => {
     let offset = event.nativeEvent.contentOffset.x;
     setActiveItem(offset / width);
   }
 
-  const handleClick = (index) => {
+  const _goToSlide = (index) => {
     scrollRef.current.scrollTo({x: width * index, y: 0, animated: true});
   }
 
-  useEffect(() => {
-    let totalWidth = width * reviews.length;
-    setWidth(Dimensions.get('window').width)
-  }, [])
-
-
-
-
-  const elapsedTime = (time) => {
+  const _elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
   }
 
+  const _getReviews = () => {
+    data.projects.forEach((item, i) => {
+        item.tasks.forEach((item, i) => {
+          if(item.is_review === '1') {
+          // if(item.is_review === '1' && item.is_accepted === '0') {
+            setReviews(reviews => [...reviews, item])
+          }
+        })
+    })
+  }
 
+  const _updateReviewStatus = (id) => {
+    let index = reviews.findIndex((obj => obj.id == id))
+    reviews[index].is_accepted = status.toString();
+  }
 
   const _storeTaskStatus = (id, status) => {
     fetch(`http://192.168.178.35:8000/api/client/task/${id}/${status}`, {
@@ -61,18 +66,21 @@ export default function Review( item ) {
       })
       .then((response) => response.json())
       .then((json) => {
-        let index = reviews.findIndex((obj => obj.id == id))
-        reviews[index].is_accepted = status.toString();
-        setRerender(1);
+        _updateReviewStatus(id)
+        setData(data);
       })
       .catch((error) => console.error(error))
-      .finally(() => setReviews(reviews))
   }
+
+  useEffect(() => {
+    setWidth(Dimensions.get('window').width)
+    _getReviews()
+  }, [])
 
 
   return (
 
-    <>
+<>
     <ScrollView
       ref={scrollRef}
       horizontal={true}
@@ -81,13 +89,12 @@ export default function Review( item ) {
       scrollEventThrottle={200}
       decelerationRate="fast"
       pagingEnabled
-      onScroll={handleScroll}
+      onScroll={_setActivePagination}
     >
 
-          { reviews.map((item, index) => {
+        { reviews.map((item, index) => {
 
             return (
-
 
             <View
               key={index}
@@ -109,9 +116,11 @@ export default function Review( item ) {
 
                 <Badge status={item.status}/>
 
-                <View style={{ marginLeft: Spacing.p1 }} >
-                  <Badge status='review'/>
-                </View>
+                {(item.is_accepted === '0') &&
+                  <View style={{ marginLeft: Spacing.p1 }} >
+                    <Badge status='review'/>
+                  </View>
+                }
 
                 {(item.is_accepted === '1') &&
                  <Ionicons
@@ -122,7 +131,7 @@ export default function Review( item ) {
                   />
                 }
 
-                <Text style={styles.date}>{elapsedTime(item.updated_at)}</Text>
+                <Text style={styles.date}>{_elapsedTime(item.updated_at)}</Text>
 
               </View>
 
@@ -157,29 +166,36 @@ export default function Review( item ) {
               </View>
 
             </ScrollView>
-              <View style={styles.footer}>
+
+
+            <View style={styles.footer}>
+
               <ButtonSecondary
+                target={() => {Linking.openURL(`tel:0152072593`)}}
                 text='Make a Call'
-              />
-
-              {(item.is_accepted === '1')
-              ? <ButtonSecondary
-                  target={() => {_storeTaskStatus(item.id, 0)}}
-                  text='Revoke'
                 />
-              : <ButtonSecondary
-                  target={() => {_storeTaskStatus(item.id, 1)}}
-                  text='Accept'
-                />
-              }
 
+                {(item.is_accepted === '1')
+                ?
+                  <ButtonSecondary
+                    target={() => {_storeTaskStatus(item.id, 0)}}
+                    text='Revoke'
+                  />
+                : <ButtonSecondary
+                    target={() => {_storeTaskStatus(item.id, 1)}}
+                    text='Accept'
+                  />
+                }
               </View>
 
             </View>
 
           )})}
 
+
     </ScrollView>
+
+
 
     <View style={styles.sliderFooter}>
 
@@ -187,19 +203,18 @@ export default function Review( item ) {
         return (
           <TouchableHighlight
             style={styles.bulletWrapper}
-            onPress={() => {handleClick(index)}}
+            onPress={() => {_goToSlide(index)}}
             key={index}
             underlayColor="white"
           >
-          <Text style={{...styles.bullet, opacity: activeItem === index ? 1 : 0.5 }}></Text>
+            <View style={styles.bullet, {opacity: activeItem === index ? 1 : 0.5 }}></View>
           </TouchableHighlight>
         )
       })}
 
     </View>
 
-
-  </>
+</>
 
 )}
 

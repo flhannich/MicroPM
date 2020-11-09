@@ -45,7 +45,7 @@ export const cardFile = {
   display: 'flex',
   flexDirection:"row",
   alignItems: 'center',
-  backgroundColor: '#eee',
+  backgroundColor: '#fff',
   paddingHorizontal: 16,
   paddingVertical: 12,
   borderRadius: 5,
@@ -60,7 +60,6 @@ export const cardStatus = {
 export const cardTitle = {
   display: 'flex',
   flexDirection:"row",
-  flexWrap: "wrap",
   alignItems: 'center',
   justifyContent: 'space-between',
   maxWidth: '100%',

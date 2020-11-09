@@ -9,19 +9,17 @@ const FilePDF = ({item}) => {
 
   return (
 
-
         <View>
           <View style={styles.cardFile}>
             <Ionicons
               style={styles.cardIcon}
               name="ios-document"
               size={24}
-              color='rgba(0,0,0,1)'
+              color='#007AFF'
             />
           <Text style={styles.cardName}>{item.name}</Text>
          </View>
        </View>
-
 
   )
 }
@@ -35,6 +33,7 @@ const styles = StyleSheet.create({
   },
   cardName: {
     ...Typography.fileTitle,
+    ...Colors.textBrand,
   },
   cardFile: {
     ...Cards.cardFile,

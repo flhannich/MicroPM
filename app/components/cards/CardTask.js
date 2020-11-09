@@ -30,16 +30,16 @@ const CardTask = ({item, navigation}) => {
             <View style={styles.cardTask}>
               <View style={styles.cardTitle}>
                 <Text style={styles.title}>{item.name}</Text>
-                <View>
-                  {item.is_review === '1' &&
+                <View style={{ flexDirection: 'row', flexWrap: 'nowrap'}}>
+                  {(item.is_review === '1' && item.is_accepted === '0' ) &&
                     <Badge status={'review'}/>
                   }
-                  {item.is_review && item.is_accepted === '1'  &&
+                  {item.is_accepted === '1'  &&
                     <Ionicons
-                       style={{ marginLeft: Spacing.p1 }}
-                      name="ios-checkmark-circle"
-                      color='#007AFF'
-                      size={16}
+                       style={{ marginLeft: Spacing.p1}}
+                       name="ios-checkmark-circle"
+                       color='#007AFF'
+                       size={24}
                     />
                   }
                 </View>

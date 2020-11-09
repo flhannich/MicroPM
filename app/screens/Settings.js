@@ -18,10 +18,6 @@ export default function Settings() {
         target={_logout}
         text='Log out'
       />
-      <ButtonSecondary
-        target={() => navigation.goBack() }
-        text='Make a Call'
-      />
     </View>
   )
 }

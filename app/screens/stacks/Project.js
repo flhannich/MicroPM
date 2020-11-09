@@ -6,11 +6,7 @@ import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons, Nav } from '
 
 import { CardTask, Badge } from './../../components'
 
-import { AuthContext } from '../../context/AuthContext.js'
-
 export default function Project( data ) {
-
-  const { id } = useContext(AuthContext);
 
   const item = data.route.params.item;
   const tasks = data.route.params.item.tasks;

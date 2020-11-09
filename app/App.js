@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect, useReducer } from 'react'
+import React, { useState, useContext, createContext, useEffect, useReducer } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Text, View, TextInput, ActivityIndicator } from 'react-native'
 import { StatusBar } from 'expo-status-bar'; //check for bundle size issues
@@ -7,7 +7,7 @@ import MainNavigation from './navigation/MainNavigation';
 import Login from './screens/Login';
 
 import { AuthContext } from './context/AuthContext.js'
-import { ReviewContext } from './context/ReviewContext.js'
+import { DataContext } from './context/DataContext.js'
 
 export default function App() {
 
@@ -15,10 +15,12 @@ export default function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
+  const [data, setData] = useState([]);
+
+
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState('');
 
   const _validate = () => {
     fetch("http://192.168.178.35:8000/api/client/login", {
@@ -98,12 +100,12 @@ export default function App() {
 
   return(
 
+  <DataContext.Provider value={{data, setData}}>
     <AuthContext.Provider value={{token, _logout}}>
-      <ReviewContext.Provider value={{reviews, setReviews}}>
 
       {isValidated
 
-        ?  <MainNavigation reviews={reviews} />
+        ?  <MainNavigation />
         :  <Login
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
@@ -116,8 +118,8 @@ export default function App() {
 
       <StatusBar style="dark" />
 
-      </ReviewContext.Provider>
-    </AuthContext.Provider>
+      </AuthContext.Provider>
+    </DataContext.Provider>
 
   )
 }

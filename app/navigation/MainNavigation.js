@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Button, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { Button, Text, View, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,12 +16,14 @@ import Review from './../screens/stacks/Review';
 
 import { Badge } from '../components'
 
-import { AuthContext } from '../context/AuthContext.js'
-import { ReviewContext } from '../context/ReviewContext.js'
+import { DataContext } from '../context/DataContext.js'
 
-let reviewLength;
+let reviewArr = [];
 
 const stackOptions = ( { navigation, route } ) => {
+
+  let res = reviewArr.filter(item => item === '0')
+  let reviewLength = res.length;
 
   return {
     // title: '',
@@ -36,20 +38,23 @@ const stackOptions = ( { navigation, route } ) => {
     headerBackTitle: ' ',
     mode: 'modal',
     headerRight: () => (
+
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
 
       {reviewLength !== 0 &&
-         <TouchableOpacity
-          onPress={() => navigation.navigate('Review')}
-         >
-           <View style={styles.reviewButtonWrapper}>
-             <Text style={styles.reviewButton} numberOfLines={1}>{reviewLength} {reviewLength > 1 ? 'Reviews' : 'Review'}</Text>
-           </View>
-         </TouchableOpacity>
+
+       <TouchableOpacity
+        onPress={() => navigation.navigate('Review')}
+       >
+         <View style={styles.reviewButtonWrapper}>
+           <Text style={styles.reviewButton} numberOfLines={1}>{reviewLength} {reviewLength > 1 ? 'Reviews' : 'Review'}</Text>
+         </View>
+       </TouchableOpacity>
+
       }
 
          <TouchableOpacity
-          onPress={() => navigation.navigate('Settings')}
+          onPress={() => Linking.openURL(`tel:0152072593`)}
          >
            <Ionicons
               style={styles.icon}
@@ -78,12 +83,22 @@ const stackOptions = ( { navigation, route } ) => {
 
 const HomeStack = createStackNavigator();
 
+const MainNavigation = () => {
 
-const MainNavigation = ({ data }) => {
+  const { data, setData } = useContext(DataContext);
 
-  const { reviews } = useContext(ReviewContext);
+  reviewArr = [];
 
-  reviewLength = reviews.length;
+  if (data.length !== 0 && data !== undefined) {
+    data.projects.forEach((item, i) => {
+        item.tasks.forEach((item, i) => {
+          if(item.is_review === '1') {
+            reviewArr.push(item.is_accepted);
+          }
+        })
+    })
+  }
+
 
   return (
 

@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
-import { AuthContext } from './../context/AuthContext.js'
 import { ButtonSecondary } from './../components'
 
 import { Colors, Typography, Spacing, Forms } from './../styles'
