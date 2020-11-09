@@ -11,8 +11,9 @@ import { CardProject } from '../components'
 
 export default function Home({ navigation }) {
 
-  const { setReviews } = useContext(ReviewContext);
-  const { id } = useContext(AuthContext);
+  const { reviews, setReviews } = useContext(ReviewContext);
+  const { token } = useContext(AuthContext);
+
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -23,8 +24,15 @@ export default function Home({ navigation }) {
 // php artisan serve --host=192.168.178.83 --port=8000
 
     useEffect(() => {
-      if(!id) return;
-      fetch(`http://192.168.178.35:8000/api/client/${id}`)
+      if(!token) return;
+      fetch(`http://192.168.178.35:8000/api/client/projects`, {
+          method: "GET",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'authorization': token,
+          }
+        })
         .then((response) => response.json())
         .then((json) => {
           setData(json)
@@ -32,7 +40,7 @@ export default function Home({ navigation }) {
         })
         .catch((error) => console.error(error))
         .finally((json) => setLoading(false));
-    }, [id]);
+    }, [token]);
 
   return (
 

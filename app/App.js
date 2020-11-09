@@ -12,18 +12,15 @@ import { ReviewContext } from './context/ReviewContext.js'
 export default function App() {
 
 
-  const [id, setId] = useState('');
-  const [response, setResponse] = useState('');
-  const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState('test');
+  const [reviews, setReviews] = useState('');
 
   const _validate = () => {
-
     fetch("http://192.168.178.35:8000/api/client/login", {
         method: "POST",
         headers: {
@@ -33,57 +30,65 @@ export default function App() {
       })
       .then((response) => response.json())
       .then((json) => {
-        setUsername(json.name)
-        setToken(json.remember_token)
+        if (json.message !== undefined) {
+          setErrorMessage(json.message)
+        } else {
+          setToken(json.remember_token),
+          setIsValidated(true),
+          _storeToken(json.remember_token);
+        }
       })
       .catch((error) => console.error(error))
-      .finally(() => console.log(response));
-
-
-      // if(id !== '') {
-      //   setIsValidated(true);
-      //   _store();
-      // } else {
-      //   setErrorMessage('Please enter your ID')
-      // }
-
-      // if not ->
   }
+
 
   const _logout = () => {
-    AsyncStorage.clear();
-    setIsValidated(false);
-    setId('');
+    fetch(`http://192.168.178.35:8000/api/client/logout`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'authorization': token,
+        }
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json)
+        AsyncStorage.clear();
+        setIsValidated(false);
+        setToken('');
+      })
+      .catch((error) => console.error(error))
   }
 
-  const _store = async () => {
+  // CHANGE FOR KEYRING
+  const _storeToken = async (value) => {
     try {
       await AsyncStorage.setItem(
-        'id', id
+        'token', value
       );
     } catch (error) {
     }
   };
 
-  const _getStoredId = async () => {
+  const _getToken = async () => {
     try {
-      const storedValue = AsyncStorage.getItem('id');
-      if(storedValue !== null) {
-        return storedValue;
+      let value = AsyncStorage.getItem('token');
+      if(value !== null) {
+        return value;
       }
     } catch (error) {
     }
   };
 
   useEffect(() => {
-    _getStoredId().then((result) => {
+    _getToken().then((result) => {
       if(result !== null) {
+        setToken(result);
         setIsValidated(true);
-        setId(result);
       }
     })
   }, []);
-
 
 //192.168.178.83 mbpro
 //192.168.178.35 imac
@@ -93,7 +98,7 @@ export default function App() {
 
   return(
 
-    <AuthContext.Provider value={{id, _logout}}>
+    <AuthContext.Provider value={{token, _logout}}>
       <ReviewContext.Provider value={{reviews, setReviews}}>
 
       {isValidated
@@ -102,9 +107,8 @@ export default function App() {
         :  <Login
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              setUsername={setUsername}
               setPassword={setPassword}
-              setId={setId}
+              setUsername={setUsername}
               validate={_validate}
             />
 

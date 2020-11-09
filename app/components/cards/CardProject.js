@@ -17,8 +17,6 @@ const CardProject = ({item, navigation}) => {
 const hasReviews = item.tasks.filter(item => item.is_review.indexOf('1') !== -1);
 const [progress, setProgress] = useState(null)
 
-console.log(item);
-
 useEffect(() => {
   let completed = null;
   let total = null;

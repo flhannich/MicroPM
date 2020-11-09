@@ -36,9 +36,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   //CLIENT
   // Route::post('/login', [ApiAuthController::class, 'login']);
-  Route::get('/client/{secret}', [ClientController::class, 'index']);
+  Route::get('/client/projects', [ClientController::class, 'projects']);
+  Route::post('/client/task/{id}/{status}', [ClientController::class, 'task']);
   // Route::get('/project/{client}', [ClientController::class, 'index']);
   Route::post('/client/login', [ClientController::class, 'login']);
+  Route::post('/client/logout', [ClientController::class, 'logout']);
 
   //ADMIN
   // Route::post('/user/register/{client}', [ClientController::class, 'register']);

@@ -34,6 +34,14 @@ const CardTask = ({item, navigation}) => {
                   {item.is_review === '1' &&
                     <Badge status={'review'}/>
                   }
+                  {item.is_review && item.is_accepted === '1'  &&
+                    <Ionicons
+                       style={{ marginLeft: Spacing.p1 }}
+                      name="ios-checkmark-circle"
+                      color='#007AFF'
+                      size={16}
+                    />
+                  }
                 </View>
               </View>
               <View style={styles.meta}>

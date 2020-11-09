@@ -40,7 +40,7 @@ class ClientController extends Controller
 
     $request = json_decode($request->getContent());
 
-      $client = Client::where('name', $request->username)->first();
+    $client = Client::where('name', $request->username)->first();
 
       if ($client) {
         if (Hash::check($request->password, $client->password)) {
@@ -53,9 +53,13 @@ class ClientController extends Controller
           $response = ['remember_token' => $token];
 
           return response($client, 200);
-        } else {
+        }
+        else {
           return response(["message" => "Password mismatch"], 422);
         }
+      }
+      else {
+        return response(["message" =>'User does not exist'], 422);
       }
 
       return response([$request], 200);
@@ -63,27 +67,75 @@ class ClientController extends Controller
   }
 
 
-  // public function logout (Request $request) {
-  //
-  //   $token = $request->user()->token();
-  //   $token->revoke();
-  //   $response = ['message' => 'You have been successfully logged out!'];
-  //
-  //   return response($response, 200);
-  //
-  // }
-  //
+  public function logout (Request $request) {
 
-  public function index(Request $request, $secret)
+    $token = $request->header('authorization');
+    //
+    $client = Client::where('remember_token', $token)->first();
+    //
+    if($client) {
+
+      $client->remember_token = '';
+      $client->save();
+
+      return response(['message' => 'You have been successfully logged out!'], 200);
+    }
+    else {
+      return false;
+    }
+
+    return response([$client], 200);
+
+  }
+
+
+  public function projects(Request $request)
   {
-      $client = Client::where('secret', $secret)
+      $token = $request->header('authorization');
+
+      $client = Client::where('remember_token', $token)
       ->with('projects')
       ->with('reviews')
-      ->get();
+      ->first();
 
-      // generate and return token here..
-      // fetch data on home screen.
-      return response()->json($client[0], 201);
+      return response()->json($client, 201);
+  }
+
+
+  public function task(Request $request, $id, $status)
+  {
+      $token = $request->header('authorization');
+
+      $client = Client::where('remember_token', $token);
+
+      if($client) {
+
+        $task = Task::where('id', $id)->first();
+
+        if($task) {
+
+          $task->is_accepted = $status;
+          $task->save();
+          // return response()->json([$task], 201);
+
+          if($status === '1') {
+            return response()->json(['message' => 'Accepted'], 201);
+          }
+
+          if($status === '0') {
+            return response()->json(['message' => 'Revoked'], 201);
+          }
+
+        } else
+        {
+          return false;
+        }
+
+      } else
+      {
+        return false;
+      }
+
   }
 
 //   public function login(Request $request, $secret)

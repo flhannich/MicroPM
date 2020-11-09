@@ -4,8 +4,9 @@ import { Text, ScrollView, View, StyleSheet, Dimensions, TouchableHighlight } fr
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
-import { FileImage, FileLink, FilePDF, ButtonSecondary, Badge, FeedbackModal } from './../../components'
+import { FileImage, FileLink, FilePDF, ButtonSecondary, Badge } from './../../components'
 
+import { AuthContext } from './../../context/AuthContext'
 import { ReviewContext } from './../../context/ReviewContext'
 
 import { Ionicons } from '@expo/vector-icons';
@@ -16,11 +17,10 @@ import formatDistance from 'date-fns/formatDistance'
 
 export default function Review( item ) {
 
-  const navigation = item.navigation;
+  const { reviews, setReviews } = useContext(ReviewContext);
+  const { token } = useContext(AuthContext);
 
-  const { reviews } = useContext(ReviewContext);
-
-  const [modalState, setModalState] = useState(false);
+  const [rerender, setRerender] = useState(0); // **HACK** ReviewContext doesnt update
 
   const [activeItem, setActiveItem] = useState(0);
   const [width, setWidth] = useState(0);
@@ -39,12 +39,36 @@ export default function Review( item ) {
   useEffect(() => {
     let totalWidth = width * reviews.length;
     setWidth(Dimensions.get('window').width)
-
   }, [])
+
+
+
 
   const elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
   }
+
+
+
+  const _storeTaskStatus = (id, status) => {
+    fetch(`http://192.168.178.35:8000/api/client/task/${id}/${status}`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'authorization': token,
+        },
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        let index = reviews.findIndex((obj => obj.id == id))
+        reviews[index].is_accepted = status.toString();
+        setRerender(1);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setReviews(reviews))
+  }
+
 
   return (
 
@@ -70,12 +94,6 @@ export default function Review( item ) {
               style={{flex: '1', width: width}}
             >
 
-            <FeedbackModal
-              review={item}
-              state={modalState}
-              setState={setModalState}
-            />
-
             <ScrollView
               style={styles.container}
               nestedScrollEnabled={true}
@@ -83,7 +101,9 @@ export default function Review( item ) {
 
             <View style={{paddingBottom: Spacing.p6}}>
 
-              <Text style={styles.mainTitle}>{item.name}</Text>
+              <Text style={styles.mainTitle}>
+                {item.name}
+              </Text>
 
               <View style={styles.meta}>
 
@@ -92,6 +112,15 @@ export default function Review( item ) {
                 <View style={{ marginLeft: Spacing.p1 }} >
                   <Badge status='review'/>
                 </View>
+
+                {(item.is_accepted === '1') &&
+                 <Ionicons
+                    style={{ marginLeft: Spacing.p1 }}
+                    name="ios-checkmark-circle"
+                    color='#007AFF'
+                    size={24}
+                  />
+                }
 
                 <Text style={styles.date}>{elapsedTime(item.updated_at)}</Text>
 
@@ -128,16 +157,22 @@ export default function Review( item ) {
               </View>
 
             </ScrollView>
-
               <View style={styles.footer}>
-                <ButtonSecondary
-                  target={() => setModalState(true) }
-                  text='Make a Call'
+              <ButtonSecondary
+                text='Make a Call'
+              />
+
+              {(item.is_accepted === '1')
+              ? <ButtonSecondary
+                  target={() => {_storeTaskStatus(item.id, 0)}}
+                  text='Revoke'
                 />
-                <ButtonSecondary
-                  target={() => setModalState(true) }
+              : <ButtonSecondary
+                  target={() => {_storeTaskStatus(item.id, 1)}}
                   text='Accept'
                 />
+              }
+
               </View>
 
             </View>
