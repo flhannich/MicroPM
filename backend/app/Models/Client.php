@@ -5,23 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\File;
 
 class Client extends Model
 {
-    use HasFactory;
+  use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
     protected $fillable = [
         'name',
         'email',
-        'secret'
+        'secret',
     ];
 
     /**
@@ -29,14 +34,15 @@ class Client extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'id',
-        'secret',
-        'created_at',
-        'updated_at',
-        'updated_at',
-        'email',
-    ];
+    // protected $hidden = [
+    //     'id',
+    //     'secret',
+    //     'created_at',
+    //     'updated_at',
+    //     'updated_at',
+    //     'email',
+    //     'remember_token',
+    // ];
 
 
     public function projects()

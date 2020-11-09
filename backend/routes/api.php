@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,24 +34,18 @@ Route::middleware('auth:api')->group(function () {
 Route::group(['middleware' => ['cors', 'json.response']], function () {
   // public routes will go in here
 
-  Route::post('/login', [ApiAuthController::class, 'login']);
-  Route::post('/register', [ApiAuthController::class, 'register']);
-
-  Route::post('/register', [ApiAuthController::class, 'register']);
-
-  // Route::get('/projects', [ProjectController::class, 'index']);
-
+  //CLIENT
+  // Route::post('/login', [ApiAuthController::class, 'login']);
   Route::get('/client/{secret}', [ClientController::class, 'index']);
+  // Route::get('/project/{client}', [ClientController::class, 'index']);
+  Route::post('/client/login', [ClientController::class, 'login']);
 
-  // Route::get('/client/{id}', function ($secret) {
-  //     return 'nbr '.$secret;
-  // });
-
-  // Route::get('projects', 'ProjectController@index');
-  // Route::get('projects/{project}', 'ProjectController@show');
-  // Route::post('projects', 'ArticleController@store');
-  // Route::put('projects/{project}', 'ArticleController@update');
-  // Route::delete('projects/{project}', 'ArticleController@delete');
+  //ADMIN
+  // Route::post('/user/register/{client}', [ClientController::class, 'register']);
+  // Route::post('/user/register', [UserController::class, 'register']);
+  // Route::post('/user/login', [UserController::class, 'login']);
+  //
+  // Route::post('/project/{client}/{project}', [ProjectController::class, 'store']);
 
 
 });

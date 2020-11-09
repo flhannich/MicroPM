@@ -22,7 +22,7 @@ class ClientsTableSeeder extends Seeder
         for ($i = 0; $i < 3; $i++) {
             Client::create([
                 'name' => $faker->name,
-                'secret' => '1234',
+                'password' => '1234',
             ]);
         };
     }

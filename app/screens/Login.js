@@ -24,7 +24,7 @@ export default function Login( probs ) {
        <Text style={styles.label}>Password</Text>
        <TextInput
          style={styles.input}
-         onChangeText={text => probs.setId(text)}
+         onChangeText={text => probs.setPassword(text)}
        />
        {probs.errorMessage &&
          <Text style={styles.errorMessage}>{probs.errorMessage}</Text>

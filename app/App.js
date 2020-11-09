@@ -13,7 +13,10 @@ export default function App() {
 
 
   const [id, setId] = useState('');
+  const [response, setResponse] = useState('');
+  const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [token, setToken] = useState('');
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -21,18 +24,29 @@ export default function App() {
 
   const _validate = () => {
 
-      // fetch(`http://192.168.178.83:8000/api/client/${id}`)
-      //   .then((response) => response.json())
-      //   .then((json) => setData(json))
-      //   .catch((error) => console.error(error))
-      //   .finally(() => setIsValidated(true));
+    fetch("http://192.168.178.35:8000/api/client/login", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: JSON.stringify({username: username, password: password})
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        setUsername(json.name)
+        setToken(json.remember_token)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => console.log(response));
 
-      if(id !== '') {
-        setIsValidated(true);
-        _store();
-      } else {
-        setErrorMessage('Please enter your ID')
-      }
+
+      // if(id !== '') {
+      //   setIsValidated(true);
+      //   _store();
+      // } else {
+      //   setErrorMessage('Please enter your ID')
+      // }
+
       // if not ->
   }
 
@@ -89,6 +103,7 @@ export default function App() {
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
               setUsername={setUsername}
+              setPassword={setPassword}
               setId={setId}
               validate={_validate}
             />

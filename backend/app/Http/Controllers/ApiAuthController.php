@@ -14,26 +14,26 @@ use Illuminate\Support\Str;
 class ApiAuthController extends Controller
 {
 
-  // public function register(Request $request)
-  // {
-  //     $request->validate([
-  //         'name' => 'required',
-  //         'email' => 'required|email',
-  //         'password' => 'required|min:6',
-  //         'role' => 'required',
-  //     ]);
-  //
-  //
-  //     $user = User::create([
-  //         'name' => $request->name,
-  //         'email' => $request->email,
-  //         'role' => $request->role,
-  //         'password' => bcrypt($request->password),
-  //         'remember_token' => Str::random(10),
-  //     ]);
-  //
-  //     return response()->json($user);
-  // }
+  public function register(Request $request)
+  {
+      $request->validate([
+          'name' => 'required',
+          'email' => 'required|email',
+          'password' => 'required|min:6',
+          'role' => 'required',
+      ]);
+
+
+      $user = User::create([
+          'name' => $request->name,
+          'email' => $request->email,
+          'role' => $request->role,
+          'password' => bcrypt($request->password),
+          'remember_token' => Str::random(10),
+      ]);
+
+      return response()->json($user);
+  }
 
 
   public function register (Request $request) {
