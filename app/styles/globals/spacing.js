@@ -1,6 +1,6 @@
 
 export const container = {
-  paddingHorizontal: 12,
+  paddingHorizontal: 18,
   paddingVertical: 16,
   backgroundColor: '#fff',
 }

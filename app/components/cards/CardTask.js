@@ -25,7 +25,7 @@ const CardTask = ({item, navigation}) => {
         {item.status == 'in_progress' &&
           <TouchableHighlight
             onPress={() => navigation.navigate('Task', { item: item }) }
-            underlayColor="white"
+            underlayColor="transparent"
           >
             <View style={styles.cardTask}>
               <View style={styles.cardTitle}>
@@ -54,14 +54,16 @@ const CardTask = ({item, navigation}) => {
             underlayColor="white"
           >
             <View style={styles.cardTask}>
-              <Text style={styles.title}>{item.name}</Text>
+              <View style={styles.cardTitle}>
+                <Text style={styles.title}>{item.name}</Text>
+              </View>
                 <View style={styles.meta}>
                   {item.file.length > 0 &&
                     <FilePreview
                       item={item}
                     />
                   }
-                  <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM', { locale: de })}</Text>
+                  <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
                 </View>
             </View>
           </TouchableHighlight>
@@ -73,15 +75,17 @@ const CardTask = ({item, navigation}) => {
             underlayColor="white"
           >
             <View style={styles.cardNotStarted}>
-              <Text style={styles.title}>{item.name}</Text>
-                <View style={styles.meta}>
-                  {item.file.length > 0 && item.file.map((item, index) => (
-                    <FilePreview
-                      key={index}
-                      item={item}
-                    />
-                  ))}
-                </View>
+              <View style={styles.cardTitle}>
+                <Text style={styles.title}>{item.name}</Text>
+              </View>
+              <View style={styles.meta}>
+                {item.file.length > 0 && item.file.map((item, index) => (
+                  <FilePreview
+                    key={index}
+                    item={item}
+                  />
+                ))}
+              </View>
             </View>
           </TouchableHighlight>
         }

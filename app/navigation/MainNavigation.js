@@ -30,6 +30,8 @@ const stackOptions = ( { navigation, route } ) => {
     },
     headerStyle: {
       shadowColor: 'transparent',
+      elevation: 0, // remove shadow on Android
+      shadowOpacity: 0, // remove shadow on iOS
     },
     headerBackTitle: ' ',
     mode: 'modal',

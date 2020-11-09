@@ -1,5 +1,3 @@
-
-
 export const lineHeight = {
   lineHeight: 25,
 }

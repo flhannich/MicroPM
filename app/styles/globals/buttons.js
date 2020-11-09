@@ -1,12 +1,13 @@
 
 export const badgeCounter = {
-  borderRadius: 11,
+  borderRadius: 12,
   borderWidth: 1,
   flexDirection: 'row',
   alignSelf: 'flex-start',
-  minWidth: 23,
+  minWidth: 24,
+  height: 24,
+  lineHeight: 23,
   paddingHorizontal: 5,
-  paddingVertical: 3,
   overflow: 'hidden',
   textAlign: 'center',
 }
@@ -36,12 +37,13 @@ export const badgeCounterTask = {
 };
 
 export const badge = {
-  borderRadius: 11,
+  borderRadius: 14,
+  height: 24,
+  lineHeight: 23,
   borderWidth: 1,
   flexDirection: 'row',
   alignSelf: 'flex-start',
-  paddingHorizontal: 12,
-  paddingVertical: 3,
+  paddingHorizontal: 14,
   overflow: 'hidden',
   textAlign: 'center',
 }
