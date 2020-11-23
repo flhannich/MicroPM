@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { ActivityIndicator, FlatList, Button, Text, View, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Colors, Typography, Spacing, Forms, Cards, Buttons, Files } from './../styles'
 
@@ -16,10 +17,19 @@ export default function Home({ navigation }) {
 
   const [isLoading, setLoading] = useState(true);
 
-//192.168.178.83 mbpro
-//192.168.178.35 imac
 // php artisan serve --host=192.168.178.35 --port=8000
 // php artisan serve --host=192.168.178.83 --port=8000
+
+  useFocusEffect(
+    useCallback(() => {
+      _getData(token);
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+)
 
   useEffect(() => {
 

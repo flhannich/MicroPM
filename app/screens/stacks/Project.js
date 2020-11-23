@@ -1,34 +1,64 @@
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { ActivityIndicator, TouchableHighlight, FlatList, Button, Text, View, StyleSheet, ScrollView } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons, Nav } from './../../styles'
 
 import { CardTask, Badge } from './../../components'
 
-export default function Project( data ) {
+import { DataContext } from './../../context/DataContext'
 
-  const item = data.route.params.item;
-  const tasks = data.route.params.item.tasks;
-  const navigation = data.navigation;
+  export default function Project( probs ) {
+
+  const { data, setData } = useContext(DataContext);
+
+  const [ project, setProject ] = useState(0);
+  const [ taskNotStarted, setTaskNotStarted ] = useState([]);
+  const [ tasksInProgress, setTasksInProgress ] = useState([]);
+  const [ tasksCompleted, setTasksCompleted ] = useState([]);
 
   const nameCompleted = 'completed';
   const nameInProgress = 'in_progress';
   const nameNotStarted = 'not_started';
 
-  const tasksCompleted = tasks.filter(task => task.status == nameCompleted);
-  const tasksInProgress = tasks.filter(task => task.status == nameInProgress);
-  const notStarted = tasks.filter(task => task.status == nameNotStarted);
+  const _getProject = (json) => {
+    json.projects.forEach((item, i) => {
+      if(item.id === probs.route.params.item.id) {
+        setProject(item);
+        setTasksCompleted(item.tasks.filter(task => task.status == nameCompleted))
+        setTasksInProgress(item.tasks.filter(task => task.status == nameInProgress))
+        setTaskNotStarted(item.tasks.filter(task => task.status == nameNotStarted))
+      }
+    })
+  }
+
+  useEffect(() => {
+  }, [])
+
+
+  useFocusEffect(
+    useCallback(() => {
+      _getProject(data)
+      console.log(data);
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+)
 
   return (
 
     <>
 
+    {project !== undefined &&
+
     <ScrollView style={ styles.container }>
 
       <View style={{paddingBottom: Spacing.p6}}>
 
-        <Text style={styles.mainTitle}>{item.name}</Text>
+        <Text style={styles.mainTitle}>{project.name}</Text>
 
         { tasksInProgress.length > 0 &&
           <>
@@ -40,7 +70,7 @@ export default function Project( data ) {
               <CardTask
                 key={ index }
                 item={ item }
-                navigation= { navigation }
+                navigation= { probs.navigation }
               />
             )}
           </>
@@ -56,23 +86,23 @@ export default function Project( data ) {
               <CardTask
                 key={ index }
                 item={ item }
-                navigation={ navigation }
+                navigation={ probs.navigation }
               />
             )}
           </>
         }
 
-        { notStarted.length > 0 &&
+        { taskNotStarted.length > 0 &&
           <>
             <View style={ styles.titleWrapper }>
-              <Badge status={nameNotStarted} count={notStarted.length}/>
+              <Badge status={nameNotStarted} count={taskNotStarted.length}/>
             </View>
 
-            { notStarted.map((item, index) =>
+            { taskNotStarted.map((item, index) =>
               <CardTask
                 key={ index }
                 item={ item }
-                navigation={ navigation }
+                navigation={ probs.navigation }
               />
             )}
           </>
@@ -82,6 +112,7 @@ export default function Project( data ) {
 
     </ScrollView>
 
+ }
     </>
   )
 

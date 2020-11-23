@@ -42,6 +42,7 @@ export default function App() {
       .catch((error) => console.error(error))
   }
 
+
   const _logout = () => {
     fetch(`http://192.168.178.35:8000/api/client/logout`, {
         method: "POST",

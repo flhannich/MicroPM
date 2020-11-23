@@ -16,19 +16,32 @@ import formatDistance from 'date-fns/formatDistance'
 
 export default function Review( probs ) {
 
-  const item = probs.route.params.item
+
+  const taskId = probs.route.params.item.id
 
   const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
   const [isLoading, setLoading] = useState(false);
-
-  const scrollRef = useRef(0);
+  const [item, setItem] = useState();
 
   const _elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
   }
 
+  useEffect(() => {
+    _getTask(data);
+  }, [])
+
+  const _getTask = (json) => {
+    json.projects.forEach((project, i) => {
+        project.tasks.forEach((task, i) => {
+          if(task.id === taskId) {
+            setItem(task);
+          }
+        })
+    })
+  }
 
   const _updateTaskStatus = (id, status) => {
     setLoading(true);
@@ -62,6 +75,7 @@ export default function Review( probs ) {
     .then((response) => response.json())
     .then((json) => {
       setData(json)
+      _getTask(json)
       setLoading(false)
     })
     .catch((error) => console.error(error))
@@ -71,7 +85,8 @@ export default function Review( probs ) {
         return (
 
             <>
-
+            {item !== undefined &&
+              <>
             <ScrollView
               style={styles.container}
             >
@@ -157,6 +172,8 @@ export default function Review( probs ) {
 
               }
 
+              </>
+}
             </>
 
 )}
