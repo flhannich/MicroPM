@@ -7,22 +7,19 @@ import MainNavigation from './navigation/MainNavigation';
 import Login from './screens/Login';
 
 import { AuthContext } from './context/AuthContext.js'
-import { DataContext } from './context/DataContext.js'
 
 export default function App() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
-  const [data, setData] = useState([]);
-
 
   const [isValidated, setIsValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   const _validate = () => {
-    fetch("http://192.168.178.35:8000/api/client/login", {
+    fetch("http://192.168.178.35:8000/api/login", {
         method: "POST",
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -34,17 +31,16 @@ export default function App() {
         if (json.message !== undefined) {
           setErrorMessage(json.message)
         } else {
-          setToken(json.remember_token),
-          setIsValidated(true),
-          _storeToken(json.remember_token);
+          setToken(json.remember_token)
+          _storeToken(json.remember_token)
         }
       })
       .catch((error) => console.error(error))
+      .finally(() => setIsValidated(true))
   }
 
-
   const _logout = () => {
-    fetch(`http://192.168.178.35:8000/api/client/logout`, {
+    fetch(`http://192.168.178.35:8000/api/logout`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
@@ -54,12 +50,11 @@ export default function App() {
       })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json)
-        AsyncStorage.clear();
-        setIsValidated(false);
-        setToken('');
+        AsyncStorage.clear()
+        setToken('')
       })
       .catch((error) => console.error(error))
+      .finally(() => setIsValidated(false))
   }
 
   // CHANGE FOR KEYRING
@@ -99,7 +94,6 @@ export default function App() {
 
   return(
 
-  <DataContext.Provider value={{data, setData}}>
     <AuthContext.Provider value={{token, _logout}}>
 
       {isValidated
@@ -118,7 +112,6 @@ export default function App() {
       <StatusBar style="dark" />
 
       </AuthContext.Provider>
-    </DataContext.Provider>
 
   )
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Project;
 use App\Models\File;
+use App\Models\User;
 
 class Task extends Model
 {
@@ -29,9 +30,14 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function file()
     {
-        return $this->hasMany(File::class)->orderBy('type', 'DESC');;
+        return $this->hasMany(File::class)->orderBy('type', 'DESC');
     }
 
 }

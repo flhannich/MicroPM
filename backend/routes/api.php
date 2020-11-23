@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -19,35 +18,22 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::middleware('auth:api')->group(function () {
-    // protected  routes will go in here
-    Route::post('/logout', [ApiAuthController::class, 'logout']);
-
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+// });
+// Route::middleware('auth:api')->group(function () {
+// });
 
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
-  // public routes will go in here
 
-  //CLIENT
-  // Route::post('/login', [ApiAuthController::class, 'login']);
-  Route::get('/client/projects', [ClientController::class, 'projects']);
-  Route::post('/client/task/{id}/{status}', [ClientController::class, 'task']);
-  // Route::get('/project/{client}', [ClientController::class, 'index']);
-  Route::post('/client/login', [ClientController::class, 'login']);
-  Route::post('/client/logout', [ClientController::class, 'logout']);
+  Route::get('/projects', [UserController::class, 'projects']);
+  Route::get('/projects/{project}/tasks', [UserController::class, 'tasks']);
 
-  //ADMIN
-  // Route::post('/user/register/{client}', [ClientController::class, 'register']);
-  // Route::post('/user/register', [UserController::class, 'register']);
-  // Route::post('/user/login', [UserController::class, 'login']);
-  //
-  // Route::post('/project/{client}/{project}', [ProjectController::class, 'store']);
+  Route::get('/task/{id}', [UserController::class, 'task']);
+  Route::get('/task/{id}/messages', [UserController::class, 'messages']);
+  Route::post('/task/{id}/{status}', [UserController::class, 'updateTaskStatus']);
 
+  Route::post('/login', [UserController::class, 'login']);
+  Route::post('/logout', [UserController::class, 'logout']);
 
 });

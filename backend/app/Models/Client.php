@@ -34,15 +34,16 @@ class Client extends Model
      *
      * @var array
      */
-    // protected $hidden = [
-    //     'id',
-    //     'secret',
-    //     'created_at',
-    //     'updated_at',
-    //     'updated_at',
-    //     'email',
-    //     'remember_token',
-    // ];
+    protected $hidden = [
+        'id',
+        'secret',
+        'created_at',
+        'updated_at',
+        'password',
+        'updated_at',
+        'email',
+        'remember_token',
+    ];
 
 
     public function projects()
@@ -50,9 +51,9 @@ class Client extends Model
         return $this->hasMany(Project::class)->with('tasks');
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Task::class)->where('is_review', 1)->with('project')->with('file');
-    }
+    // public function reviews()
+    // {
+    //     return $this->hasMany(Task::class)->where('is_review', 1)->with('project')->with('file');
+    // }
 
 }

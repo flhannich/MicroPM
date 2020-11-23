@@ -1,46 +1,39 @@
 
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, FlatList, Button, Text, View, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native';
 
 import { Colors, Typography, Spacing, Forms, Cards, Buttons, Files } from './../styles'
 
 import { AuthContext } from '../context/AuthContext.js'
-import { DataContext } from '../context/DataContext.js'
 
 import { CardProject } from '../components'
 
 export default function Home({ navigation }) {
 
-  const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
+  const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
 // php artisan serve --host=192.168.178.35 --port=8000
 // php artisan serve --host=192.168.178.83 --port=8000
 
-  useFocusEffect(
-    useCallback(() => {
-      _getData(token);
+//   useFocusEffect(
+//     useCallback(() => {
+//       _getData(token);
+//
+//       return () => {
+//         // Do something when the screen is unfocused
+//         // Useful for cleanup functions
+//       };
+//     }, [])
+// )
 
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [])
-)
 
   useEffect(() => {
-
-    _getData(token);
-
-  }, [token]);
-
-
-  const _getData = (token) => {
+    console.log(token);
     if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/client/projects`, {
+    fetch(`http://192.168.178.35:8000/api/projects`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -49,12 +42,10 @@ export default function Home({ navigation }) {
       }
     })
     .then((response) => response.json())
-    .then((json) => {
-      setData(json)
-      setLoading(false);
-    })
+    .then((json) => setData(json))
     .catch((error) => console.error(error))
-  }
+    .finally(() => setLoading(false))
+  }, [token]);
 
 
   return (
@@ -64,10 +55,12 @@ export default function Home({ navigation }) {
       <View style={{paddingBottom: Spacing.p6}}>
 
         {isLoading
-          ? <ActivityIndicator/>
+          ? <ActivityIndicator style={styles.activityIndicator}/>
           : (
             <>
+
             <Text style={styles.mainTitle}>Your Projects</Text>
+
             {data.projects.length > 0 &&
               <>
 
@@ -93,6 +86,11 @@ export default function Home({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+ },
   container: {
     ...Spacing.container,
     flex: 1,

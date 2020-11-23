@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Task;
-use App\Models\Client;
+use App\Models\User;
 use App\Models\File;
 
 class Project extends Model
@@ -33,8 +33,8 @@ class Project extends Model
         return $this->hasMany(File::class);
     }
 
-    public function client()
+    public function user()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class);
     }
 }

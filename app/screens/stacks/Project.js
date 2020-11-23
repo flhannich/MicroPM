@@ -1,58 +1,46 @@
 
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, TouchableHighlight, FlatList, Button, Text, View, StyleSheet, ScrollView } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native';
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons, Nav } from './../../styles'
 
 import { CardTask, Badge } from './../../components'
 
-import { DataContext } from './../../context/DataContext'
+import { AuthContext } from '../../context/AuthContext.js'
 
-  export default function Project( probs ) {
+export default function Project( probs ) {
 
-  const { data, setData } = useContext(DataContext);
+  const project = probs.route.params.item;
 
-  const [ project, setProject ] = useState(0);
-  const [ taskNotStarted, setTaskNotStarted ] = useState([]);
-  const [ tasksInProgress, setTasksInProgress ] = useState([]);
-  const [ tasksCompleted, setTasksCompleted ] = useState([]);
+  const { token } = useContext(AuthContext);
 
-  const nameCompleted = 'completed';
-  const nameInProgress = 'in_progress';
-  const nameNotStarted = 'not_started';
-
-  const _getProject = (json) => {
-    json.projects.forEach((item, i) => {
-      if(item.id === probs.route.params.item.id) {
-        setProject(item);
-        setTasksCompleted(item.tasks.filter(task => task.status == nameCompleted))
-        setTasksInProgress(item.tasks.filter(task => task.status == nameInProgress))
-        setTaskNotStarted(item.tasks.filter(task => task.status == nameNotStarted))
-      }
-    })
-  }
+  const [tasks, setTasks] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    if(!token) return;
+    fetch(`http://192.168.178.35:8000/api/projects/${project.id}/tasks`, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => setTasks(json))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false));
   }, [])
 
 
-  useFocusEffect(
-    useCallback(() => {
-      _getProject(data)
-      console.log(data);
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [])
-)
-
   return (
 
-    <>
+  <>
 
-    {project !== undefined &&
+  {isLoading
+    ? <ActivityIndicator style={styles.activityIndicator}/>
+    : (
 
     <ScrollView style={ styles.container }>
 
@@ -60,66 +48,57 @@ import { DataContext } from './../../context/DataContext'
 
         <Text style={styles.mainTitle}>{project.name}</Text>
 
-        { tasksInProgress.length > 0 &&
-          <>
-            <View style={ styles.titleWrapper }>
-              <Badge status={nameInProgress} count={tasksInProgress.length}/>
-            </View>
+          <View style={ styles.titleWrapper }>
+            <Badge status={'in_progress'} />
+          </View>
 
-            { tasksInProgress.map((item, index) =>
-              <CardTask
-                key={ index }
-                item={ item }
-                navigation= { probs.navigation }
-              />
-            )}
-          </>
-        }
+          { tasks.map((item, index) => (item.status == 'in_progress') &&
+            <CardTask
+              key={ index }
+              item={ item }
+              navigation= { probs.navigation }
+            />
+          )}
 
-        { tasksCompleted.length > 0 &&
-          <>
-            <View style={ styles.titleWrapper }>
-              <Badge status={nameCompleted} count={tasksCompleted.length}/><Text>👍</Text>
-            </View>
+          <View style={ styles.titleWrapper }>
+            <Badge status={'completed'}/><Text> 👍</Text>
+          </View>
 
-            { tasksCompleted.map((item, index) =>
-              <CardTask
-                key={ index }
-                item={ item }
-                navigation={ probs.navigation }
-              />
-            )}
-          </>
-        }
+          { tasks.map((item, index) => (item.status == 'completed') &&
+            <CardTask
+              key={ index }
+              item={ item }
+              navigation= { probs.navigation }
+            />
+          )}
 
-        { taskNotStarted.length > 0 &&
-          <>
-            <View style={ styles.titleWrapper }>
-              <Badge status={nameNotStarted} count={taskNotStarted.length}/>
-            </View>
+          <View style={ styles.titleWrapper }>
+            <Badge status={'not_started'}/>
+          </View>
 
-            { taskNotStarted.map((item, index) =>
-              <CardTask
-                key={ index }
-                item={ item }
-                navigation={ probs.navigation }
-              />
-            )}
-          </>
-        }
+          { tasks.map((item, index) => (item.status == 'not_started') &&
+            <CardTask
+              key={ index }
+              item={ item }
+              navigation= { probs.navigation }
+            />
+          )}
 
       </View>
 
     </ScrollView>
 
- }
+ )}
     </>
-  )
-
-}
+)}
 
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+ },
   container: {
     ...Spacing.container,
     flex: 1,

@@ -2,26 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\File;
+
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
     protected $fillable = [
         'name',
         'email',
-        'role',
-        'password'
+        'secret',
     ];
 
     /**
@@ -30,16 +35,25 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'id',
+        'secret',
+        'created_at',
+        'updated_at',
         'password',
+        'updated_at',
+        'email',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class)->with('tasks');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class)->orderBy('type', 'DESC');;
+    }
+
 }

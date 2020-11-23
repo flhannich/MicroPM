@@ -42,27 +42,27 @@ class ClientController extends Controller
 
     $client = Client::where('name', $request->username)->first();
 
-      if ($client) {
-        if (Hash::check($request->password, $client->password)) {
+    if ($client) {
+      if (Hash::check($request->password, $client->password)) {
 
-          $token = $client->createToken('authToken')->accessToken;
+        $token = $client->createToken('authToken')->accessToken;
 
-          $client->remember_token = $token;
-          $client->save();
+        $client->remember_token = $token;
+        $client->save();
 
-          $response = ['remember_token' => $token];
+        $response = ['remember_token' => $token];
 
-          return response($client, 200);
-        }
-        else {
-          return response(["message" => "Password mismatch"], 422);
-        }
+        return response($response, 200);
       }
       else {
-        return response(["message" =>'User does not exist'], 422);
+        return response(["message" => "Password mismatch"], 422);
       }
+    }
+    else {
+      return response(["message" =>'User does not exist'], 422);
+    }
 
-      return response([$request], 200);
+    return response([$request], 200);
 
   }
 
@@ -95,11 +95,73 @@ class ClientController extends Controller
 
       $client = Client::where('remember_token', $token)
       ->with('projects')
-      ->with('reviews')
       ->first();
 
       return response()->json($client, 201);
   }
+
+  // public function projects(Request $request)
+  // {
+  //     $token = $request->header('authorization');
+  //
+  //     $client = Client::where('remember_token', $token)->first();
+  //
+  //     if($client) {
+  //
+  //       $projects = Project::where('client_id', $client->id)->get();
+  //
+  //       return response()->json($projects, 201);
+  //
+  //     } else {
+  //
+  //       return response(['message' => 'Somethings wrong'], 200);
+  //
+  //     }
+  //
+  // }
+
+    public function tasks(Request $request, $project)
+    {
+      $token = $request->header('authorization');
+
+      $client = Client::where('remember_token', $token);
+
+      if($client) {
+
+        $tasks = Task::where('project_id', $project)->with('file')->get();
+
+        return response()->json($tasks, 201);
+
+      } else {
+
+        return response(['message' => 'Somethings wrong'], 200);
+
+      }
+    }
+
+
+
+
+    public function task(Request $request, $id )
+    {
+        $token = $request->header('authorization');
+
+        $client = Client::where('remember_token', $token);
+
+        if($client) {
+
+          $task = Task::where('id', $id)->with('file')->first();
+
+          return response()->json($task, 201);
+
+        } else {
+
+          return response(['message' => 'Somethings wrong'], 200);
+
+        }
+    }
+
+
 
   // public function reviews(Request $request)
   // {
@@ -116,7 +178,7 @@ class ClientController extends Controller
   // }
 
 
-  public function task(Request $request, $id, $status)
+  public function updateTaskStatus(Request $request, $id, $status)
   {
       $token = $request->header('authorization');
 

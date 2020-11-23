@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import { Text, ScrollView, View, StyleSheet, Dimensions, TouchableHighlight, Linking } from 'react-native'
+import { ActivityIndicator, TextInput, Text, ScrollView, View, StyleSheet } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
 import { FileImage, FileLink, FilePDF, ButtonPrimary, ButtonSecondary, Badge } from './../../components'
 
 import { AuthContext } from './../../context/AuthContext'
-import { DataContext } from './../../context/DataContext'
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -14,57 +13,27 @@ import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
-export default function Review( probs ) {
+export default function Task( probs ) {
 
-
-  const taskId = probs.route.params.item.id
-
-  const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
-  const [isLoading, setLoading] = useState(false);
-  const [item, setItem] = useState();
+  const [isLoading, setLoading] = useState(true);
+  const [task, setTask] = useState({});
+  const [message, setMessage] = useState({});
 
   const _elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
   }
 
   useEffect(() => {
-    _getTask(data);
+    _getTask();
   }, [])
 
-  const _getTask = (json) => {
-    json.projects.forEach((project, i) => {
-        project.tasks.forEach((task, i) => {
-          if(task.id === taskId) {
-            setItem(task);
-          }
-        })
-    })
-  }
 
-  const _updateTaskStatus = (id, status) => {
-    setLoading(true);
-    fetch(`http://192.168.178.35:8000/api/client/task/${id}/${status}`, {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'authorization': token,
-        },
-      })
-      .then((response) => response.json())
-      .then((json) => {
-        _getData(token)
-        setLoading(false)
-      })
-      .catch((error) => console.error(error))
-  }
-
-  const _getData = (token) => {
+  const _getTask = () => {
     if(!token) return;
     setLoading(true);
-    fetch(`http://192.168.178.35:8000/api/client/projects`, {
+    fetch(`http://192.168.178.35:8000/api/task/${probs.route.params.item.id}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -73,113 +42,173 @@ export default function Review( probs ) {
       }
     })
     .then((response) => response.json())
-    .then((json) => {
-      setData(json)
-      _getTask(json)
-      setLoading(false)
-    })
+    .then((json) => setTask(json))
     .catch((error) => console.error(error))
+    .finally(() => setLoading(false));
+  }
+
+
+  const _updateTaskStatus = (status) => {
+    if(!token) return;
+    setLoading(true);
+    fetch(`http://192.168.178.35:8000/api/task/${probs.route.params.item.id}/${status}`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'authorization': token,
+        },
+      })
+      .then((response) => response.json())
+      .then((json) => _getTask())
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }
+
+  const _storeTaskMessage = (status) => {
+    if(!token) return;
+    setLoading(true);
+    fetch(`http://192.168.178.35:8000/api/task/${probs.route.params.item.id}/message`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'authorization': token
+        },
+        body: {
+          body: JSON.stringify({message: message})
+        }
+      })
+      .then((response) => response.json())
+      .then((json) => _getTask())
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }
 
 
         return (
 
             <>
-            {item !== undefined &&
+
+            {isLoading
+              ? <ActivityIndicator style={styles.activityIndicator}/>
+              : (
+
               <>
-            <ScrollView
-              style={styles.container}
-            >
 
-            <View style={{paddingBottom: Spacing.p6}}>
+              <ScrollView
+                style={styles.container}
+              >
 
-              <Text style={styles.mainTitle}>
-                {item.name}
-              </Text>
+              <View style={{paddingBottom: Spacing.p6}}>
 
-              <View style={styles.meta}>
+                <Text style={styles.mainTitle}>
+                  {task.name}
+                </Text>
 
-                <Badge status={item.status}/>
+                <View style={styles.meta}>
 
-                {(item.is_accepted === '0' && item.is_review === '1') &&
-                  <View style={{ marginLeft: Spacing.p1 }} >
-                    <Badge status='review'/>
-                  </View>
-                }
+                  <Badge status={task.status}/>
 
-                {(item.is_accepted === '1') &&
-                 <Ionicons
-                    style={{ marginLeft: Spacing.p1 }}
-                    name="ios-checkmark-circle"
-                    color='#007AFF'
-                    size={24}
-                  />
-                }
+                  {(task.is_accepted === '0' && task.is_review === '1') &&
+                    <View style={{ marginLeft: Spacing.p1 }} >
+                      <Badge status='review'/>
+                    </View>
+                  }
 
-                <Text style={styles.date}>{_elapsedTime(item.updated_at)}</Text>
-
-              </View>
-
-
-              <View style={{marginBottom: Spacing.p3}}>
-
-                { item.file.map((item, index) => {
-
-                  return (
-
-                  <View key={index}>
-
-                    {item.type === 'link' &&
-                      <FileLink item={item} />
-                    }
-
-                    {item.type === 'document' &&
-                      <FilePDF item={item} />
-                    }
-
-                    {item.type === 'image' &&
-                      <FileImage item={item} />
-                    }
-
-                  </View>
-
-                )})}
-
-              </View>
-
-              <Text style={styles.description}>{item.description}</Text>
-
-              </View>
-
-            </ScrollView>
-
-            {item.is_review === '1' &&
-
-              <View style={styles.footer}>
-
-                  {(item.is_accepted === '1')
-                  ?
-                    <ButtonSecondary
-                      target={() => {_updateTaskStatus(item.id, 0)}}
-                      text='Revoke'
-                    />
-                  : <ButtonPrimary
-                      target={() => {_updateTaskStatus(item.id, 1)}}
-                      text='Accept'
+                  {(task.is_accepted === '1') &&
+                   <Ionicons
+                      style={{ marginLeft: Spacing.p1 }}
+                      name="ios-checkmark-circle"
+                      color='#007AFF'
+                      size={24}
                     />
                   }
+
+                  <Text style={styles.date}>{_elapsedTime(task.updated_at)}</Text>
+
                 </View>
 
-              }
+
+                <View style={{marginBottom: Spacing.p3}}>
+
+                  { task.file.map((item, index) =>
+
+                    <View key={index}>
+
+                      {item.type === 'link' &&
+                        <FileLink item={item} />
+                      }
+
+                      {item.type === 'document' &&
+                        <FilePDF item={item} />
+                      }
+
+                      {item.type === 'image' &&
+                        <FileImage item={item} />
+                      }
+
+                    </View>
+
+                  )}
+
+                </View>
+
+                <Text style={styles.description}>{task.description}</Text>
+
+                </View>
+
+              </ScrollView>
+
+              {task.is_review === '1' &&
+
+                <View style={styles.footer}>
+
+                    <View>
+                      <TextInput
+                        style={styles.input}
+                        onChangeText={text => setMessage(text)}
+                      />
+                      <ButtonPrimary
+                        target={() => {_storeTaskMessage()}}
+                        text='Send'
+                      />
+                    </View>
+
+                    {(task.is_accepted === '1')
+                    ?
+                      <ButtonSecondary
+                        target={() => {_updateTaskStatus(0)}}
+                        text='Revoke'
+                      />
+                    : <ButtonPrimary
+                        target={() => {_updateTaskStatus(1)}}
+                        text='Accept'
+                      />
+                    }
+                  </View>
+
+                }
+
 
               </>
-}
+
+)}
             </>
 
 )}
 
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+ },
+ input: {
+   ...Forms.input,
+   ...Typography.input,
+ },
   container: {
     ...Spacing.container,
     flex: 1,
@@ -198,6 +227,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#fff',
   },
   counter: {
