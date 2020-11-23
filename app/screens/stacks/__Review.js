@@ -15,54 +15,19 @@ import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
 export default function Review( probs ) {
-  // const item = probs.route.params;
 
+  const item = probs.route.params.item
 
   const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
-  const [reviews, setReviews] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const [activeItem, setActiveItem] = useState(0);
-  const [width, setWidth] = useState(0);
-
   const scrollRef = useRef(0);
-
-  const _setActivePagination = (event) => {
-    let offset = event.nativeEvent.contentOffset.x;
-    setActiveItem(offset / width);
-  }
-
-  const _goToSlide = (index) => {
-    scrollRef.current.scrollTo({x: width * index, y: 0, animated: true})
-  }
 
   const _elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
   }
-
-  const filterTasksForReviews = (json) => {
-    let arr = [];
-    json.projects.forEach((item, i) => {
-      item.tasks.forEach((item, i) => {
-        if(item.is_review === '1') {
-          arr.push(item);
-        }
-      })
-    })
-    setReviews(arr)
-  }
-
-  useEffect(() => {
-    (probs.route.params !== undefined)
-    ? setReviews([probs.route.params.item])
-    : filterTasksForReviews(data);
-  }, [])
-
-  useEffect(() => {
-    setWidth(Dimensions.get('window').width)
-  }, [])
 
 
   const _updateTaskStatus = (id, status) => {
@@ -97,39 +62,18 @@ export default function Review( probs ) {
     .then((response) => response.json())
     .then((json) => {
       setData(json)
-      filterTasksForReviews(json)
       setLoading(false)
     })
     .catch((error) => console.error(error))
   }
 
 
-  return (
+        return (
 
-<>
-    <ScrollView
-      ref={scrollRef}
-      horizontal={true}
-      nestedScrollEnabled={true}
-      showsHorizontalScrollIndicator={false}
-      scrollEventThrottle={200}
-      decelerationRate="fast"
-      pagingEnabled
-      onScroll={_setActivePagination}
-    >
-
-        { reviews.map((item, index) => {
-
-            return (
-
-            <View
-              key={index}
-              style={{flex: '1', width: width}}
-            >
+            <>
 
             <ScrollView
               style={styles.container}
-              nestedScrollEnabled={true}
             >
 
             <View style={{paddingBottom: Spacing.p6}}>
@@ -161,6 +105,8 @@ export default function Review( probs ) {
 
               </View>
 
+              <Text style={styles.description}>{item.description}</Text>
+
               <View style={{marginBottom: Spacing.p3}}>
 
                 { item.file.map((item, index) => {
@@ -187,60 +133,36 @@ export default function Review( probs ) {
 
               </View>
 
-              <Text style={styles.description}>{item.description}</Text>
 
               </View>
 
             </ScrollView>
 
+            {item.is_review === '1' &&
 
-            <View style={styles.footer}>
+              <View style={styles.footer}>
 
-              <ButtonSecondary
-                target={() => {Linking.openURL(`tel:0152072593`)}}
-                text='Make a Call'
-                />
-
-                {(item.is_accepted === '1')
-                ?
-                  <ButtonSecondary
-                    target={() => {_updateTaskStatus(item.id, 0)}}
-                    text='Revoke'
+                <ButtonSecondary
+                  target={() => {Linking.openURL(`tel:0152072593`)}}
+                  text='Make a Call'
                   />
-                : <ButtonSecondary
-                    target={() => {_updateTaskStatus(item.id, 1)}}
-                    text='Accept'
-                  />
-                }
-              </View>
 
-            </View>
+                  {(item.is_accepted === '1')
+                  ?
+                    <ButtonSecondary
+                      target={() => {_updateTaskStatus(item.id, 0)}}
+                      text='Revoke'
+                    />
+                  : <ButtonSecondary
+                      target={() => {_updateTaskStatus(item.id, 1)}}
+                      text='Accept'
+                    />
+                  }
+                </View>
 
-          )})}
+              }
 
-
-    </ScrollView>
-
-
-
-    <View style={styles.sliderFooter}>
-
-      { reviews.length > 1 && reviews.map((item, index) => {
-        return (
-          <TouchableHighlight
-            style={styles.bulletWrapper}
-            onPress={() => {_goToSlide(index)}}
-            key={index}
-            underlayColor="white"
-          >
-            <View style={[styles.bullet, {opacity: activeItem === index ? 1 : 0.5 }]}></View>
-          </TouchableHighlight>
-        )
-      })}
-
-    </View>
-
-</>
+            </>
 
 )}
 
@@ -306,6 +228,7 @@ const styles = StyleSheet.create({
   },
   description: {
     ...Typography.description,
+    marginBottom: Spacing.p5,
   },
   status: {
     ...Forms.label,

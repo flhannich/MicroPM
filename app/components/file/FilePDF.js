@@ -15,7 +15,7 @@ const FilePDF = ({item}) => {
               style={styles.cardIcon}
               name="ios-document"
               size={24}
-              color='#007AFF'
+              color='#000'
             />
           <Text style={styles.cardName}>{item.name}</Text>
          </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   cardName: {
     ...Typography.fileTitle,
-    ...Colors.textBrand,
+    ...Colors.textDark,
   },
   cardFile: {
     ...Cards.cardFile,

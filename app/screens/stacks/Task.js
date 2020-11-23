@@ -1,10 +1,12 @@
-
-import React, { useState, useEffect, useContext } from 'react'
-import { TextInput, Text, ScrollView, View, StyleSheet } from 'react-native'
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { Text, ScrollView, View, StyleSheet, Dimensions, TouchableHighlight, Linking } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
-import { FileImage, FileLink, FilePDF, ButtonSecondary, Badge } from './../../components'
+import { FileImage, FileLink, FilePDF, ButtonPrimary, ButtonSecondary, Badge } from './../../components'
+
+import { AuthContext } from './../../context/AuthContext'
+import { DataContext } from './../../context/DataContext'
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -12,97 +14,152 @@ import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
-export default function Task( item ) {
+export default function Review( probs ) {
 
-  const data = item.route.params.item;
-  const navigation = item.navigation;
+  const item = probs.route.params.item
 
-  const elapsedTime = (time) => {
-    return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
+  const { data, setData } = useContext(DataContext);
+  const { token } = useContext(AuthContext);
+
+  const [isLoading, setLoading] = useState(false);
+
+  const scrollRef = useRef(0);
+
+  const _elapsedTime = (time) => {
+    return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
   }
 
-  const pdf = data.file.filter(item => item.type === 'pdf');
-  const images = data.file.filter(item => item.type === 'jpg');
-  const link = data.file.filter(item => item.type === 'link');
 
-  let projectName;
+  const _updateTaskStatus = (id, status) => {
+    setLoading(true);
+    fetch(`http://192.168.178.35:8000/api/client/task/${id}/${status}`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'authorization': token,
+        },
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        _getData(token)
+        setLoading(false)
+      })
+      .catch((error) => console.error(error))
+  }
 
-  (data.project !== undefined)
-  ? projectName = data.project.name
-  : projectName = false;
+  const _getData = (token) => {
+    if(!token) return;
+    setLoading(true);
+    fetch(`http://192.168.178.35:8000/api/client/projects`, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setData(json)
+      setLoading(false)
+    })
+    .catch((error) => console.error(error))
+  }
 
-  return (
 
-    <>
+        return (
 
-    <ScrollView style={styles.container}>
+            <>
 
-      <View style={{paddingBottom: Spacing.p6}}>
+            <ScrollView
+              style={styles.container}
+            >
 
-        <Text style={styles.mainTitle}>{data.name}</Text>
+            <View style={{paddingBottom: Spacing.p6}}>
 
-        <View style={styles.meta}>
+              <Text style={styles.mainTitle}>
+                {item.name}
+              </Text>
 
-           <Badge status={data.status}/>
+              <View style={styles.meta}>
 
-           {data.is_review === '1' &&
-             <View style={{ marginLeft: Spacing.p1 }} >
-               <Badge status='review'/>
-             </View>
-           }
+                <Badge status={item.status}/>
 
-          <Text style={styles.date}>{elapsedTime(data.updated_at)}</Text>
-        </View>
+                {(item.is_accepted === '0' && item.is_review === '1') &&
+                  <View style={{ marginLeft: Spacing.p1 }} >
+                    <Badge status='review'/>
+                  </View>
+                }
 
-        <View style={{marginBottom: Spacing.p3}}>
+                {(item.is_accepted === '1') &&
+                 <Ionicons
+                    style={{ marginLeft: Spacing.p1 }}
+                    name="ios-checkmark-circle"
+                    color='#007AFF'
+                    size={24}
+                  />
+                }
 
-          { data.file.map((item, index) => {
+                <Text style={styles.date}>{_elapsedTime(item.updated_at)}</Text>
 
-            return (
+              </View>
 
-            <View key={index}>
 
-            {item.type === 'link' &&
-              <FileLink item={item} />
-            }
+              <View style={{marginBottom: Spacing.p3}}>
 
-            {item.type === 'document' &&
-              <FilePDF item={item} />
-            }
+                { item.file.map((item, index) => {
 
-            {item.type === 'image' &&
-              <FileImage item={item} />
-            }
+                  return (
 
-            </View>
+                  <View key={index}>
 
-          )})}
+                    {item.type === 'link' &&
+                      <FileLink item={item} />
+                    }
 
-        </View>
+                    {item.type === 'document' &&
+                      <FilePDF item={item} />
+                    }
 
-        <Text style={styles.description}>{data.description}</Text>
+                    {item.type === 'image' &&
+                      <FileImage item={item} />
+                    }
 
-      </View>
+                  </View>
 
-    </ScrollView>
+                )})}
 
-    {data.is_review === '1' &&
-      <View style={styles.footer}>
-        <ButtonSecondary
-          target={() => navigation.goBack() }
-          text='Make a Call'
-        />
-        <ButtonSecondary
-          target={() => navigation.goBack() }
-          text='Accept'
-        />
-      </View>
-    }
+              </View>
 
-    </>
-  )
+              <Text style={styles.description}>{item.description}</Text>
 
-}
+              </View>
+
+            </ScrollView>
+
+            {item.is_review === '1' &&
+
+              <View style={styles.footer}>
+
+                  {(item.is_accepted === '1')
+                  ?
+                    <ButtonSecondary
+                      target={() => {_updateTaskStatus(item.id, 0)}}
+                      text='Revoke'
+                    />
+                  : <ButtonPrimary
+                      target={() => {_updateTaskStatus(item.id, 1)}}
+                      text='Accept'
+                    />
+                  }
+                </View>
+
+              }
+
+            </>
+
+)}
 
 
 const styles = StyleSheet.create({
@@ -120,6 +177,17 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#eee',
   },
+  sliderFooter: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  counter: {
+    ...Typography.info,
+    ...Colors.textLightest,
+    marginLeft: Spacing.p1,
+  },
   mainTitle: {
     ...Typography.mainTitle,
     marginBottom: Spacing.p4,
@@ -128,11 +196,9 @@ const styles = StyleSheet.create({
     ...Typography.title,
     marginBottom: Spacing.p2,
   },
-  description: {
-    ...Typography.description,
-  },
   meta: {
     display: 'flex',
+    flexWrap: 'wrap',
     flexDirection:"row",
     alignItems: 'center',
     marginBottom: Spacing.p4,
@@ -140,15 +206,48 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },
+
+  titleAttachment: {
+    display: 'flex',
+    flexDirection:"row",
+    alignItems: 'center',
+    marginBottom: Spacing.p4,
+  },
+  iconAttachment: {
+    marginRight: Spacing.p2,
+  },
+  badgeReview: {
+    ...Typography.badge,
+    ...Colors.textWhiteFull,
+    ...Buttons.badgeReview,
+  },
+  description: {
+    ...Typography.description,
+    marginBottom: Spacing.p5,
+  },
   status: {
     ...Forms.label,
     ...Typography.status,
     ...Colors.textLightest,
   },
+  bulletWrapper: {
+    paddingHorizontal: Spacing.p3,
+    paddingVertical: Spacing.p2,
+    marginBottom: Spacing.p3,
+    marginTop: Spacing.p2,
+  },
+  bullet: {
+    width: 8,
+    height: 8,
+    backgroundColor: Colors.text,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
   date: {
     ...Typography.date,
     ...Colors.textLight,
     marginLeft: Spacing.p2,
+    lineHeight: 24,
   },
   input: {
     ...Forms.input,

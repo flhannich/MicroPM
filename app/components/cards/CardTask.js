@@ -24,11 +24,7 @@ const CardTask = ({item, navigation}) => {
 
         {item.status == 'in_progress' &&
           <TouchableHighlight
-            onPress={() => {
-              (item.is_review === '1')
-              ? navigation.navigate('Review', { item: item })
-              : navigation.navigate('Task', { item: item })
-            }}
+            onPress={() => { navigation.navigate('Task', { item: item })}}
             underlayColor="transparent"
           >
             <View style={styles.cardTask}>
@@ -82,10 +78,6 @@ const CardTask = ({item, navigation}) => {
         }
 
         {item.status == 'not_started' &&
-          <TouchableHighlight
-            onPress={() => navigation.navigate('Task', { item: item }) }
-            underlayColor="white"
-          >
             <View style={styles.cardNotStarted}>
               <View style={styles.cardTitle}>
                 <Text style={styles.title}>{item.name}</Text>
@@ -99,7 +91,6 @@ const CardTask = ({item, navigation}) => {
                 ))}
               </View>
             </View>
-          </TouchableHighlight>
         }
 
       </>

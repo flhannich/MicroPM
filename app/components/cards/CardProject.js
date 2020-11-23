@@ -58,7 +58,7 @@ const hasReviews = item.tasks.filter(item => item.is_review === '1' && item.is_a
             <Text style={styles.title}>{item.name}</Text>
             <View style={styles.countWrapper}>
               {hasReviews.length > 0 &&
-                <Counter status={'review'} count={hasReviews.length} />
+                <Badge status='review' />
               }
               {item.status !== 'completed' && item.tasks.length > 0 &&
                 <Counter status={'task'} count={item.tasks.length} />

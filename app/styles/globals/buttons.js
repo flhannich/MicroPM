@@ -72,7 +72,7 @@ export const primary = {
   backgroundColor: '#007AFF',
   borderRadius: 4,
   paddingHorizontal: 24,
-  paddingVertical: 12,
+  paddingVertical: 8,
   overflow: 'hidden',
   textAlign: 'center',
   alignSelf: 'center',
@@ -82,7 +82,7 @@ export const primary = {
 export const secondary = {
   borderRadius: 4,
   paddingHorizontal: 24,
-  paddingVertical: 12,
+  paddingVertical: 8,
   overflow: 'hidden',
   // borderWidth: 1,
   // borderColor: '#007AFF',

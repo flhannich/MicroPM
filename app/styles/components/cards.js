@@ -45,7 +45,7 @@ export const cardFile = {
   display: 'flex',
   flexDirection:"row",
   alignItems: 'center',
-  backgroundColor: '#fff',
+  backgroundColor: '#f2f2f2',
   paddingHorizontal: 16,
   paddingVertical: 12,
   borderRadius: 5,
