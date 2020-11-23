@@ -14,12 +14,15 @@ import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
-export default function Review() {
+export default function Review( probs ) {
+  // const item = probs.route.params;
+
 
   const { data, setData } = useContext(DataContext);
   const { token } = useContext(AuthContext);
 
   const [reviews, setReviews] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const [activeItem, setActiveItem] = useState(0);
   const [width, setWidth] = useState(0);
@@ -32,30 +35,38 @@ export default function Review() {
   }
 
   const _goToSlide = (index) => {
-    scrollRef.current.scrollTo({x: width * index, y: 0, animated: true});
+    scrollRef.current.scrollTo({x: width * index, y: 0, animated: true})
   }
 
   const _elapsedTime = (time) => {
-    return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
+    return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
   }
 
-  const _getReviews = () => {
-    data.projects.forEach((item, i) => {
-        item.tasks.forEach((item, i) => {
-          if(item.is_review === '1') {
-          // if(item.is_review === '1' && item.is_accepted === '0') {
-            setReviews(reviews => [...reviews, item])
-          }
-        })
+  const filterTasksForReviews = (json) => {
+    let arr = [];
+    json.projects.forEach((item, i) => {
+      item.tasks.forEach((item, i) => {
+        if(item.is_review === '1') {
+          arr.push(item);
+        }
+      })
     })
+    setReviews(arr)
   }
 
-  const _updateReviewStatus = (id) => {
-    let index = reviews.findIndex((obj => obj.id == id))
-    reviews[index].is_accepted = status.toString();
-  }
+  useEffect(() => {
+    (probs.route.params !== undefined)
+    ? setReviews([probs.route.params.item])
+    : filterTasksForReviews(data);
+  }, [])
 
-  const _storeTaskStatus = (id, status) => {
+  useEffect(() => {
+    setWidth(Dimensions.get('window').width)
+  }, [])
+
+
+  const _updateTaskStatus = (id, status) => {
+    setLoading(true);
     fetch(`http://192.168.178.35:8000/api/client/task/${id}/${status}`, {
         method: "POST",
         headers: {
@@ -66,16 +77,31 @@ export default function Review() {
       })
       .then((response) => response.json())
       .then((json) => {
-        _updateReviewStatus(id)
-        setData(data);
+        _getData(token)
+        setLoading(false)
       })
       .catch((error) => console.error(error))
   }
 
-  useEffect(() => {
-    setWidth(Dimensions.get('window').width)
-    _getReviews()
-  }, [])
+  const _getData = (token) => {
+    if(!token) return;
+    setLoading(true);
+    fetch(`http://192.168.178.35:8000/api/client/projects`, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setData(json)
+      filterTasksForReviews(json)
+      setLoading(false)
+    })
+    .catch((error) => console.error(error))
+  }
 
 
   return (
@@ -178,11 +204,11 @@ export default function Review() {
                 {(item.is_accepted === '1')
                 ?
                   <ButtonSecondary
-                    target={() => {_storeTaskStatus(item.id, 0)}}
+                    target={() => {_updateTaskStatus(item.id, 0)}}
                     text='Revoke'
                   />
                 : <ButtonSecondary
-                    target={() => {_storeTaskStatus(item.id, 1)}}
+                    target={() => {_updateTaskStatus(item.id, 1)}}
                     text='Accept'
                   />
                 }
@@ -207,7 +233,7 @@ export default function Review() {
             key={index}
             underlayColor="white"
           >
-            <View style={styles.bullet, {opacity: activeItem === index ? 1 : 0.5 }}></View>
+            <View style={[styles.bullet, {opacity: activeItem === index ? 1 : 0.5 }]}></View>
           </TouchableHighlight>
         )
       })}
@@ -255,6 +281,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     display: 'flex',
+    flexWrap: 'wrap',
     flexDirection:"row",
     alignItems: 'center',
     marginBottom: Spacing.p4,
@@ -302,6 +329,7 @@ const styles = StyleSheet.create({
     ...Typography.date,
     ...Colors.textLight,
     marginLeft: Spacing.p2,
+    lineHeight: 24,
   },
   input: {
     ...Forms.input,

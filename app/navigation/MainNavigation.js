@@ -37,6 +37,7 @@ const stackOptions = ( { navigation, route } ) => {
     },
     headerBackTitle: ' ',
     mode: 'modal',
+    detachInactiveScreens: true,
     headerRight: () => (
 
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>

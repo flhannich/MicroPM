@@ -101,6 +101,20 @@ class ClientController extends Controller
       return response()->json($client, 201);
   }
 
+  // public function reviews(Request $request)
+  // {
+  //     $token = $request->header('authorization');
+  //
+  //     $client = Client::where('remember_token', $token)
+  //     if($client) {
+  //       $reviews = Task::where(
+  //         ['client_id', $client->id]
+  //         ['is_review', '1']
+  //       )->get();
+  //
+  //     return response()->json($reviews, 201);
+  // }
+
 
   public function task(Request $request, $id, $status)
   {

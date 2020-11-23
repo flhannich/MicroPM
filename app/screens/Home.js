@@ -15,30 +15,37 @@ export default function Home({ navigation }) {
   const { token } = useContext(AuthContext);
 
   const [isLoading, setLoading] = useState(true);
-  // const [data, setData] = useState([]);
 
 //192.168.178.83 mbpro
 //192.168.178.35 imac
 // php artisan serve --host=192.168.178.35 --port=8000
 // php artisan serve --host=192.168.178.83 --port=8000
 
-    useEffect(() => {
-      if(!token) return;
-      fetch(`http://192.168.178.35:8000/api/client/projects`, {
-          method: "GET",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'authorization': token,
-          }
-        })
-        .then((response) => response.json())
-        .then((json) => {
-          setData(json)
-          setLoading(false);
-        })
-        .catch((error) => console.error(error))
-    }, [token]);
+  useEffect(() => {
+
+    _getData(token);
+
+  }, [token]);
+
+
+  const _getData = (token) => {
+    if(!token) return;
+    fetch(`http://192.168.178.35:8000/api/client/projects`, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setData(json)
+      setLoading(false);
+    })
+    .catch((error) => console.error(error))
+  }
+
 
   return (
 

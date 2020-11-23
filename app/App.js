@@ -11,7 +11,6 @@ import { DataContext } from './context/DataContext.js'
 
 export default function App() {
 
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
@@ -42,7 +41,6 @@ export default function App() {
       })
       .catch((error) => console.error(error))
   }
-
 
   const _logout = () => {
     fetch(`http://192.168.178.35:8000/api/client/logout`, {
