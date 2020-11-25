@@ -12,13 +12,13 @@ const Badge = ( { status, count } ) => {
         <Text style={styles.badgeReview} numberOfLines={1}>Review</Text>
       }
       {status === "completed" &&
-        <Text style={styles.badgeCompleted} numberOfLines={1}>Completed</Text>
+        <Text style={styles.badgeCompleted} numberOfLines={1}>Fertig</Text>
       }
       {status === "not_started" &&
-        <Text style={styles.badgeInProgress} numberOfLines={1}>Not Started</Text>
+        <Text style={styles.badgeInProgress} numberOfLines={1}>Noch nicht angefangen</Text>
       }
       {status === "in_progress" &&
-        <Text style={styles.badgeInProgress} numberOfLines={1}>In Progress</Text>
+        <Text style={styles.badgeInProgress} numberOfLines={1}>In Arbeit</Text>
       }
     </>
   )

@@ -11,11 +11,9 @@ const elapsedTime = (time) => {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
+import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../styles'
 
-import { FilePreview } from './../'
-
-import { Badge } from './../../components'
+import { Badge, CardFilePreview } from './'
 
 const CardTask = ({item, navigation}) => {
 
@@ -31,13 +29,13 @@ const CardTask = ({item, navigation}) => {
               <View style={styles.cardTitle}>
                 <Text style={styles.title}>{item.name}</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'nowrap'}}>
-                  {(item.is_review === '1') &&
+                  {(item.is_review === '1' && item.is_accepted === '0') &&
                     <Badge status={'review'}/>
                   }
                   {item.is_accepted === '1'  &&
                     <Ionicons
                        style={{ marginLeft: Spacing.p1, lineHeight: 24}}
-                       name="ios-checkmark-circle"
+                       name="ios-checkmark-circle-outline"
                        color='#007AFF'
                        size={26}
                     />
@@ -46,8 +44,8 @@ const CardTask = ({item, navigation}) => {
               </View>
               <View style={styles.meta}>
                 {item.file.length > 0 &&
-                  <FilePreview
-                    item={item}
+                  <CardFilePreview
+                    count={item.file.length}
                   />
                 }
                 <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
@@ -67,8 +65,8 @@ const CardTask = ({item, navigation}) => {
               </View>
                 <View style={styles.meta}>
                   {item.file.length > 0 &&
-                    <FilePreview
-                      item={item}
+                    <CardFilePreview
+                      count={item.file.length}
                     />
                   }
                   <Text style={styles.info}>{format(new Date(Date.parse(item.updated_at)), 'd MMM yyyy', { locale: de })}</Text>
@@ -83,12 +81,11 @@ const CardTask = ({item, navigation}) => {
                 <Text style={styles.title}>{item.name}</Text>
               </View>
               <View style={styles.meta}>
-                {item.file.length > 0 && item.file.map((item, index) => (
-                  <FilePreview
-                    key={index}
-                    item={item}
+                {item.file.length > 0 &&
+                  <CardFilePreview
+                    count={item.file.length}
                   />
-                ))}
+                }
               </View>
             </View>
         }

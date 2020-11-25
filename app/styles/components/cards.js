@@ -41,16 +41,6 @@ export const cardNotStarted = {
   paddingHorizontal: 0,
 };
 
-export const cardFile = {
-  display: 'flex',
-  flexDirection:"row",
-  alignItems: 'center',
-  backgroundColor: '#f2f2f2',
-  paddingHorizontal: 16,
-  paddingVertical: 12,
-  borderRadius: 5,
-};
-
 export const cardStatus = {
   display: 'flex',
   flexDirection:"row",

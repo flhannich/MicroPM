@@ -3,7 +3,18 @@ import { ActivityIndicator, TextInput, Text, ScrollView, View, StyleSheet } from
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
 
-import { FileImage, FileLink, FilePDF, ButtonPrimary, ButtonSecondary, Badge } from './../../components'
+import {
+  FileImage,
+  FileLink,
+  FilePDF,
+  ButtonPrimary,
+  ButtonSecondary,
+  Badge,
+  TaskDescription,
+  TaskFiles,
+  TaskMessages,
+  TaskSendMessage,
+} from './../../components'
 
 import { AuthContext } from './../../context/AuthContext'
 
@@ -15,11 +26,13 @@ import formatDistance from 'date-fns/formatDistance'
 
 export default function Task( probs ) {
 
-  const { token } = useContext(AuthContext);
+  const { username, token } = useContext(AuthContext);
 
   const [isLoading, setLoading] = useState(true);
   const [task, setTask] = useState({});
   const [message, setMessage] = useState({});
+
+  console.log(message);
 
   const _elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
@@ -49,6 +62,7 @@ export default function Task( probs ) {
 
 
   const _updateTaskStatus = (status) => {
+    console.log(status);
     if(!token) return;
     setLoading(true);
     fetch(`http://192.168.178.35:8000/api/task/${probs.route.params.item.id}/${status}`, {
@@ -66,25 +80,28 @@ export default function Task( probs ) {
   }
 
   const _storeTaskMessage = (status) => {
-    if(!token) return;
+    if(!token || message === '') return;
     setLoading(true);
-    fetch(`http://192.168.178.35:8000/api/task/${probs.route.params.item.id}/message`, {
+    fetch(`http://192.168.178.35:8000/api/message/store`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'authorization': token
         },
-        body: {
-          body: JSON.stringify({message: message})
-        }
+        body: JSON.stringify({
+          message: message,
+          task: probs.route.params.item.id
+        })
       })
       .then((response) => response.json())
       .then((json) => _getTask())
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false),
+        setMessage('')
+      });
   }
-
 
         return (
 
@@ -100,101 +117,84 @@ export default function Task( probs ) {
                 style={styles.container}
               >
 
-              <View style={{paddingBottom: Spacing.p6}}>
+                <View style={{paddingBottom: Spacing.p6}}>
 
-                <Text style={styles.mainTitle}>
-                  {task.name}
-                </Text>
+                  <View>
 
-                <View style={styles.meta}>
+                    <Text style={styles.mainTitle}>
 
-                  <Badge status={task.status}/>
+                      {task.name}
 
-                  {(task.is_accepted === '0' && task.is_review === '1') &&
-                    <View style={{ marginLeft: Spacing.p1 }} >
-                      <Badge status='review'/>
-                    </View>
-                  }
+                      {(task.is_accepted === '1') &&
+                       <Ionicons
+                          style={{ marginLeft: Spacing.p1 }}
+                          name="ios-checkmark-circle-outline"
+                          color='#007AFF'
+                          size={24}
+                        />
+                      }
 
-                  {(task.is_accepted === '1') &&
-                   <Ionicons
-                      style={{ marginLeft: Spacing.p1 }}
-                      name="ios-checkmark-circle"
-                      color='#007AFF'
-                      size={24}
+                    </Text>
+
+                  </View>
+
+
+                  <View style={styles.meta}>
+
+                    <Badge status={task.status}/>
+
+                    {(task.is_accepted === '0' && task.is_review === '1') &&
+                      <View style={{ marginLeft: Spacing.p1 }} >
+                        <Badge status='review'/>
+                      </View>
+                    }
+
+                    <Text style={styles.date}>{_elapsedTime(task.updated_at)}</Text>
+
+                  </View>
+
+
+                  <View>
+
+                    {task.file.length > 0 &&
+                      <TaskFiles
+                        title={'Anhang'}
+                        files={task.file}
+                      />
+                    }
+
+                    <TaskDescription
+                      title={'Beschreibung'}
+                      body={task.description}
                     />
-                  }
 
-                  <Text style={styles.date}>{_elapsedTime(task.updated_at)}</Text>
+                    {task.message.length > 0 &&
+                      <TaskMessages
+                        title={'Kommentare'}
+                        messages={task.message}
+                      />
+                    }
 
-                </View>
-
-
-                <View style={{marginBottom: Spacing.p3}}>
-
-                  { task.file.map((item, index) =>
-
-                    <View key={index}>
-
-                      {item.type === 'link' &&
-                        <FileLink item={item} />
-                      }
-
-                      {item.type === 'document' &&
-                        <FilePDF item={item} />
-                      }
-
-                      {item.type === 'image' &&
-                        <FileImage item={item} />
-                      }
-
-                    </View>
-
-                  )}
+                  </View>
 
                 </View>
 
-                <Text style={styles.description}>{task.description}</Text>
-
-                </View>
 
               </ScrollView>
 
               {task.is_review === '1' &&
-
-                <View style={styles.footer}>
-
-                    <View>
-                      <TextInput
-                        style={styles.input}
-                        onChangeText={text => setMessage(text)}
-                      />
-                      <ButtonPrimary
-                        target={() => {_storeTaskMessage()}}
-                        text='Send'
-                      />
-                    </View>
-
-                    {(task.is_accepted === '1')
-                    ?
-                      <ButtonSecondary
-                        target={() => {_updateTaskStatus(0)}}
-                        text='Revoke'
-                      />
-                    : <ButtonPrimary
-                        target={() => {_updateTaskStatus(1)}}
-                        text='Accept'
-                      />
-                    }
-                  </View>
-
-                }
-
-
-              </>
-
-)}
+                <TaskSendMessage
+                  status={task.is_accepted}
+                  set={setMessage}
+                  update={_updateTaskStatus}
+                  store={_storeTaskMessage}
+                />
+              }
             </>
+
+          )}
+
+      </>
 
 )}
 
@@ -253,7 +253,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },
-
   titleAttachment: {
     display: 'flex',
     flexDirection:"row",
@@ -267,10 +266,6 @@ const styles = StyleSheet.create({
     ...Typography.badge,
     ...Colors.textWhiteFull,
     ...Buttons.badgeReview,
-  },
-  description: {
-    ...Typography.description,
-    marginBottom: Spacing.p5,
   },
   status: {
     ...Forms.label,

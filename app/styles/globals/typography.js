@@ -44,10 +44,21 @@ export const cardTitle = {
 }
 
 export const fileTitle = {
-  fontSize: 14,
-  fontWeight: '400',
+  fontSize: 13,
+  fontWeight: '600',
   lineHeight: 24,
   letterSpacing: -0.05
+}
+
+export const subTitle = {
+  fontSize: 13,
+  fontWeight: '500',
+  letterSpacing: -0.05
+}
+
+export const body = {
+  fontSize: 16,
+  lineHeight: 24,
 }
 
 export const description = {

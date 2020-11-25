@@ -9,8 +9,8 @@ const elapsedTime = (time) => {
   return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
 }
 
-import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../../styles'
-import { Counter, Badge } from './../../components'
+import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../styles'
+import { Counter, Badge } from './'
 
 const CardProject = ({item, navigation}) => {
 

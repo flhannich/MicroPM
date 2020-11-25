@@ -3,10 +3,9 @@ import { Text, View, StyleSheet } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { Icons, Files, Spacing } from './../../styles'
+import { Icons, Files, Spacing, Colors, Typography } from './../styles'
 
-const FilePreview = ({item}) => {
-
+const CardFilePreview = ({ count }) => {
   return (
 
         <View style={styles.icon} >
@@ -20,11 +19,19 @@ const FilePreview = ({item}) => {
   )
 }
 
-export default FilePreview
+export default CardFilePreview
 
 const styles = StyleSheet.create({
   icon: {
     ...Icons.file,
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginRight: Spacing.p2,
+  },
+  count: {
+    ...Typography.description,
+    marginLeft: Spacing.p1,
+    ...Colors.textLightest,
   }
 });

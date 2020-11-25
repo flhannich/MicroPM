@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Project;
 use App\Models\File;
 use App\Models\User;
+use App\Models\Message;
 
 class Task extends Model
 {
@@ -38,6 +39,11 @@ class Task extends Model
     public function file()
     {
         return $this->hasMany(File::class)->orderBy('type', 'DESC');
+    }
+
+    public function message()
+    {
+        return $this->hasMany(Message::class)->orderBy('updated_at', 'DESC')->with('user');
     }
 
 }

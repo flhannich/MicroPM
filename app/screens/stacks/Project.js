@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { ActivityIndicator, TouchableHighlight, FlatList, Button, Text, View, StyleSheet, ScrollView } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons, Nav } from './../../styles'
 
@@ -17,22 +18,29 @@ export default function Project( probs ) {
   const [tasks, setTasks] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/projects/${project.id}/tasks`, {
-      method: "GET",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'authorization': token,
-      }
-    })
-    .then((response) => response.json())
-    .then((json) => setTasks(json))
-    .catch((error) => console.error(error))
-    .finally(() => setLoading(false));
-  }, [])
 
+
+const _getTasks = () => {
+  if(!token) return;
+  fetch(`http://192.168.178.35:8000/api/projects/${project.id}/tasks`, {
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'authorization': token,
+    }
+  })
+  .then((response) => response.json())
+  .then((json) => setTasks(json))
+  .catch((error) => console.error(error))
+  .finally(() => setLoading(false));
+}
+
+  useFocusEffect(
+    useCallback(() => {
+      _getTasks();
+    }, [])
+  )
 
   return (
 

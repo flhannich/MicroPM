@@ -12,6 +12,7 @@ use Laravel\Passport\HasApiTokens;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\File;
+use App\Models\Message;
 
 class User extends Model
 {
@@ -37,7 +38,9 @@ class User extends Model
     protected $hidden = [
         'id',
         'secret',
+        'secret',
         'created_at',
+        'email_verified_at',
         'updated_at',
         'password',
         'updated_at',
@@ -53,7 +56,12 @@ class User extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class)->orderBy('type', 'DESC');;
+        return $this->hasMany(Task::class)->orderBy('type', 'DESC');
+    }
+
+    public function message()
+    {
+        return $this->hasMany(Task::class)->orderBy('type', 'DESC');
     }
 
 }

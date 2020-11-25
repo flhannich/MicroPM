@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Project;
-
+use App\Models\Message;
 
 
 class UserController extends Controller
@@ -89,16 +89,7 @@ class UserController extends Controller
   }
 
 
-  public function projects(Request $request)
-  {
-      $token = $request->header('authorization');
 
-      $user = User::where('remember_token', $token)
-      ->with('projects')
-      ->first();
-
-      return response()->json($user, 201);
-  }
 
   // public function projects(Request $request)
   // {
@@ -120,46 +111,7 @@ class UserController extends Controller
   //
   // }
 
-    public function tasks(Request $request, $project)
-    {
-      $token = $request->header('authorization');
 
-      $user = User::where('remember_token', $token);
-
-      if($user) {
-
-        $tasks = Task::where('project_id', $project)->with('file')->get();
-
-        return response()->json($tasks, 201);
-
-      } else {
-
-        return response(['message' => 'Somethings wrong'], 200);
-
-      }
-    }
-
-
-
-
-    public function task(Request $request, $id )
-    {
-        $token = $request->header('authorization');
-
-        $user = User::where('remember_token', $token);
-
-        if($user) {
-
-          $task = Task::where('id', $id)->with('file')->first();
-
-          return response()->json($task, 201);
-
-        } else {
-
-          return response(['message' => 'Somethings wrong'], 200);
-
-        }
-    }
 
 
 
@@ -178,41 +130,7 @@ class UserController extends Controller
   // }
 
 
-  public function updateTaskStatus(Request $request, $id, $status)
-  {
-      $token = $request->header('authorization');
 
-      $user = User::where('remember_token', $token);
-
-      if($user) {
-
-        $task = Task::where('id', $id)->first();
-
-        if($task) {
-
-          $task->is_accepted = $status;
-          $task->save();
-          // return response()->json([$task], 201);
-
-          if($status === '1') {
-            return response()->json(['message' => 'Accepted'], 201);
-          }
-
-          if($status === '0') {
-            return response()->json(['message' => 'Revoked'], 201);
-          }
-
-        } else
-        {
-          return false;
-        }
-
-      } else
-      {
-        return false;
-      }
-
-  }
 
 //   public function login(Request $request, $secret)
 //   {

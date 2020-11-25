@@ -1,5 +1,5 @@
 export const border = {
-  borderColor: '#d5d5d5',
+  borderColor: 'rgba(0, 0 ,0, .1)',
   borderWidth: 1,
   borderRadius: 5,
 };
@@ -21,6 +21,14 @@ export const input = {
   ...border,
   ...size,
   ...color,
+};
+
+export const inputDark = {
+  borderWidth: 1,
+  borderRadius: 5,
+  borderColor: 'transparent',
+  backgroundColor: 'rgba(255, 255, 255, .1)',
+  ...size,
 };
 
 //

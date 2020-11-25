@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +28,14 @@ use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
-  Route::get('/projects', [UserController::class, 'projects']);
-  Route::get('/projects/{project}/tasks', [UserController::class, 'tasks']);
+  Route::get('/projects', [ProjectController::class, 'index']);
 
-  Route::get('/task/{id}', [UserController::class, 'task']);
-  Route::get('/task/{id}/messages', [UserController::class, 'messages']);
-  Route::post('/task/{id}/{status}', [UserController::class, 'updateTaskStatus']);
+  Route::get('/projects/{project}/tasks', [TaskController::class, 'index']);
+  Route::get('/task/{id}', [TaskController::class, 'show']);
+  Route::post('/task/{id}/{status}', [TaskController::class, 'updateTaskStatus']);
+
+  Route::post('/message/store', [MessageController::class, 'store']);
+  // Route::get('/message/delete/{message}', [TaskController::class, 'delete']);
 
   Route::post('/login', [UserController::class, 'login']);
   Route::post('/logout', [UserController::class, 'logout']);

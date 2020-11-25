@@ -39,8 +39,11 @@ export const textBrand = {
 }
 
 
-export const borderLight = 'rgba(0, 0 ,0, .15)'
+export const borderLight = 'rgba(0, 0 ,0, .1)'
 
 export const brand = '#007AFF'
+export const brand100 = '#e7f2ff'
+
+export const warn = '#fc4949'
 
 export const text = 'rgba(0, 0 ,0, .85)'

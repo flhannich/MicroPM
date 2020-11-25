@@ -94,7 +94,7 @@ export default function App() {
 
   return(
 
-    <AuthContext.Provider value={{token, _logout}}>
+    <AuthContext.Provider value={{username, token, _logout}}>
 
       {isValidated
 
