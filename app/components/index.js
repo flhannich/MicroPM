@@ -14,3 +14,5 @@ export { default as TaskMessages } from './TaskMessages'
 export { default as CardTask } from './CardTask'
 export { default as CardProject } from './CardProject'
 export { default as CardFilePreview } from './CardFilePreview'
+
+export { default as ImageModal } from './modals/ImageModal'

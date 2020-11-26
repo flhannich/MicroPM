@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableHighlight, Text, View, StyleSheet } from 'react-native'
 
-import { format } from "date-fns";
-import { de } from 'date-fns/locale'
-import formatDistance from 'date-fns/formatDistance'
-
-const elapsedTime = (time) => {
-  return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de });
-}
-
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../styles'
 import { Counter, Badge } from './'
 
@@ -45,6 +37,9 @@ const hasReviews = item.tasks.filter(item => item.is_review === '1' && item.is_a
 //
 // }, [])
 
+// <View style={styles.descriptionWrapper}>
+//   <Text style={styles.description}>{item.description}</Text>
+// </View>
 
 // const progressWidth = { width: progress + '%' };
 
@@ -52,26 +47,28 @@ const hasReviews = item.tasks.filter(item => item.is_review === '1' && item.is_a
       <TouchableHighlight
         onPress={() => navigation.navigate('Project', { item: item }) }
         underlayColor="white"
+         style={styles.cardProject}
       >
-        <View style={styles.cardProject}>
-          <View style={styles.cardTitle}>
+      <>
+          <View style={styles.titleWrapper}>
             <Text style={styles.title}>{item.name}</Text>
-            <View style={styles.countWrapper}>
-              {hasReviews.length > 0 &&
-                <Badge status='review' />
-              }
-              {item.status !== 'completed' && item.tasks.length > 0 &&
-                <Counter status={'task'} count={item.tasks.length} />
-              }
-              {item.status === 'completed' &&
-                <Badge status={item.status} />
-              }
-            </View>
           </View>
-          <View style={styles.meta}>
-            <Text style={styles.info}>{elapsedTime(item.updated_at)}</Text>
+
+
+          <View style={styles.countWrapper}>
+            {hasReviews.length > 0 &&
+              <Badge status='review' />
+            }
+            {item.status !== 'completed' && item.tasks.length > 0 &&
+              <Counter status={'task'} count={item.tasks.length} />
+            }
+            {item.status === 'completed' &&
+              <Badge status={item.status} />
+            }
           </View>
-        </View>
+
+
+          </>
       </TouchableHighlight>
   )
 }
@@ -82,20 +79,33 @@ export default CardProject;
 
 const styles = StyleSheet.create({
   cardProject: {
-    ...Cards.cardProject,
+    width: '47.5%',
+    aspectRatio: 1,
+    borderRadius: 5,
+    padding: Spacing.p3,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: Colors.borderLight,
     marginBottom: Spacing.p3,
   },
-  cardTitle: {
-    ...Cards.cardTitle,
-    paddingRight: Spacing.p1,
+  titleWrapper: {
+    marginBottom: Spacing.p1,
+  },
+  title: {
+    ...Typography.cardTitle,
+    marginBottom: Spacing.p4,
+  },
+  descriptionWrapper: {
+  },
+  description: {
+    ...Typography.description,
+    ...Colors.textLight,
   },
   countWrapper: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
   },
-  title: {
-    ...Typography.cardTitle,
-  },
+
   progressBarWrapper: {
     marginBottom: Spacing.p2,
   },

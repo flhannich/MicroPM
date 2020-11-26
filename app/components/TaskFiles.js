@@ -1,51 +1,79 @@
+import React, {useState} from 'react'
 
-import React from 'react'
-
-import { Text, View, StyleSheet, Image } from 'react-native'
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Colors, Typography, Spacing, Cards } from './../styles'
 import { Ionicons } from '@expo/vector-icons';
+import { ImageModal } from './';
 
 const TaskDescription = ( { title, files } ) => {
 
+const [modalState, setModalState] = useState(false);
+const [modalIndex, setModalIndex] = useState(0);
+
+let images = files.filter(x => x.type === 'image');
+
   return (
 
-    <View style={{marginBottom: Spacing.p6}}>
+    <View style={{marginBottom: Spacing.p5}}>
 
       <View style={{marginBottom: Spacing.p2}}>
         <Text style={styles.title}>{title}</Text>
       </View>
 
+      <ImageModal
+        state={modalState}
+        setState={setModalState}
+        index={modalIndex}
+        data={files}
+      />
+
       <View style={styles.filesBody}>
 
-        { files.map((item, index) =>
+            {images.map((item, index) =>
 
-          <View style={styles.cardWrapper} key={index}>
+              <TouchableOpacity
+                key={index}
+                style={styles.cardImage}
+                onPress={() => {
+                  setModalState(true),
+                  setModalIndex(index)
+                }}
+              >
+                <Image
+                  style={styles.image}
+                  source={{uri: item.path}}
+                />
+              </TouchableOpacity>
 
-            {item.type === 'image' &&
-            <View style={styles.card}>
-              <Image
-                style={styles.image}
-                source={{uri: item.path}}
-              />
-            </View>
-            }
+            )}
+
+
+            { files.map((item, index) =>
+
+            <>
 
             {item.type === 'document' &&
-              <View style={styles.card}>
+              <TouchableOpacity
+                style={styles.card}
+                key={index}
+              >
               <View style={styles.cardContentHolder}>
-                  <Ionicons
-                    style={styles.icon}
-                    name="ios-document"
-                    size={24}
-                    color='#000'
-                  />
-                  <Text style={styles.cardDescription}>{item.name}</Text>
-                </View>
-             </View>
+                <Ionicons
+                  style={styles.icon}
+                  name="ios-document"
+                  size={24}
+                  color='#000'
+                />
+                <Text style={styles.cardDescription}>{item.name}</Text>
+              </View>
+            </TouchableOpacity>
             }
 
             {item.type === 'link' &&
-            <View style={styles.card}>
+              <TouchableOpacity
+                style={styles.card}
+                key={index}
+              >
               <View style={styles.cardContentHolder}>
                 <Ionicons
                   style={styles.icon}
@@ -53,12 +81,12 @@ const TaskDescription = ( { title, files } ) => {
                   size={24}
                   color='#000'
                 />
-              <Text style={styles.cardDescription}>{item.name}</Text>
+                <Text style={styles.cardDescription}>{item.name}</Text>
               </View>
-           </View>
+            </TouchableOpacity>
             }
 
-          </View>
+          </>
 
         )}
 
@@ -84,25 +112,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingBottom: Spacing.pb5,
-    marginHorizontal: -Spacing.p1,
   },
-  cardWrapper: {
-    width: '33.333%',
-    padding: Spacing.p1,
+  cardImage: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '31%',
+    aspectRatio: 1,
+    height: 120,
+    borderRadius: 5,
+    overflow: 'hidden',
+    margin: Spacing.p1,
   },
   card: {
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
     borderRadius: 5,
+    width: '31%',
+    aspectRatio: 1,
     height: 120,
-    overflow: 'hidden',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: Colors.brand,
+    margin: Spacing.p1,
+
   },
   cardContentHolder: {
     alignItems: 'center',
   },
   icon: {
-    marginTop: Spacing.p2,
     marginBottom: Spacing.p2,
   },
   image: {

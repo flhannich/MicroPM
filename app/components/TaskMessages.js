@@ -67,19 +67,24 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.subTitle,
-    ...Colors.textLightest,
+    ...Colors.textLight,
   },
   message: {
     borderRadius: 5,
     backgroundColor: '#f5f5f5',
     width: '85%',
     marginBottom: Spacing.p3,
-    paddingHorizontal: Spacing.p3,
-    paddingVertical: Spacing.p2,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: Colors.borderNormal,
   },
   messageUser: {
     alignSelf: 'flex-end',
-    backgroundColor: Colors.brand100,
+    // backgroundColor: Colors.brand100,
+    backgroundColor: '#f5f5f5',
+    borderWidth: 0,
   },
   bodyWrapper: {
     paddingBottom: Spacing.p1,
@@ -104,7 +109,7 @@ const styles = StyleSheet.create({
   },
   author: {
     ...Typography.description,
-    ...Colors.textDark,
+    ...Colors.textBrand,
   },
   date: {
     ...Typography.description,

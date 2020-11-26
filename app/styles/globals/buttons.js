@@ -40,7 +40,7 @@ export const badge = {
   borderRadius: 14,
   height: 24,
   lineHeight: 23,
-  borderWidth: 1.5,
+  borderWidth: 1,
   flexDirection: 'row',
   alignSelf: 'flex-start',
   paddingHorizontal: 14,

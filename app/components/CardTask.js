@@ -27,7 +27,12 @@ const CardTask = ({item, navigation}) => {
           >
             <View style={styles.cardTask}>
               <View style={styles.cardTitle}>
-                <Text style={styles.title}>{item.name}</Text>
+
+                <Text style={[styles.title, item.is_review === '1' && styles.titleReview]}>
+                  {item.name}
+                </Text>
+
+
                 <View style={{ flexDirection: 'row', flexWrap: 'nowrap'}}>
                   {(item.is_review === '1' && item.is_accepted === '0') &&
                     <Badge status={'review'}/>
@@ -92,12 +97,10 @@ const CardTask = ({item, navigation}) => {
 
       </>
 
-
   )
 }
 
 export default CardTask;
-
 
 
 const styles = StyleSheet.create({
@@ -114,6 +117,10 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.cardTitle,
+    ...Colors.textDark,
+  },
+  titleReview: {
+    color: Colors.brand,
   },
   meta: {
     ...Files.container,

@@ -40,6 +40,8 @@ export const textBrand = {
 
 
 export const borderLight = 'rgba(0, 0 ,0, .1)'
+export const borderNormal = 'rgba(0, 0 ,0, .3)'
+export const backgroundLight = 'rgba(0, 0 ,0, .05)'
 
 export const brand = '#007AFF'
 export const brand100 = '#e7f2ff'

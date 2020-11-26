@@ -14,6 +14,7 @@ import {
   TaskFiles,
   TaskMessages,
   TaskSendMessage,
+  ImageModal,
 } from './../../components'
 
 import { AuthContext } from './../../context/AuthContext'
@@ -103,6 +104,11 @@ export default function Task( probs ) {
       });
   }
 
+
+  // <TaskDescription
+  //   title={'Beschreibung'}
+  //   body={task.description}
+  // />
         return (
 
             <>
@@ -122,18 +128,7 @@ export default function Task( probs ) {
                   <View>
 
                     <Text style={styles.mainTitle}>
-
                       {task.name}
-
-                      {(task.is_accepted === '1') &&
-                       <Ionicons
-                          style={{ marginLeft: Spacing.p1 }}
-                          name="ios-checkmark-circle-outline"
-                          color='#007AFF'
-                          size={24}
-                        />
-                      }
-
                     </Text>
 
                   </View>
@@ -141,12 +136,23 @@ export default function Task( probs ) {
 
                   <View style={styles.meta}>
 
-                    <Badge status={task.status}/>
+                    {(task.is_review !== '1') &&
+                      <Badge status={task.status}/>
+                    }
 
                     {(task.is_accepted === '0' && task.is_review === '1') &&
                       <View style={{ marginLeft: Spacing.p1 }} >
                         <Badge status='review'/>
                       </View>
+                    }
+
+                    {(task.is_accepted === '1') &&
+                     <Ionicons
+                        style={{ marginLeft: Spacing.p1 }}
+                        name="ios-checkmark-circle-outline"
+                        color='#007AFF'
+                        size={24}
+                      />
                     }
 
                     <Text style={styles.date}>{_elapsedTime(task.updated_at)}</Text>
@@ -157,16 +163,16 @@ export default function Task( probs ) {
                   <View>
 
                     {task.file.length > 0 &&
+                      <>
                       <TaskFiles
                         title={'Anhang'}
                         files={task.file}
                       />
+
+                      </>
                     }
 
-                    <TaskDescription
-                      title={'Beschreibung'}
-                      body={task.description}
-                    />
+
 
                     {task.message.length > 0 &&
                       <TaskMessages
@@ -237,7 +243,7 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     ...Typography.mainTitle,
-    marginBottom: Spacing.p4,
+    marginBottom: Spacing.p3,
   },
   title: {
     ...Typography.title,
@@ -248,8 +254,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection:"row",
     alignItems: 'center',
-    marginBottom: Spacing.p4,
-    paddingBottom: Spacing.p4,
+    marginBottom: Spacing.p3,
+    paddingBottom: Spacing.p3,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },

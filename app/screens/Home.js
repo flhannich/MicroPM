@@ -59,20 +59,22 @@ export default function Home({ navigation }) {
           : (
             <>
 
-            <Text style={styles.mainTitle}>Your Projects</Text>
+              <Text style={styles.mainTitle}>Your Projects</Text>
 
-            {data.projects.length > 0 &&
-              <>
+                {data.projects.length > 0 &&
 
-                { data.projects.map((item, index) =>
-                  <CardProject
-                    key={index}
-                    item={item}
-                    navigation={navigation}
-                  />
-                )}
-              </>
-            }
+                  <View style={styles.projectsWrapper}>
+                    { data.projects.map((item, index) =>
+                      <CardProject
+                        key={index}
+                        item={item}
+                        navigation={navigation}
+                      />
+                    )}
+                  </View>
+
+                }
+
             </>
           )}
 
@@ -87,9 +89,15 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
   activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+ },
+ projectsWrapper: {
+   display: 'flex',
+   flexWrap: 'wrap',
+   flexDirection: 'row',
+   justifyContent: 'space-between',
  },
   container: {
     ...Spacing.container,

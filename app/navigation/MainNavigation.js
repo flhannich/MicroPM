@@ -17,29 +17,24 @@ import { Badge } from '../components'
 
 import { DataContext } from '../context/DataContext.js'
 
-
 const stackOptions = ( { navigation, route } ) => {
 
-
   return {
-    // title: '',
     headerTitleStyle: {
       color: 'transparent',
     },
     headerStyle: {
       shadowColor: 'transparent',
-      elevation: 0, // remove shadow on Android
-      shadowOpacity: 0, // remove shadow on iOS
+      elevation: 0,
+      shadowOpacity: 0,
     },
+    animationEnabled: false,
     headerBackTitle: ' ',
     mode: 'modal',
     detachInactiveScreens: true,
     headerRight: () => (
 
       <View style={{flexDirection: "row",justifyContent: "flex-end",paddingRight:10,width: 120}}>
-
-
-
 
          <TouchableOpacity
           onPress={() => navigation.navigate('Settings')}
@@ -58,36 +53,35 @@ const stackOptions = ( { navigation, route } ) => {
 }
 
 
-const HomeStack = createStackNavigator();
+const MainStack = createStackNavigator();
 
 const MainNavigation = () => {
-
 
   return (
 
     <NavigationContainer>
-      <HomeStack.Navigator>
-       <HomeStack.Screen
+      <MainStack.Navigator>
+       <MainStack.Screen
          name="Home"
          component={Home}
          options={stackOptions}
        />
-       <HomeStack.Screen
+       <MainStack.Screen
          name="Project"
          component={Project}
          options={stackOptions}
        />
-       <HomeStack.Screen
+       <MainStack.Screen
          name="Task"
          component={Task}
          options={stackOptions}
        />
-       <HomeStack.Screen
+       <MainStack.Screen
          name="Settings"
          component={Settings}
          options={stackOptions}
        />
-      </HomeStack.Navigator>
+      </MainStack.Navigator>
     </NavigationContainer>
 
   );

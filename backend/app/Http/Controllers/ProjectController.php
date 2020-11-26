@@ -9,48 +9,67 @@ use App\Models\User;
 class ProjectController extends Controller
 {
 
-  public function index(Request $request)
-  {
-      $token = $request->header('authorization');
+    public function index(Request $request)
+    {
+        $token = $request->header('authorization');
 
-      $user = User::where('remember_token', $token)
-      ->with('projects')
-      ->first();
+        $user = User::where('remember_token', $token)
+        ->with('projects')
+        ->first();
 
-      return response()->json($user, 201);
-  }
+        return response()->json($user, 201);
+    }
 
-
-    // public function index()
-    // {
-    //     $projects = Project::with('tasks')->where('client_id', '1')->get();
-    //
-    //     return response()->json($projects, 201);
-    // }
-    //
-    // public function show(Project $project)
-    // {
-    //     return $project;
-    // }
     //
     // public function store(Request $request)
     // {
+    //
+    //   $token = $request->header('authorization');
+    //
+    //   $user = User::where('remember_token', $token)
+    //
+    //   if($user) {
+    //
     //     $project = Project::create($request->all());
     //
     //     return response()->json($project, 201);
+    //   }
+    //
     // }
+    //
     //
     // public function update(Request $request, Project $project)
     // {
-    //     $project->update($request->all());
+    //   $token = $request->header('authorization');
+    //
+    //   $user = User::where('remember_token', $token)
+    //
+    //   if($user) {
+    //
+    //     $project = Project::update($request->all());
+    //
+    //     return response()->json($project, 201);
+    //   }
     //
     //     return response()->json($project, 200);
     // }
     //
+    //
+    //
     // public function delete(Project $project)
     // {
+    //
+    //   $token = $request->header('authorization');
+    //
+    //   $user = User::where('remember_token', $token)
+    //
+    //   if($user) {
+    //
     //     $project->delete();
     //
     //     return response()->json(null, 204);
+    //
+    //   }
+    //
     // }
 }
