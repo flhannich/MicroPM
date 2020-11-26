@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
-import { ButtonSecondary } from './../components'
+import { ButtonPrimary } from './../components'
 
 import { Colors, Typography, Spacing, Forms } from './../styles'
 
@@ -18,17 +18,19 @@ export default function Login( probs ) {
        <Text style={styles.label}>Username</Text>
        <TextInput
          style={styles.input}
+         placeholder='admin'
          onChangeText={text => probs.setUsername(text)}
        />
        <Text style={styles.label}>Password</Text>
        <TextInput
          style={styles.input}
+         placeholder='1234'
          onChangeText={text => probs.setPassword(text)}
        />
        {probs.errorMessage &&
          <Text style={styles.errorMessage}>{probs.errorMessage}</Text>
        }
-       <ButtonSecondary
+       <ButtonPrimary
          target={probs.validate}
          text='Log in'
        />
@@ -58,6 +60,10 @@ const styles = StyleSheet.create({
     ...Typography.label,
     ...Colors.textError,
     marginBottom: Spacing.p3,
+    backgroundColor: '#FFE7E6',
+    paddingHorizontal: Spacing.p3,
+    paddingVertical: Spacing.p2,
+    borderRadius: 5,
   },
   label: {
     ...Forms.label,

@@ -10,7 +10,6 @@ import {
   ButtonPrimary,
   ButtonSecondary,
   Badge,
-  TaskDescription,
   TaskFiles,
   TaskMessages,
   TaskSendMessage,
@@ -31,9 +30,10 @@ export default function Task( probs ) {
 
   const [isLoading, setLoading] = useState(true);
   const [task, setTask] = useState({});
+  const [images, setImages] = useState([]);
   const [message, setMessage] = useState({});
-
-  console.log(message);
+  const [modalState, setModalState] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
 
   const _elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
@@ -56,7 +56,11 @@ export default function Task( probs ) {
       }
     })
     .then((response) => response.json())
-    .then((json) => setTask(json))
+    .then((json) => {
+      setTask(json)
+      setImages(json.file.filter(x => x.type === 'image'))
+    }
+    )
     .catch((error) => console.error(error))
     .finally(() => setLoading(false));
   }
@@ -105,10 +109,6 @@ export default function Task( probs ) {
   }
 
 
-  // <TaskDescription
-  //   title={'Beschreibung'}
-  //   body={task.description}
-  // />
         return (
 
             <>
@@ -118,6 +118,13 @@ export default function Task( probs ) {
               : (
 
               <>
+
+              <ImageModal
+                modalState={modalState}
+                setModalState={setModalState}
+                modalIndex={modalIndex}
+                data={images}
+              />
 
               <ScrollView
                 style={styles.container}
@@ -165,6 +172,10 @@ export default function Task( probs ) {
                     {task.file.length > 0 &&
                       <>
                       <TaskFiles
+                        modalState={modalState}
+                        setModalState={setModalState}
+                        modalIndex={modalIndex}
+                        setModalIndex={setModalIndex}
                         title={'Anhang'}
                         files={task.file}
                       />
@@ -196,6 +207,7 @@ export default function Task( probs ) {
                   store={_storeTaskMessage}
                 />
               }
+
             </>
 
           )}

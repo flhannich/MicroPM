@@ -18,20 +18,8 @@ export default function Home({ navigation }) {
 // php artisan serve --host=192.168.178.35 --port=8000
 // php artisan serve --host=192.168.178.83 --port=8000
 
-//   useFocusEffect(
-//     useCallback(() => {
-//       _getData(token);
-//
-//       return () => {
-//         // Do something when the screen is unfocused
-//         // Useful for cleanup functions
-//       };
-//     }, [])
-// )
-
 
   useEffect(() => {
-    console.log(token);
     if(!token) return;
     fetch(`http://192.168.178.35:8000/api/projects`, {
       method: "GET",

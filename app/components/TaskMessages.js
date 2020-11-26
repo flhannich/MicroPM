@@ -21,13 +21,17 @@ const TaskMessages = ( { title, messages } ) => {
 
   const { username } = useContext(AuthContext);
 
+  // <View style={{marginBottom: Spacing.p2}}>
+  //   <Text style={styles.title}>{title}</Text>
+  // </View>
+  //
   return (
 
     <View style={styles.messageWrapper}>
 
-      <View style={{marginBottom: Spacing.p2}}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
+    <View style={{marginBottom: Spacing.p2}}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
 
         {messages.map((item,index) =>
 
@@ -36,15 +40,11 @@ const TaskMessages = ( { title, messages } ) => {
             style={[styles.message, item.user.name === username && styles.messageUser]}
           >
             <View style={styles.authorWrapper}>
-              {item.user.name !== username &&
-                <Text style={styles.author}>{item.user.name}</Text>
-              }
+              <Text style={[styles.author, item.user.name === username && styles.authorUser]}>{item.user.name}</Text>
+              <Text style={[styles.date, item.user.name === username && styles.dateUser]}>{_elapsedTime(item.updated_at)}</Text>
             </View>
             <View style={styles.bodyWrapper}>
               <Text style={[styles.body, item.user.name === username && styles.bodyUser]}>{item.message}</Text>
-            </View>
-            <View style={styles.infoWrapper}>
-              <Text style={[styles.date, item.user.name === username && styles.dateUser]}>{_elapsedTime(item.updated_at)}</Text>
             </View>
           </View>
 
@@ -67,24 +67,20 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.subTitle,
-    ...Colors.textLight,
+    ...Colors.textLightest,
   },
   message: {
     borderRadius: 5,
-    backgroundColor: '#f5f5f5',
-    width: '85%',
     marginBottom: Spacing.p3,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: Spacing.p3,
     backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: Colors.borderNormal,
+    width: '90%',
   },
   messageUser: {
     alignSelf: 'flex-end',
-    // backgroundColor: Colors.brand100,
+    width: '90%',
+    paddingHorizontal: Spacing.p3,
     backgroundColor: '#f5f5f5',
-    borderWidth: 0,
   },
   bodyWrapper: {
     paddingBottom: Spacing.p1,
@@ -97,26 +93,31 @@ const styles = StyleSheet.create({
   authorWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    paddingBottom: Spacing.p1,
+    justifyContent: 'space-between',
+    paddingBottom: Spacing.p2,
   },
   body: {
-    ...Typography.description,
+    ...Typography.body,
     ...Colors.textNormal,
   },
   bodyUser: {
-    ...Colors.textWhiteFull,
+    // ...Colors.textWhiteFull,
     ...Colors.textNormal,
   },
   author: {
-    ...Typography.description,
+    ...Typography.author,
     ...Colors.textBrand,
+  },
+  authorUser: {
+    ...Colors.textNormal,
+    // ...Colors.textWhiteFull,
   },
   date: {
     ...Typography.description,
-    ...Colors.textLight,
+    ...Colors.textLightest,
   },
   dateUser: {
-    ...Colors.textWhiteLight,
-    ...Colors.textLight,
+    // ...Colors.textWhiteLight,
+    ...Colors.textLightest,
   },
 })

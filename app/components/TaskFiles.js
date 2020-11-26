@@ -1,31 +1,22 @@
 import React, {useState} from 'react'
 
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, Image, TouchableOpacity, Linking } from 'react-native'
 import { Colors, Typography, Spacing, Cards } from './../styles'
 import { Ionicons } from '@expo/vector-icons';
-import { ImageModal } from './';
 
-const TaskDescription = ( { title, files } ) => {
-
-const [modalState, setModalState] = useState(false);
-const [modalIndex, setModalIndex] = useState(0);
+const TaskDescription = ( { modalState, setModalState, modalIndex, setModalIndex,title, files } ) => {
 
 let images = files.filter(x => x.type === 'image');
 
   return (
 
-    <View style={{marginBottom: Spacing.p5}}>
+    <>
+
+    <View style={{marginBottom: Spacing.p6}}>
 
       <View style={{marginBottom: Spacing.p2}}>
         <Text style={styles.title}>{title}</Text>
       </View>
-
-      <ImageModal
-        state={modalState}
-        setState={setModalState}
-        index={modalIndex}
-        data={files}
-      />
 
       <View style={styles.filesBody}>
 
@@ -56,6 +47,7 @@ let images = files.filter(x => x.type === 'image');
               <TouchableOpacity
                 style={styles.card}
                 key={index}
+                onPress={ ()=> Linking.openURL(item.path) }
               >
               <View style={styles.cardContentHolder}>
                 <Ionicons
@@ -73,6 +65,7 @@ let images = files.filter(x => x.type === 'image');
               <TouchableOpacity
                 style={styles.card}
                 key={index}
+                onPress={ ()=> Linking.openURL(item.path) }
               >
               <View style={styles.cardContentHolder}>
                 <Ionicons
@@ -93,6 +86,7 @@ let images = files.filter(x => x.type === 'image');
       </View>
     </View>
 
+    </>
   )
 
 }
@@ -116,7 +110,7 @@ const styles = StyleSheet.create({
   cardImage: {
     display: 'flex',
     justifyContent: 'center',
-    width: '31%',
+    width: '22%',
     aspectRatio: 1,
     height: 120,
     borderRadius: 5,
@@ -127,7 +121,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     borderRadius: 5,
-    width: '31%',
+    width: '22%',
     aspectRatio: 1,
     height: 120,
     backgroundColor: '#fff',

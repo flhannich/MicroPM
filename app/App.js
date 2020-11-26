@@ -1,22 +1,22 @@
 import React, { useState, useContext, createContext, useEffect, useReducer } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Button, Text, View, TextInput, ActivityIndicator } from 'react-native'
-import { StatusBar } from 'expo-status-bar'; //check for bundle size issues
+import { StatusBar } from 'expo-status-bar' //check for bundle size issues
 
-import MainNavigation from './navigation/MainNavigation';
-import Login from './screens/Login';
+import MainNavigation from './navigation/MainNavigation'
+import Login from './screens/Login'
 
 import { AuthContext } from './context/AuthContext.js'
 
 export default function App() {
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [token, setToken] = useState('')
 
-  const [isValidated, setIsValidated] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [isLoading, setLoading] = useState(true);
+  const [isValidated, setIsValidated] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   const _validate = () => {
     fetch("http://192.168.178.35:8000/api/login", {
@@ -24,7 +24,7 @@ export default function App() {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({username: username, password: password})
+        body: JSON.stringify({username: 'admin', password: '1234'})
       })
       .then((response) => response.json())
       .then((json) => {
@@ -32,7 +32,7 @@ export default function App() {
           setErrorMessage(json.message)
         } else {
           setToken(json.remember_token)
-          _storeToken(json.remember_token)
+          _storeData(json.remember_token, username)
         }
       })
       .catch((error) => console.error(error))
@@ -58,33 +58,40 @@ export default function App() {
   }
 
   // CHANGE FOR KEYRING
-  const _storeToken = async (value) => {
+  const _storeData = async (token, username) => {
+    console.log(username);
     try {
-      await AsyncStorage.setItem(
-        'token', value
+      await AsyncStorage.multiSet(
+        [['token', token], ['username', username]]
       );
     } catch (error) {
     }
-  };
+  }
 
-  const _getToken = async () => {
+  const _getStoredData = async () => {
     try {
-      let value = AsyncStorage.getItem('token');
-      if(value !== null) {
-        return value;
-      }
+      await AsyncStorage.multiGet(['token', 'username']).then(response => {
+        if(response[0][1] !== null && response[1][1] !== null) {
+          setToken(response[0][1]);
+          setUsername(response[1][1]);
+          setIsValidated(true);
+          setErrorMessage('');
+        } else {
+          setErrorMessage('Whoops, something went wrong. Try again.')
+        }
+      })
     } catch (error) {
     }
-  };
+  }
+
+
+
+
+
 
   useEffect(() => {
-    _getToken().then((result) => {
-      if(result !== null) {
-        setToken(result);
-        setIsValidated(true);
-      }
-    })
-  }, []);
+    _getStoredData()
+  }, [])
 
 //192.168.178.83 mbpro
 //192.168.178.35 imac

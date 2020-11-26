@@ -30,10 +30,11 @@ export const title = {
 }
 
 export const mainTitle = {
-  fontSize: 28,
+  fontSize: 30,
   fontWeight: '800',
+  fontWeight: 'bold',
   lineHeight: 34,
-  letterSpacing: -1
+  letterSpacing: -1.5
 }
 
 export const cardTitle = {
@@ -57,13 +58,19 @@ export const subTitle = {
 }
 
 export const body = {
-  fontSize: 16,
+  fontSize: 15,
   lineHeight: 24,
 }
 
 export const description = {
   fontSize: 14,
-  lineHeight: 20,
+  lineHeight: 21,
+}
+
+export const author = {
+  fontSize: 14,
+  lineHeight: 21,
+  letterSpacing: -0.05
 }
 
 export const info = {

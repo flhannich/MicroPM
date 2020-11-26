@@ -42,7 +42,7 @@ const stackOptions = ( { navigation, route } ) => {
            <Ionicons
               style={styles.icon}
              name="ios-more"
-             color='#007AFF'
+             color='#000'
              size={24}
            />
          </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableHighlight, Text, View, StyleSheet } from 'react-native'
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native'
 
 import { Colors, Typography, Spacing, Forms, Cards, Files, Buttons } from './../styles'
 import { Counter, Badge } from './'
@@ -37,23 +37,19 @@ const hasReviews = item.tasks.filter(item => item.is_review === '1' && item.is_a
 //
 // }, [])
 
-// <View style={styles.descriptionWrapper}>
-//   <Text style={styles.description}>{item.description}</Text>
-// </View>
+
 
 // const progressWidth = { width: progress + '%' };
 
   return (
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={() => navigation.navigate('Project', { item: item }) }
-        underlayColor="white"
          style={styles.cardProject}
       >
       <>
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>{item.name}</Text>
           </View>
-
 
           <View style={styles.countWrapper}>
             {hasReviews.length > 0 &&
@@ -69,7 +65,7 @@ const hasReviews = item.tasks.filter(item => item.is_review === '1' && item.is_a
 
 
           </>
-      </TouchableHighlight>
+      </TouchableOpacity>
   )
 }
 
@@ -79,7 +75,7 @@ export default CardProject;
 
 const styles = StyleSheet.create({
   cardProject: {
-    width: '47.5%',
+    width: '100%',
     aspectRatio: 1,
     borderRadius: 5,
     padding: Spacing.p3,

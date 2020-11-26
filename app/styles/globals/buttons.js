@@ -72,11 +72,8 @@ export const primary = {
   backgroundColor: '#007AFF',
   borderRadius: 4,
   paddingHorizontal: 24,
-  paddingVertical: 8,
-  overflow: 'hidden',
-  textAlign: 'center',
-  alignSelf: 'center',
-  width: '100%',
+  paddingVertical: 12,
+  alignItems: 'center',
 };
 
 export const secondary = {

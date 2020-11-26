@@ -5,7 +5,7 @@ export { default as Badge } from './buttons/Badge'
 export { default as Counter } from './buttons/Counter'
 
 
-export { default as TaskDescription } from './TaskDescription'
+// export { default as TaskDescription } from './TaskDescription'
 export { default as TaskFiles } from './TaskFiles'
 export { default as TaskSendMessage } from './TaskSendMessage'
 export { default as TaskMessages } from './TaskMessages'
