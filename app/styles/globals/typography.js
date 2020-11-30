@@ -59,7 +59,7 @@ export const subTitle = {
 
 export const body = {
   fontSize: 15,
-  lineHeight: 24,
+  lineHeight: 23,
 }
 
 export const description = {
@@ -68,9 +68,10 @@ export const description = {
 }
 
 export const author = {
-  fontSize: 14,
+  fontWeight: 'bold',
+  fontSize: 15,
   lineHeight: 21,
-  letterSpacing: -0.05
+  letterSpacing: 0.1,
 }
 
 export const info = {

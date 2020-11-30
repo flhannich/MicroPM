@@ -12,7 +12,7 @@ let images = files.filter(x => x.type === 'image');
 
     <>
 
-    <View style={{marginBottom: Spacing.p6}}>
+    <View style={{marginBottom: Spacing.p4}}>
 
       <View style={{marginBottom: Spacing.p2}}>
         <Text style={styles.title}>{title}</Text>
@@ -106,11 +106,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingBottom: Spacing.pb5,
+    marginHorizontal: -Spacing.p1,
   },
   cardImage: {
     display: 'flex',
     justifyContent: 'center',
-    width: '22%',
+    width: '32%',
     aspectRatio: 1,
     height: 120,
     borderRadius: 5,
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     borderRadius: 5,
-    width: '22%',
+    width: '32%',
     aspectRatio: 1,
     height: 120,
     backgroundColor: '#fff',

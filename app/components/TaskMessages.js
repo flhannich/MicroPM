@@ -72,15 +72,21 @@ const styles = StyleSheet.create({
   message: {
     borderRadius: 5,
     marginBottom: Spacing.p3,
-    paddingVertical: Spacing.p3,
-    backgroundColor: '#fff',
+    // borderWidth: 1,
+    // borderColor: Colors.borderLight,
+    // paddingBottom: Spacing.p3,
+    marginBottom: Spacing.p3,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    // backgroundColor: '#f5f5f5',
     width: '90%',
   },
   messageUser: {
     alignSelf: 'flex-end',
     width: '90%',
-    paddingHorizontal: Spacing.p3,
-    backgroundColor: '#f5f5f5',
+    borderWidth: 0,
+    // paddingHorizontal: Spacing.p3,
+    backgroundColor: Colors.brand100,
   },
   bodyWrapper: {
     paddingBottom: Spacing.p1,
@@ -93,8 +99,8 @@ const styles = StyleSheet.create({
   authorWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: Spacing.p2,
+    // justifyContent: 'space-between',
+    paddingBottom: Spacing.p1,
   },
   body: {
     ...Typography.body,
@@ -107,6 +113,8 @@ const styles = StyleSheet.create({
   author: {
     ...Typography.author,
     ...Colors.textBrand,
+    ...Colors.textNormal,
+    marginRight: Spacing.p2,
   },
   authorUser: {
     ...Colors.textNormal,

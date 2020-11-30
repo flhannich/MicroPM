@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     ...Typography.mainTitle,
-    marginBottom: Spacing.p3,
+    marginBottom: Spacing.p2,
   },
   title: {
     ...Typography.title,

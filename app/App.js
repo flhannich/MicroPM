@@ -52,9 +52,9 @@ export default function App() {
       .then((json) => {
         AsyncStorage.clear()
         setToken('')
+        setIsValidated(false)
       })
       .catch((error) => console.error(error))
-      .finally(() => setIsValidated(false))
   }
 
   // CHANGE FOR KEYRING
