@@ -1,0 +1,47 @@
+a.btn {
+  text-decoration: none;
+  cursor: pointer;
+  &.btn--none {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    border-radius: var(--border-radius);
+    color: var(--font-color);
+    transition: all 0.5s ease-out;
+  }
+  &.btn--secondary {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 16px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color--brand);
+    color: var(--font-color)
+  }
+  &.btn--cta {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 24px;
+    background-color: var(--font-color);
+    color: var(--font-color--brand-invert);
+  }
+}
+
+button[type=submit] {
+  height: 42px;
+  line-height: 40px;
+  padding-left: 32px;
+  padding-right: 32px;
+  background-color: var(--background-color--brand);
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer
+}
+
+.tag {
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  color: var(--font-color--light);
+}

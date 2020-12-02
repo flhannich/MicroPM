@@ -1,0 +1,126 @@
+// Grid base and Grid Settings
+.container {
+  max-width: $desktop;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $site-padding;
+}
+.grid {
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+  &.grid--reverse {
+    flex-direction: row-reverse;
+  }
+  &.grid--v-center {
+    align-items: center;
+  }
+  &.grid--h-center {
+    justify-content: center;
+  }
+  &.grid--h-right {
+    justify-content: flex-end;
+  }
+  &.grid--stretch {
+    align-items: stretch;
+  }
+  &.grid--gutters {
+    margin-left: -$grid-gutters;
+    margin-right: -$grid-gutters;
+    width: 100% + $grid-gutters * 2;
+    > div {
+      padding-left: $grid-gutters;
+      padding-right: $grid-gutters;
+    }
+  }
+  .grid--gutters-large {
+    border: 1px solid red;
+    margin-left: -$grid-gutters * 2;
+    margin-right: -$grid-gutters * 2;
+    > div {
+      padding-left: $grid-gutters * 2;
+      padding-right: $grid-gutters * 2;
+    }
+  }
+}
+
+@for $i from 1 through $grid-columns {
+  .max-#{$i} {
+    max-width: ($desktop - $site-padding * 2) / 12 * $i;
+    width: 100%;
+  }
+}
+
+@for $i from 1 through $grid-columns {
+  .grid {
+    & > .small-#{$i} {
+      min-width: 100% / $grid-columns  * $i;
+      width: 100% / $grid-columns  * $i;
+    }
+    & > .small-offset-#{$i} {
+      margin-left: 100% / $grid-columns * $i;
+    }
+  }
+}
+
+@media(min-width: $mobile) {
+  @for $i from 1 through $grid-columns {
+    .grid {
+      & > .medium-#{$i} {
+        min-width: 100% / $grid-columns  * $i;
+        width: 100% / $grid-columns  * $i;
+      }
+      & > .medium-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+  }
+}
+
+@media(min-width: $tablet) {
+  @for $i from 1 through $grid-columns {
+    .grid {
+      & > .large-#{$i} {
+        min-width: 100% / $grid-columns  * $i;
+        width: 100% / $grid-columns  * $i;
+      }
+      & > .large-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+  }
+}
+
+@for $i from 1 through length($spacer-sizes) {
+  $spacer: nth($spacer-sizes, $i);
+  .pa#{$i} {
+    padding: $spacer;
+  }
+  .pt#{$i} {
+    padding-top: $spacer;
+  }
+  .pr#{$i} {
+    padding-right: $spacer;
+  }
+  .pb#{$i} {
+    padding-bottom: $spacer;
+  }
+  .pl#{$i} {
+    padding-left: $spacer;
+  }
+  .ma#{$i} {
+    margin: $spacer;
+  }
+  .mt#{$i} {
+    margin-top: $spacer;
+  }
+  .mr#{$i} {
+    margin-right: $spacer;
+  }
+  .mb#{$i} {
+    margin-bottom: $spacer;
+  }
+  .ml#{$i} {
+    margin-left: $spacer;
+  }
+}

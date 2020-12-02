@@ -1,0 +1,41 @@
+body {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  color: var(--font-color);
+  // text-rendering: geometricPrecision;
+  // -webkit-font-smoothing: subpixel-antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  // text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+  -webkit-text-size-adjust: 100%;
+  -ms-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern";
+}
+
+
+a {
+  &:link {
+    color: inherit;
+  }
+  &:visited {
+    color: inherit;
+  }
+}
+
+label {
+  font-size: 14px;
+
+}
+
+.paragraph--small p {
+  font-size: 13px;
+}
+
+span {
+  &.error-message {
+    font-size: 13px;
+  }
+}

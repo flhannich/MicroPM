@@ -1,5 +1,17 @@
-const { Tray, Menu } = require('electron');
+const { Tray, Menu, ipcMain } = require('electron');
+
 const path = require('path');
+
+// let timer = '';
+//
+//   ipcMain.on('TOKEN', (event, data) => {
+//     if(data !== null) {
+//       timer = String(data);
+//     } else {
+//       timer = ''
+//     }
+//   });
+
 
 class TrayGenerator {
   constructor(mainWindow, store) {
@@ -42,7 +54,7 @@ class TrayGenerator {
       },
       {
         type: 'separator',
-      }
+      },
       {
         role: 'quit',
         accelerator: 'Command+Q'
@@ -51,10 +63,11 @@ class TrayGenerator {
     this.tray.popUpContextMenu(Menu.buildFromTemplate(menu));
   }
 
+
   createTray = () => {
     this.tray = new Tray(path.join(__dirname, './../assets/logo/logo-tray.png'));
     this.tray.setIgnoreDoubleClickEvents(true);
-
+    // this.tray.setTitle(timer); // macOS only
     this.tray.on('click', this.toggleWindow);
     this.tray.on('right-click', this.rightClickMenu);
   };

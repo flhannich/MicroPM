@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
 const { is } = require('electron-util');
 const path = require('path');
@@ -26,6 +26,7 @@ const createMainWindow = () => {
     webPreferences: {
       devTools: is.development,
       nodeIntegration: true,
+      preload: __dirname + '/preload.js',
     }
   });
   if (is.development) {
@@ -38,15 +39,23 @@ const createMainWindow = () => {
   // mainWindow.on('closed', () => {
   //     mainWindow = null;
   // });
-  mainWindow.on ('blur', () => {
-    mainWindow.hide ();
-  });
+  // mainWindow.on ('blur', () => {
+  //   mainWindow.hide ();
+  // });
 };
 
 app.on('ready', () => {
   createMainWindow();
   Tray = new TrayGenerator(mainWindow, store);
   Tray.createTray();
+  ipcMain.on('TOKEN', (event, data) => {
+    store.set('token', data);
+  });
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('INIT_TOKEN', store.get('token'));
+  });
+
 });
 
 app.setLoginItemSettings({

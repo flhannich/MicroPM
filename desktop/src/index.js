@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
+import './styles/app.scss';
 import App from './App';
 import Settings from './pages/Settings';
 import { BrowserRouter, Route } from "react-router-dom";
+import { AuthProvider } from './context/AuthContext'; // import based on where you put it
 
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
      <BrowserRouter>
+      <AuthProvider>
         <div className="App">
           <Route path="/" exact component={App} />
           <Route path="/settings" exact component={Settings} />
         </div>
+        </AuthProvider>
       </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
