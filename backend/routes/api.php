@@ -32,9 +32,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   Route::get('/projects/{project}/tasks', [TaskController::class, 'index']);
   Route::get('/task/{id}', [TaskController::class, 'show']);
-  Route::post('/task/{id}/{status}', [TaskController::class, 'updateTaskStatus']);
+  Route::get('/task/{status}', [TaskController::class, 'showByStatus']);
+  Route::post('/task/{id}/{status}', [TaskController::class, 'updateStatus']);
+  Route::post('/task/{id}/{accepted}', [TaskController::class, 'updateAccepted']);
 
-  Route::post('/message/store', [MessageController::class, 'store']);
+  Route::post('/message/create', [MessageController::class, 'create']);
   // Route::get('/message/delete/{message}', [TaskController::class, 'delete']);
 
   Route::post('/login', [UserController::class, 'login']);
