@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './styles/app.scss';
 import App from './App';
 import Settings from './pages/Settings';
+import Project from './pages/Project';
+import Task from './pages/Task';
 import { BrowserRouter, Route } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext'; // import based on where you put it
 
@@ -14,6 +16,8 @@ ReactDOM.render(
       <AuthProvider>
         <div className="App">
           <Route path="/" exact component={App} />
+          <Route path="/project" exact component={Project} />
+          <Route path="/task" exact component={Task} />
           <Route path="/settings" exact component={Settings} />
         </div>
         </AuthProvider>

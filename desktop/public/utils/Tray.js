@@ -47,15 +47,6 @@ class TrayGenerator {
   rightClickMenu = () => {
     const menu = [
       {
-        label: 'Launch at startup',
-        type: 'checkbox',
-        checked: this.store.get('launchAtStart'),
-        click: event => this.store.set('launchAtStart', event.checked),
-      },
-      {
-        type: 'separator',
-      },
-      {
         role: 'quit',
         accelerator: 'Command+Q'
       }
@@ -67,7 +58,7 @@ class TrayGenerator {
   createTray = () => {
     this.tray = new Tray(path.join(__dirname, './../assets/logo/logo-tray.png'));
     this.tray.setIgnoreDoubleClickEvents(true);
-    // this.tray.setTitle(timer); // macOS only
+    this.tray.setTitle('00:12'); // macOS only
     this.tray.on('click', this.toggleWindow);
     this.tray.on('right-click', this.rightClickMenu);
   };

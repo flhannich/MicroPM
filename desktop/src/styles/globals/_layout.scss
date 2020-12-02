@@ -1,0 +1,17 @@
+p:not(:last-of-type) {
+  margin-bottom: 1em;
+}
+
+ul li {
+  list-style: disc;
+  margin-left: 16px;
+  margin-bottom: 12px;
+}
+
+.text--center {
+  text-align: center;
+}
+
+.text--right {
+  text-align: right;
+}

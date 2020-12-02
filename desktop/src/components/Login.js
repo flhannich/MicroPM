@@ -114,10 +114,10 @@ const Login = () => {
 
 
   return (
-    <>
+    <div className="container">
 
     <form
-      className={`contact-form ${errorMessage !== '' && 'has-error'}`}
+      className={`contact-form pt4 pb4 ${errorMessage !== '' && 'has-error'}`}
       action=""
       >
 
@@ -183,7 +183,7 @@ const Login = () => {
     </form>
 
 
-    </>
+    </div>
   )
 }
 

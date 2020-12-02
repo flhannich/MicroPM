@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const isDev = require('electron-is-dev');
 const { is } = require('electron-util');
 const path = require('path');
@@ -64,3 +64,72 @@ app.setLoginItemSettings({
 
 
 app.dock.hide();
+
+const template = [
+  {
+    label: app.name,
+    submenu: [
+      { role: 'about' },
+      {
+        label: 'Settings',
+        click: openSettingsWindow
+      },
+      { type: 'separator' },
+      {
+        label: 'Launch at startup',
+        type: 'checkbox',
+        checked: store.get('launchAtStart'),
+        click: event => store.set('launchAtStart', event.checked)
+      },
+      { role: 'services' },
+      { type: 'separator' },
+      { role: 'quit' }
+    ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'View Website',
+        click: async () => {
+          const { shell } = require('electron')
+          await shell.openExternal('https://electronjs.org')
+        }
+      }
+    ]
+  }
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
+
+
+var settingsWindow = null
+
+function openSettingsWindow() {
+  if (settingsWindow) {
+    settingsWindow.focus()
+    return
+  }
+
+  settingsWindow = new BrowserWindow({
+    height: 350,
+    resizable: false,
+    width: 550,
+    title: 'Settings',
+    backgroundColor: '#242424',
+    minimizable: false,
+    fullscreenable: false
+  })
+
+
+  if (is.development) {
+    settingsWindow.loadURL('http://localhost:3000/settings');
+  } else {
+    settingsWindow.loadURL('file://' + __dirname + '/pages/settings.html')
+  }
+
+  settingsWindow.on('closed', function() {
+    settingsWindow = null
+  })
+}
