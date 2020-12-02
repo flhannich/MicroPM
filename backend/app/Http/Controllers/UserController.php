@@ -13,27 +13,77 @@ use App\Models\User;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Message;
+use App\Models\File;
 
 
 class UserController extends Controller
 {
 
-  // public function register(Request $request)
-  // {
-  //     $request->validate([
-  //         'name' => 'required',
-  //         'password' => 'required|min:6',
-  //     ]);
-  //
-  //
-  //     $user = User::create([
-  //         'name' => $request->name,
-  //         'password' => bcrypt($request->password),
-  //         'remember_token' => Str::random(10),
-  //     ]);
-  //
-  //     return response()->json($user);
-  // }
+  public function create(Request $request)
+  {
+    $request = json_decode($request->getContent());
+    $user = User::where('name', $request->username)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        $newuser = User::create([
+          'name' => $request->name,
+          'password' => bcrypt($request->password)
+        ]);
+
+        return response()->json($newuser);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
+  public function delete(Request $request, $id)
+  {
+    $request = json_decode($request->getContent());
+    $user = User::where('name', $request->username)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        User::where('id',$id)->delete();
+        Project::where('user_id',$id)->delete();
+        Message::where('user_id',$id)->delete();
+        Task::where('user_id',$id)->delete();
+        File::where('user_id',$id)->delete();
+
+        return response()->json($newuser);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
+  public function update($request, $id)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token);
+
+    if($user) {
+
+      $request = json_decode($request->getContent());
+
+      User::where('id',$user->id)
+        ->where('user_id', $user->id)
+        ->update(
+          ['name'=> $request->name],
+          ['email'=> $request->email],
+          ['api'=> $request->api]
+        );
+
+      return response()->json(['message' => 'Task updated'], 201);
+    }
+  }
 
 
   public function login (Request $request) {
@@ -70,9 +120,8 @@ class UserController extends Controller
   public function logout (Request $request) {
 
     $token = $request->header('authorization');
-    //
     $user = User::where('remember_token', $token)->first();
-    //
+
     if($user) {
 
       $user->remember_token = '';
@@ -87,57 +136,5 @@ class UserController extends Controller
     return response([$user], 200);
 
   }
-
-
-
-
-  // public function projects(Request $request)
-  // {
-  //     $token = $request->header('authorization');
-  //
-  //     $user = User::where('remember_token', $token)->first();
-  //
-  //     if($user) {
-  //
-  //       $projects = Project::where('client_id', $user->id)->get();
-  //
-  //       return response()->json($projects, 201);
-  //
-  //     } else {
-  //
-  //       return response(['message' => 'Somethings wrong'], 200);
-  //
-  //     }
-  //
-  // }
-
-
-
-
-
-  // public function reviews(Request $request)
-  // {
-  //     $token = $request->header('authorization');
-  //
-  //     $user = User::where('remember_token', $token)
-  //     if($user) {
-  //       $reviews = Task::where(
-  //         ['client_id', $user->id]
-  //         ['is_review', '1']
-  //       )->get();
-  //
-  //     return response()->json($reviews, 201);
-  // }
-
-
-
-
-//   public function login(Request $request, $secret)
-//   {
-//
-//       $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-//
-//       return response()->json($user[0], 201);
-//   }
 
 }

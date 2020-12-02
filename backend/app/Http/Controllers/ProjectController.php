@@ -12,13 +12,89 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $token = $request->header('authorization');
+        $user = User::where('remember_token', $token);
 
-        $user = User::where('remember_token', $token)
-        ->with('projects')
-        ->first();
+      if($user) {
 
-        return response()->json($user, 201);
+        $projects = Project::where('user_id', $user->id)
+          ->width('tasks');
+          ->get();
+
+        return response()->json($projects, 201);
+
+      }
     }
+
+
+    public function show(Request $request, $id )
+    {
+      $token = $request->header('authorization');
+      $user = User::where('remember_token', $token);
+
+      if($user) {
+
+        $task = Project::where('id', $id)
+          ->where('user_id', $user->id)
+          ->width('tasks');
+          ->first();
+
+        return response()->json($task, 201);
+      }
+    }
+
+
+    public function update($request, $id)
+    {
+      $token = $request->header('authorization');
+      $user = User::where('remember_token', $token);
+
+      if($user) {
+
+        $request = json_decode($request->getContent());
+
+
+        Project::where('id',$id)
+          ->where('user_id', $user->id)
+          ->update(
+            ['name'=> $request->name],
+            ['description'=> $request->description]
+          );
+
+        return response()->json(['message' => 'Project Updated'], 201);
+      }
+    }
+
+
+    public function create($request)
+    {
+      $token = $request->header('authorization');
+      $user = User::where('remember_token', $token);
+
+      if($user) {
+
+        $project = new Project();
+        $project->save();
+
+        return response()->json(['message' => 'New Project Created'], 201);
+      }
+    }
+
+
+    public function delete($request, $id)
+    {
+      $token = $request->header('authorization');
+      $user = User::where('remember_token', $token);
+
+      if($user) {
+
+        Project::where('id',$id)
+          ->where('user_id', $user->id)
+          ->delete();
+
+        return response()->json(['message' => 'Project deleted'], 201);
+      }
+    }
+
 
     //
     // public function store(Request $request)

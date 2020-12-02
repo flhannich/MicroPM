@@ -8,28 +8,45 @@ use App\Models\Message;
 
 class MessageController extends Controller
 {
-  public function store(Request $request)
+
+  public function create(Request $request)
   {
-      $token = $request->header('authorization');
+    $token = $request->header('authorization');
 
-      $user = User::where('remember_token', $token)->first();
+    $user = User::where('remember_token', $token)->first();
 
-      if($user) {
+    if($user) {
 
-        $request = json_decode($request->getContent());
+      $request = json_decode($request->getContent());
 
-        $message = new Message;
-        $message->message = $request->message;
-        $message->task_id = $request->task;
-        $message->user_id = $user->id;
-        $message->save();
+      $message = new Message;
+      $message->message = $request->message;
+      $message->task_id = $request->task;
+      $message->user_id = $user->id;
+      $message->save();
 
-        return response()->json('Created', 201);
+      return response()->json('Created', 201);
 
-      } else {
+    } else {
 
-        return response(['message' => 'Somethings wrong'], 200);
+      return response(['message' => 'Somethings wrong'], 200);
 
-      }
+    }
+  }
+
+
+  public function delete($request, $id)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token);
+
+    if($user) {
+
+      Message::where('id',$id)
+        ->where('user_id', $user->id)
+        ->delete();
+
+      return response()->json(['message' => 'Task deleted'], 201);
+    }
   }
 }

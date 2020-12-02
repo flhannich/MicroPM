@@ -12,28 +12,78 @@ use Illuminate\Support\Str;
 use App\Models\Client;
 use App\Models\Task;
 use App\Models\Project;
-
+use App\Models\Message;
+use App\Models\File;
 
 
 class ClientController extends Controller
 {
 
-  // public function register(Request $request)
-  // {
-  //     $request->validate([
-  //         'name' => 'required',
-  //         'password' => 'required|min:6',
-  //     ]);
-  //
-  //
-  //     $user = Client::create([
-  //         'name' => $request->name,
-  //         'password' => bcrypt($request->password),
-  //         'remember_token' => Str::random(10),
-  //     ]);
-  //
-  //     return response()->json($user);
-  // }
+  public function create(Request $request)
+  {
+    $request = json_decode($request->getContent());
+    $user = User::where('name', $request->username)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        $newclient = Client::create([
+          'name' => $request->name,
+          'password' => bcrypt($request->password)
+        ]);
+
+        return response()->json($newclient);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
+  public function delete(Request $request, $id)
+  {
+    $request = json_decode($request->getContent());
+    $user = User::where('name', $request->username)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        Client::where('id',$id)->delete();
+        Project::where('user_id',$id)->delete();
+        Message::where('user_id',$id)->delete();
+        Task::where('user_id',$id)->delete();
+        File::where('user_id',$id)->delete();
+
+        return response()->json(['message' => 'Client Deleted'], 201);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
+  public function update($request, $id)
+  {
+    $token = $request->header('authorization');
+    $client = Client::where('remember_token', $token);
+
+    if($client) {
+
+      $request = json_decode($request->getContent());
+
+      Client::where('id',$client->id)
+        ->where('user_id', $client->id)
+        ->update(
+          ['name'=> $request->name],
+          ['email'=> $request->email]
+          ['api'=> $request->api]
+        );
+
+      return response()->json(['message' => 'Task updated'], 201);
+    }
+  }
 
 
   public function login (Request $request) {
@@ -59,7 +109,7 @@ class ClientController extends Controller
       }
     }
     else {
-      return response(["message" =>'User does not exist'], 422);
+      return response(["message" =>'Client does not exist'], 422);
     }
 
     return response([$request], 200);
@@ -70,9 +120,8 @@ class ClientController extends Controller
   public function logout (Request $request) {
 
     $token = $request->header('authorization');
-    //
     $client = Client::where('remember_token', $token)->first();
-    //
+
     if($client) {
 
       $client->remember_token = '';
@@ -87,139 +136,5 @@ class ClientController extends Controller
     return response([$client], 200);
 
   }
-
-
-  public function projects(Request $request)
-  {
-      $token = $request->header('authorization');
-
-      $client = Client::where('remember_token', $token)
-      ->with('projects')
-      ->first();
-
-      return response()->json($client, 201);
-  }
-
-  // public function projects(Request $request)
-  // {
-  //     $token = $request->header('authorization');
-  //
-  //     $client = Client::where('remember_token', $token)->first();
-  //
-  //     if($client) {
-  //
-  //       $projects = Project::where('client_id', $client->id)->get();
-  //
-  //       return response()->json($projects, 201);
-  //
-  //     } else {
-  //
-  //       return response(['message' => 'Somethings wrong'], 200);
-  //
-  //     }
-  //
-  // }
-
-    public function tasks(Request $request, $project)
-    {
-      $token = $request->header('authorization');
-
-      $client = Client::where('remember_token', $token);
-
-      if($client) {
-
-        $tasks = Task::where('project_id', $project)->with('file')->get();
-
-        return response()->json($tasks, 201);
-
-      } else {
-
-        return response(['message' => 'Somethings wrong'], 200);
-
-      }
-    }
-
-
-
-
-    public function task(Request $request, $id )
-    {
-        $token = $request->header('authorization');
-
-        $client = Client::where('remember_token', $token);
-
-        if($client) {
-
-          $task = Task::where('id', $id)->with('file')->first();
-
-          return response()->json($task, 201);
-
-        } else {
-
-          return response(['message' => 'Somethings wrong'], 200);
-
-        }
-    }
-
-
-
-  // public function reviews(Request $request)
-  // {
-  //     $token = $request->header('authorization');
-  //
-  //     $client = Client::where('remember_token', $token)
-  //     if($client) {
-  //       $reviews = Task::where(
-  //         ['client_id', $client->id]
-  //         ['is_review', '1']
-  //       )->get();
-  //
-  //     return response()->json($reviews, 201);
-  // }
-
-
-  public function updateTaskStatus(Request $request, $id, $status)
-  {
-      $token = $request->header('authorization');
-
-      $client = Client::where('remember_token', $token);
-
-      if($client) {
-
-        $task = Task::where('id', $id)->first();
-
-        if($task) {
-
-          $task->is_accepted = $status;
-          $task->save();
-          // return response()->json([$task], 201);
-
-          if($status === '1') {
-            return response()->json(['message' => 'Accepted'], 201);
-          }
-
-          if($status === '0') {
-            return response()->json(['message' => 'Revoked'], 201);
-          }
-
-        } else
-        {
-          return false;
-        }
-
-      } else
-      {
-        return false;
-      }
-
-  }
-
-//   public function login(Request $request, $secret)
-//   {
-//
-//       $token = $client->createToken('Laravel Password Grant Client')->accessToken;
-//
-//       return response()->json($client[0], 201);
-//   }
 
 }
