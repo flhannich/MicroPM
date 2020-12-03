@@ -1,20 +1,15 @@
 import react from "react";
 
-import { Link } from "react-router-dom";
-
-const check = 'test';
-
-const Footer = () => {
+const Footer = ( { children }) => {
 
   return (
 
-    <div className="container">
-      <div className="text--center">
-        <Link to={{pathname: `/settings`, query: {check}}}>Archive</Link>
-        <Link to={{pathname: `/settings`, query: {check}}}>Add Project</Link>
-        <Link to={{pathname: `/settings`, query: {check}}}>Settings</Link>
-      </div>
+    <footer className="main container">
+      <div className="text--center pt3 pb3">
+      {children}
     </div>
+  </footer>
+
   )
 }
 

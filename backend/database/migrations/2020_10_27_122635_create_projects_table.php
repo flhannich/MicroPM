@@ -17,8 +17,8 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('description');
-            $table->string('client_id');
+            $table->string('description')->nullable();;
+            $table->string('client_id')->nullable();;
             $table->string('user_id');
             $table->string('status')->default('not_started');
         });

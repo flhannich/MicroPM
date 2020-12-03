@@ -17,11 +17,11 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('status');
+            $table->string('status')->default('Not Started');
             $table->integer('is_review')->default(0);
-            $table->integer('is_accepted')->default(0);;
-            $table->integer('weight');
-            $table->longText('description');
+            $table->integer('is_accepted')->default(0);
+            $table->integer('weight')->default(1);
+            $table->longText('description')->nullable();
             $table->string('project_id');
             $table->string('user_id');
             $table->string('client_id');

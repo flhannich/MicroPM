@@ -29,12 +29,26 @@ use App\Http\Controllers\MessageController;
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   Route::get('/projects', [ProjectController::class, 'index']);
+  Route::post('/projects/{id}', [ProjectController::class, 'show']);
+  Route::post('/projects/create', [ProjectController::class, 'create']);
+  Route::post('/projects/{id}/delete', [ProjectController::class, 'delete']);
 
-  Route::get('/projects/{project}/tasks', [TaskController::class, 'index']);
-  Route::get('/task/{id}', [TaskController::class, 'show']);
-  Route::get('/task/{status}', [TaskController::class, 'showByStatus']);
-  Route::post('/task/{id}/{status}', [TaskController::class, 'updateStatus']);
-  Route::post('/task/{id}/{accepted}', [TaskController::class, 'updateAccepted']);
+  Route::post('/tasks/project/{id}', [TaskController::class, 'index']);
+
+
+
+
+  Route::post('/tasks/{id}', [TaskController::class, 'show']);
+  Route::post('/tasks/create/{project}', [TaskController::class, 'create']);
+  Route::post('/tasks/{id}/delete', [TaskController::class, 'delete']);
+
+  // Route::post('/tasks/status', [TaskController::class, 'showByStatus']);
+  //
+  //
+  //
+  //
+  // Route::post('/task/{id}/{status}', [TaskController::class, 'updateStatus']);
+  // Route::post('/task/{id}/{accepted}', [TaskController::class, 'updateAccepted']);
 
   Route::post('/message/create', [MessageController::class, 'create']);
   // Route::get('/message/delete/{message}', [TaskController::class, 'delete']);

@@ -2,10 +2,78 @@ p:not(:last-of-type) {
   margin-bottom: 1em;
 }
 
-ul li {
-  list-style: disc;
-  margin-left: 16px;
+ul {
+  border-bottom: 1px solid var(--border-color--light);
+  padding-bottom: 12px;
   margin-bottom: 12px;
+  li {
+    list-style: none;
+    a {
+      display: flex;
+      padding: 8px 12px;
+      margin-left: -12px;
+      margin-right: -12px;
+      border-radius: 5px;
+      align-items: center;
+      // border: 1px solid red;
+      &:hover {
+        background-color: var(--background-color--dark);
+      }
+    }
+  }
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+section.modal {
+  position: absolute;
+  display: inline-block;
+  bottom: 48px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color--dark);
+  &.is-hidden {
+    pointer-events: none;
+    opacity: 0;
+  }
+  &.is-active {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+
+header.main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  h2 {
+    color: var(--font-color--lightest);
+  }
+}
+
+article.main {
+  position: absolute;
+  top: 38px;
+  bottom: 54px;
+  padding-top: 10px;
+  left: 0;
+  right: 0;
+  overflow: auto;
+}
+
+footer.main {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  a {
+    display: inline-block;
+    margin: 0 10px;
+  }
 }
 
 .text--center {

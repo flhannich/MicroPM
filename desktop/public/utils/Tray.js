@@ -22,7 +22,7 @@ class TrayGenerator {
   getWindowPosition = () => {
     const windowBounds = this.mainWindow.getBounds();
     const trayBounds = this.tray.getBounds();
-    const x = Math.round(trayBounds.x + (trayBounds.width / 2) - (windowBounds.width / 2));
+    const x = Math.round(trayBounds.x + trayBounds.width - (windowBounds.width));
     const y = Math.round(trayBounds.y + trayBounds.height);
     return { x, y };
   };

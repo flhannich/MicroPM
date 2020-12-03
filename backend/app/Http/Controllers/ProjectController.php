@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Task;
+use App\Models\Message;
 
 class ProjectController extends Controller
 {
@@ -16,8 +18,9 @@ class ProjectController extends Controller
 
       if($user) {
 
-        $projects = Project::where('user_id', $user->id)
-          ->width('tasks');
+        $projects = Project::with('tasks')
+          ->with('client')
+          ->orderBy('updated_at', 'DESC')
           ->get();
 
         return response()->json($projects, 201);
@@ -33,17 +36,16 @@ class ProjectController extends Controller
 
       if($user) {
 
-        $task = Project::where('id', $id)
-          ->where('user_id', $user->id)
-          ->width('tasks');
+        $project = Project::where('id', $id)
+          ->with('client')
           ->first();
 
-        return response()->json($task, 201);
+        return response()->json($project, 200);
       }
     }
 
 
-    public function update($request, $id)
+    public function update(Request $request, $id)
     {
       $token = $request->header('authorization');
       $user = User::where('remember_token', $token);
@@ -65,14 +67,17 @@ class ProjectController extends Controller
     }
 
 
-    public function create($request)
+    public function create(Request $request)
     {
       $token = $request->header('authorization');
-      $user = User::where('remember_token', $token);
+      $user = User::where('remember_token', $token)->first();
 
       if($user) {
 
         $project = new Project();
+        $project->name = 'New Project';
+        $project->status = 'not_started';
+        $project->user_id = $user->id;
         $project->save();
 
         return response()->json(['message' => 'New Project Created'], 201);
@@ -80,18 +85,21 @@ class ProjectController extends Controller
     }
 
 
-    public function delete($request, $id)
+    public function delete(Request $request, $id)
     {
       $token = $request->header('authorization');
-      $user = User::where('remember_token', $token);
+      $user = User::where('remember_token', $token)->first();
 
       if($user) {
+        if($user->role === 'admin') {
 
-        Project::where('id',$id)
-          ->where('user_id', $user->id)
-          ->delete();
+          Project::where('id',$id)->delete();
 
-        return response()->json(['message' => 'Project deleted'], 201);
+          return response()->json(['message' => 'Project deleted'], 201);
+
+        } else {
+          return response()->json(['message' => 'Not permitted'], 201);
+        }
       }
     }
 

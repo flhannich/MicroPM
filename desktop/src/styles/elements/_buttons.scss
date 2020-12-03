@@ -1,6 +1,6 @@
 a.btn {
   text-decoration: none;
-  cursor: pointer;
+  cursor: default;
   &.btn--none {
     display: inline-block;
     height: 32px;
@@ -11,11 +11,11 @@ a.btn {
   }
   &.btn--secondary {
     display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 16px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 12px;
     border-radius: var(--border-radius);
-    background-color: var(--background-color--brand);
+    background-color: var(--background-color--dark);
     color: var(--font-color)
   }
   &.btn--cta {

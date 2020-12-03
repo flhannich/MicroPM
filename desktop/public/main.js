@@ -16,16 +16,17 @@ const store = new Store(schema);
 
 const createMainWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 350,
-    height: 450,
+    width: 320,
+    height: 440,
     show: false,
     frame: false,
-    vibrancy: 'dark',
+    vibrancy: 'ultra-dark',
     fullscreenable: false,
     resizable: false,
     webPreferences: {
       devTools: is.development,
       nodeIntegration: true,
+      enableRemoteModule: true,
       preload: __dirname + '/preload.js',
     }
   });

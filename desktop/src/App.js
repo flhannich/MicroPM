@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from "react";
 
-import { Login, Dashboard, Header } from "./components"
+import { Login, Project, Header } from "./components"
 
 import { AuthProvider, AuthContext } from './context/AuthContext'; // import based on where you put it
 
@@ -23,7 +23,7 @@ export default function App( probs ) {
           ? <Login />
           : <>
               <Header />
-              <Dashboard />
+              <Project />
             </>
         }
 

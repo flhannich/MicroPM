@@ -4,11 +4,11 @@ const Header = () => {
 
   return (
 
-    <div className="container">
+    <header className="main container">
       <div className="text--center pt2 pb2">
-        <p>Active Task</p>
+        <h2>Active Task</h2>
       </div>
-    </div>
+    </header>
   )
 }
 

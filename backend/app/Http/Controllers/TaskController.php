@@ -6,24 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Task;
+use App\Models\Message;
+use App\Models\File;
 
 class TaskController extends Controller
 {
 
-  public function index(Request $request, $project)
+  public function index(Request $request, $id)
   {
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token);
 
     if($user) {
 
-      $tasks = Task::where('project_id', $project)
-        ->where('user_id', $user->id)
+      $tasks = Task::where('project_id', $id)
+        ->orderBy('updated_at', 'DESC')
         ->with('file')
         ->with('message')
         ->get();
 
-      return response()->json($tasks, 201);
+      return response()->json($tasks, 200);
 
     } else {
 
@@ -76,14 +78,18 @@ class TaskController extends Controller
   }
 
 
-  public function create($request)
+  public function create(Request $request, $project)
   {
     $token = $request->header('authorization');
-    $user = User::where('remember_token', $token);
+    $user = User::where('remember_token', $token)->first();
 
     if($user) {
 
       $task = new Task();
+      $task->name = 'New Task';
+      $task->user_id = $user->id;
+      $task->project_id = $project;
+      $task->client_id = 1;
       $task->save();
 
       return response()->json(['message' => 'New Task Created'], 201);
@@ -91,38 +97,37 @@ class TaskController extends Controller
   }
 
 
-  public function delete($request, $id)
+  public function delete(Request $request, $id)
   {
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token);
 
     if($user) {
 
-      Task::where('id',$id)
-        ->where('user_id', $user->id)
-        ->delete();
+      Task::where('id',$id)->delete();
+      Message::where('task_id',$id)->delete();
+      File::where('task_id',$id)->delete();
 
       return response()->json(['message' => 'Task deleted'], 201);
     }
   }
 
 
-  public function showByStatus(Request $request, $status )
+  public function showByStatus(Request $request )
   {
     $token = $request->header('authorization');
+
     $user = User::where('remember_token', $token);
 
     if($user) {
 
-      $task = Task::where('status', $status)
-        ->where('user_id', $user->id)
-        ->with('file')
-        ->with('message')
-        ->first();
+      $request = json_decode($request->getContent());
+
+      $task = Task::where('status', $request->status)->get();
 
       return response()->json($task, 201);
     }
-}
+  }
 
 
   public function updateAccepted(Request $request, $id, $accepted)
@@ -145,3 +150,5 @@ class TaskController extends Controller
       }
     }
   }
+
+}

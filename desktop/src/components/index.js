@@ -7,3 +7,11 @@ export { default as Files } from './Files';
 export { default as SubTasks } from './SubTasks';
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';
+
+export { default as CardMessage } from './CardMessage';
+export { default as CardFile } from './CardFile';
+export { default as CardProject } from './CardProject';
+export { default as CardTask } from './CardTask';
+export { default as CardSubTask } from './CardSubTask';
+
+export { default as Modal } from './Modal';

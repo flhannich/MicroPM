@@ -32,8 +32,8 @@ export default function Settings() {
       <>
       <Header />
 
-      <div className="container">
-      
+      <article className="main container">
+
         <div>
           <Link to="/">Back</Link>
         </div>
@@ -42,7 +42,7 @@ export default function Settings() {
           <Logout />
         </div>
 
-      </div>
+      </article>
       </>
     )
 }

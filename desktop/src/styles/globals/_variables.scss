@@ -2,8 +2,8 @@
   Font Settings
 */
 $base-font-color: #eee;
-$base-font-size: 16px;
-$base-line-height: 1.65;
+$base-font-size: 14px;
+$base-line-height: 1.5;
 
 /*
   Grid
@@ -50,7 +50,7 @@ $desktop: 1200px;
   --font-color: #{rgba( $base-font-color, .85 )};
   --font-color--light: #{rgba( $base-font-color, .74 )};
   --font-color--lighter: #{rgba( $base-font-color, .62 )};
-  --font-color--lightest: #{rgba( $base-font-color, .54 )};
+  --font-color--lightest: #{rgba( $base-font-color, .38 )};
   --font-color--placeholder: #{rgba( $base-font-color, .38 )};
   --font-color--warning: red;
 
@@ -65,7 +65,7 @@ $desktop: 1200px;
   */
 
   --background-color--light: #f5f5f5;
-  --background-color--dark: #282828;
+  --background-color--dark: #191919;
   --background-color--warn: #fdd8d8;
   --background-color--brand: #555;
   --background-color--warning: #ff6a6a;
@@ -74,7 +74,7 @@ $desktop: 1200px;
     Colors Border
   */
   --border-color--lightest: #f5f5f5;
-  --border-color--light: #d5d5d5;
+  --border-color--light: rgba(255,255,255, .15);
   --border-color--standard: #bbb;
   --border-color--dark: #383838;
   --border-color--input: #383838;

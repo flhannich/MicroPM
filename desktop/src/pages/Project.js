@@ -6,7 +6,8 @@ import { Logout, Header, Footer } from './../components'
 import { AuthContext } from './../context/AuthContext'; // import based on where you put it
 
 export default function Project() {
-
+  const check = "dsa";
+  
   const token = useContext(AuthContext).token;
 
     return (
@@ -20,7 +21,12 @@ export default function Project() {
           <Link to="/">Back</Link>
         </div>
 
-        <Footer />
+        <footer className="main container">
+          <div className="text--center pt3 pb3">
+            <Link to={{pathname: `/settings`, query: {check}}}>Settings</Link>
+          </div>
+        </footer>
+
       </div>
       </>
     )
