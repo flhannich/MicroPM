@@ -2,7 +2,8 @@ import React, {useEffect, useState, useContext} from "react";
 
 import { Link } from "react-router-dom";
 
-import { AuthContext } from '../context/AuthContext'; // import based on where you put it
+import { AuthContext } from '../context/AuthContext';
+import { AppContext } from '../context/AppContext';
 
 import { CardTask, CardProject, Modal, Footer } from '../components';
 
@@ -10,9 +11,8 @@ const { Menu, MenuItem } = window.remote;
 
 const Dashboard = () => {
 
-const check = '/some/other/value'
-
 const token = useContext(AuthContext).token;
+const app = useContext(AppContext);
 
 const [projects, setProjects] = useState([]);
 const [tasks, setTasks] = useState([]);
@@ -22,14 +22,14 @@ const [modalState, setModalState] = useState(false);
 const _getTasks = (id) => {
   if(!token) return;
   setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/tasks/status`, {
+  fetch(`http://192.168.178.35:8000/api/tasks/get/status`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
     },
-    body: JSON.stringify({status: 'in_progress'})
+    body: JSON.stringify({status: 'In Progress'})
   })
   .then((response) => response.json())
   .then((json) => setTasks(json))
@@ -127,7 +127,9 @@ const _contextMenu = () => {
 
             {tasks.map((item, index) =>
               <>
-                <li>
+                <li
+                  onClick={() => app.setTask(item.id)}
+                >
                   <CardTask
                     key={index}
                     data={item}
@@ -142,7 +144,9 @@ const _contextMenu = () => {
           <ul>
             {projects.map((item, index) =>
               <>
-                <li>
+                <li
+                  onClick={() => app.setProject(item.id)}
+                >
                   <CardProject
                     key={index}
                     data={item}

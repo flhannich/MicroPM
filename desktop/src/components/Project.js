@@ -2,7 +2,8 @@ import React, {useEffect, useState, useContext} from "react";
 
 import { Link } from "react-router-dom";
 
-import { AuthContext } from '../context/AuthContext'; // import based on where you put it
+import { AuthContext } from '../context/AuthContext';
+import { AppContext } from '../context/AppContext';
 
 import { CardTask, CardProject, Modal, Footer } from '../components';
 
@@ -10,9 +11,10 @@ const { Menu, MenuItem } = window.remote;
 
 const Project = () => {
 
-const id = 1;
-
 const token = useContext(AuthContext).token;
+const app = useContext(AppContext);
+
+console.log(app.project);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
@@ -23,7 +25,7 @@ const [modalState, setModalState] = useState(false);
 const _getTasks = () => {
   if(!token) return;
   setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/tasks/project/${id}`, {
+  fetch(`http://192.168.178.35:8000/api/tasks/project/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -40,7 +42,7 @@ const _getTasks = () => {
 
 const _getProject = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects/${id}`, {
+  fetch(`http://192.168.178.35:8000/api/projects/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -55,7 +57,7 @@ const _getProject = () => {
 
 const _createTask = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/tasks/create/${id}`, {
+  fetch(`http://192.168.178.35:8000/api/tasks/create/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -81,7 +83,7 @@ const _deleteTask = (taskId) => {
     }
   })
   .then((response) => response.json())
-  .then(() => _getTasks())
+  .then((json) => _getTasks())
   .catch((error) => console.error(error))
 }
 
@@ -122,7 +124,9 @@ const contextMenu = () => {
       <article className="main container">
 
         <ul>
-          <li>
+          <li
+            onClick={() => app.setProject(null)}
+          >
             <CardProject
               data={project}
             />
@@ -136,7 +140,9 @@ const contextMenu = () => {
             {tasks.map((item, index) =>
               <>
               {item.status === cat &&
-                <li>
+                <li
+                  onClick={() => app.setTask(item.id)}
+                >
                   <CardTask
                     key={index}
                     data={item}

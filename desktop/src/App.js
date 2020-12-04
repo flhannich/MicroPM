@@ -1,17 +1,19 @@
 import React, {useEffect, useState, useContext} from "react";
 
-import { Login, Project, Header } from "./components"
+import { Login, Dashboard, Project, Task, Header } from "./components"
 
-import { AuthProvider, AuthContext } from './context/AuthContext'; // import based on where you put it
+import { AuthContext } from './context/AuthContext';
+import { AppContext } from './context/AppContext';
 
 export default function App( probs ) {
 
-  const context = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  const app = useContext(AppContext);
 
   useEffect(() => {
     window.ipcRenderer.on('INIT_TOKEN', function (event,token) {
       if(token !== undefined) {
-        context.setToken(token)
+        auth.setToken(token)
       }
     })
   }, [])
@@ -19,11 +21,23 @@ export default function App( probs ) {
   return (
     <>
 
-        {(context.token === null)
+        {(auth.token === null)
           ? <Login />
           : <>
               <Header />
-              <Project />
+
+              {app.project === null && app.task === null &&
+                <Dashboard />
+              }
+
+              {app.project !== null && app.task === null &&
+                <Project />
+              }
+
+              {app.task !== null &&
+                <Task />
+              }
+
             </>
         }
 

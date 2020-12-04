@@ -41,8 +41,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   Route::post('/tasks/{id}', [TaskController::class, 'show']);
   Route::post('/tasks/create/{project}', [TaskController::class, 'create']);
   Route::post('/tasks/{id}/delete', [TaskController::class, 'delete']);
-
-  // Route::post('/tasks/status', [TaskController::class, 'showByStatus']);
+  Route::post('/tasks/get/status', [TaskController::class, 'showByStatus']);
   //
   //
   //

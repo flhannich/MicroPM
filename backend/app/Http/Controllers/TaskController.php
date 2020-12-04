@@ -42,7 +42,6 @@ class TaskController extends Controller
     if($user) {
 
       $task = Task::where('id', $id)
-        ->where('user_id', $user->id)
         ->with('file')
         ->with('message')
         ->first();
