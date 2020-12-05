@@ -1,11 +1,9 @@
 import React, {useEffect, useState, useContext} from "react";
 
-import { Link } from "react-router-dom";
-
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 
-import { CardTask, CardProject, Modal, Footer } from '../components';
+import { Header, CardTask, CardProject, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -39,7 +37,6 @@ const _getTasks = (id) => {
 
 
 const _getProjects = () => {
-  console.log('get')
   if(!token) return;
   fetch(`http://192.168.178.35:8000/api/projects`, {
     method: "GET",
@@ -114,9 +111,11 @@ const _contextMenu = () => {
     <>
 
     {loading
-      ? <p>Loading</p>
+      ? <p></p>
       : (
         <>
+
+        <Header />
 
       <article className="main container">
 
@@ -126,40 +125,41 @@ const _contextMenu = () => {
           <span className="label pb2">In Progress</span>
 
             {tasks.map((item, index) =>
-              <>
-                <li
-                  onClick={() => app.setTask(item.id)}
-                >
-                  <CardTask
-                    key={index}
-                    data={item}
-                  />
-                </li>
-              </>
+              <li
+                key={index}
+                onClick={() => app.setTask(item.id)}
+              >
+                <CardTask
+                  key={index}
+                  data={item}
+                />
+              </li>
             )}
           </ul>
         }
 
         {projects.length > 0 &&
           <ul>
+
+          <span className="label pb2">Projects</span>
+
             {projects.map((item, index) =>
-              <>
-                <li
-                  onClick={() => app.setProject(item.id)}
-                >
-                  <CardProject
-                    key={index}
-                    data={item}
-                  />
-                </li>
-              </>
+              <li
+                key={index}
+                onClick={() => app.setProject(item.id)}
+              >
+                <CardProject
+                  key={index}
+                  data={item}
+                />
+              </li>
             )}
           </ul>
         }
 
       </article>
 
-      <Modal
+      <FooterModal
         setModalState={setModalState}
         modalState={modalState}
       >
@@ -167,7 +167,7 @@ const _contextMenu = () => {
             className="btn btn--secondary"
             onClick={() => _createProject()}
           >New Project</a>
-      </Modal>
+      </FooterModal>
 
       <Footer>
         <a

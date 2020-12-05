@@ -8,7 +8,7 @@ $base-line-height: 1.5;
 /*
   Grid
 */
-$site-padding: 24px;
+$site-padding: 20px;
 
 $grid-columns: 12;
 $grid-gutters: 100% / $grid-columns / 3;
@@ -65,9 +65,10 @@ $desktop: 1200px;
   */
 
   --background-color--light: #f5f5f5;
+  --background-color--grey: rgba(0,0,0, .2);
   --background-color--dark: #191919;
   --background-color--warn: #fdd8d8;
-  --background-color--brand: #555;
+  --background-color--brand: rgba(0,0,0, .3);
   --background-color--warning: #ff6a6a;
   --background-color--input: #555;
   /*
@@ -76,7 +77,7 @@ $desktop: 1200px;
   --border-color--lightest: #f5f5f5;
   --border-color--light: rgba(255,255,255, .15);
   --border-color--standard: #bbb;
-  --border-color--dark: #383838;
+  --border-color--dark: #;
   --border-color--input: #383838;
   --border-color--input--focus: #383838;
   --border-color--warning: red;

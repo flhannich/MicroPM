@@ -1,6 +1,6 @@
 import react, { useRef, useState, useEffect } from "react";
 
-const Modal = ( { children, modalState, setModalState }) => {
+const FooterModal = ( { children, modalState, setModalState }) => {
 
   const node = useRef();
 
@@ -34,4 +34,4 @@ const Modal = ( { children, modalState, setModalState }) => {
   )
 }
 
-export default Modal
+export default FooterModal

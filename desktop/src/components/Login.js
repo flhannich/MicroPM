@@ -4,7 +4,7 @@ import { AuthContext } from './../context/AuthContext.js'
 
 const Login = () => {
 
-  const context = useContext(AuthContext);
+  const auth = useContext(AuthContext);
 
   const [url, setUrl] = useState('')
   const [username, setUsername] = useState('')
@@ -24,7 +24,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({username: 'admin', password: '1234'})
+        body: JSON.stringify({username: username, password: password})
       })
       .then((response) => response.json())
       .then((json) => {
@@ -36,8 +36,8 @@ const Login = () => {
           }
         } else {
           window.ipcRenderer.send('TOKEN', json.remember_token)
-          context.setToken(json.remember_token)
-          console.log('logged in')
+          auth.setToken(json.remember_token)
+          auth.setUsername(username)
         }
       })
       .catch((error) => setErrorMessage(error))

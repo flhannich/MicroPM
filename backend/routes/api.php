@@ -8,6 +8,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SubTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   Route::post('/tasks/create/{project}', [TaskController::class, 'create']);
   Route::post('/tasks/{id}/delete', [TaskController::class, 'delete']);
   Route::post('/tasks/get/status', [TaskController::class, 'showByStatus']);
+
+  Route::post('/subtasks/create/{task}', [SubTaskController::class, 'create']);
+  Route::post('/subtasks/{id}/delete', [SubTaskController::class, 'delete']);
   //
   //
   //

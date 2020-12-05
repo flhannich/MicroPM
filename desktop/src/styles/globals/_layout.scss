@@ -4,8 +4,8 @@ p:not(:last-of-type) {
 
 ul {
   border-bottom: 1px solid var(--border-color--light);
-  padding-bottom: 12px;
-  margin-bottom: 12px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
   li {
     list-style: none;
     a {
@@ -17,7 +17,7 @@ ul {
       align-items: center;
       // border: 1px solid red;
       &:hover {
-        background-color: var(--background-color--dark);
+        background-color: var(--background-color--grey);
       }
     }
   }
@@ -26,10 +26,11 @@ ul {
   }
 }
 
+
 section.modal {
   position: absolute;
   display: inline-block;
-  bottom: 48px;
+  bottom: 44px;
   left: 50%;
   transform: translate(-50%, 0);
   border-radius: var(--border-radius);
@@ -50,19 +51,104 @@ header.main {
   top: 0;
   left: 0;
   right: 0;
+  > div {
+    justify-content: space-between;
+    align-items: center;
+  }
   h2 {
     color: var(--font-color--lightest);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.message-wrapper {
+  border-radius: var(--border-radius);
+  background-color: var(--background-color--grey);
+}
+
+.message-input-wrapper {
+  display: flex;
+  align-items: flex-end;
+  [contenteditable] {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color--light);
+    background-color: transparent;
+    padding: 4px 8px;
+    margin-right: 4px;
+  }
+  a.btn {
+    border-radius: 100px !important;
+  }
+}
+
+.project-title-wrapper {
+  display: flex;
+  align-items: center;
+  div {
+    flex: 1;
+    z-index: 1;
+    span {
+      display: inline-block;
+      border-radius: var(--border-radius);
+      padding: 2px 4px;
+      margin: -2px -4px;
+      cursor: default;
+      &:hover {
+        background-color: var(--background-color--grey);
+      }
+    }
+  }
+  .ic {
+    opacity: 0;
+  }
+}
+
+.subtask-wrapper {
+  display: flex;
+  align-items: flex-start;
+  div {
+    flex: 1
+  }
+  p {
+    border: 1px solid rgba(0,0,0,0);
+  }
+  &.is-done {
+    opacity: .5;
+  }
+}
+
+.checkbox-wrapper {
+  &.is-checked {
+  }
+  input[type="checkbox"] {
+    margin-right: 8px;
+    margin-top: 5px;
+  }
+
+}
+
+[contenteditable] {
+  outline: 0px solid transparent;
+  border: 1px solid rgba(0,0,0,0);
+  border-radius: var(--border-radius);
+  width: 100%;
+  padding: 4px;
+  margin: -4px;
+  &:focus {
+    border: 1px solid var(--border-color--light);
   }
 }
 
 article.main {
   position: absolute;
-  top: 38px;
-  bottom: 54px;
-  padding-top: 10px;
+  top: 48px;
+  bottom: 38px;
   left: 0;
   right: 0;
   overflow: auto;
+  padding-top: 4px;
 }
 
 footer.main {

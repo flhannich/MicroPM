@@ -13,5 +13,7 @@ export { default as CardFile } from './CardFile';
 export { default as CardProject } from './CardProject';
 export { default as CardTask } from './CardTask';
 export { default as CardSubTask } from './CardSubTask';
+export { default as CardDescription } from './CardDescription';
 
-export { default as Modal } from './Modal';
+export { default as FooterModal } from './FooterModal';
+export { default as Textarea } from './Textarea';

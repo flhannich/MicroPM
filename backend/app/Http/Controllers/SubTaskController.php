@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\SubTask;
+use App\Models\User;
+
+class SubTaskController extends Controller
+{
+  public function index(Request $request, $id)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token);
+
+    if($user) {
+
+      $subtasks = Task::where('task_id', $id)->get();
+
+      return response()->json($subtasks, 200);
+
+    } else {
+
+      return response(['message' => 'Somethings wrong'], 200);
+    }
+  }
+
+  public function update(Request $request, $id)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token);
+
+    if($user) {
+
+      $request = json_decode($request->getContent());
+
+      SubTask::where('id',$id)
+        ->update(
+          ['name'=> $request->name],
+          ['status'=> $request->status]
+        );
+
+      return response()->json(['message' => 'Sub Task Updated'], 201);
+    }
+  }
+
+
+  public function create(Request $request, $task)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
+
+    if($user) {
+
+      $subtask = new SubTask();
+      $subtask->name = 'New Sub Task';
+      $subtask->status = 0;
+      $subtask->task_id = $task;
+      $subtask->save();
+
+      return response()->json(['message' => 'New Sub Task Created'], 201);
+    }
+  }
+
+
+  public function delete(Request $request, $id)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
+
+    if($user) {
+
+      SubTask::where('id',$id)->delete();
+
+      return response()->json(['message' => 'Sub Task deleted'], 201);
+
+    }
+  }
+
+}

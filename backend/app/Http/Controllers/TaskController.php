@@ -20,8 +20,9 @@ class TaskController extends Controller
     if($user) {
 
       $tasks = Task::where('project_id', $id)
-        ->orderBy('updated_at', 'DESC')
+        ->orderBy('status', 'ASC')
         ->with('file')
+        ->with('subtask')
         ->with('message')
         ->get();
 
@@ -44,6 +45,7 @@ class TaskController extends Controller
       $task = Task::where('id', $id)
         ->with('file')
         ->with('message')
+        ->with('subtask')
         ->first();
 
       return response()->json($task, 201);

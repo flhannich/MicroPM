@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 
-import { CardTask, CardProject, Modal, Footer } from '../components';
+import { Header, CardTask, CardProject, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -13,8 +13,6 @@ const Project = () => {
 
 const token = useContext(AuthContext).token;
 const app = useContext(AppContext);
-
-console.log(app.project);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
@@ -93,6 +91,8 @@ useEffect(() => {
   _getTasks();
   contextMenu();
 }, []);
+//
+// console.log(tasks);
 
 
 const contextMenu = () => {
@@ -110,26 +110,39 @@ const contextMenu = () => {
    }, false)
 }
 
+const showProjectSettings = () => {
 
-
+}
 
   return (
     <>
 
     {loading
-      ? <p>Loading</p>
+      ? <p></p>
       : (
         <>
+
+        <Header
+          back={app.setProject}
+        />
 
       <article className="main container">
 
         <ul>
-          <li
-            onClick={() => app.setProject(null)}
-          >
-            <CardProject
-              data={project}
+          <li className="project-title-wrapper">
+            <span className="pr3">IC</span>
+            <div>
+            <Textarea
+              data={project.name}
             />
+            <div
+              className="client-title-wrapper"
+              onClick={() => showProjectSettings()}
+            >
+              <span className="info pr1">{project.client.name}</span>
+              <span className="ic">E</span>
+            </div>
+            </div>
           </li>
         </ul>
 
@@ -158,7 +171,7 @@ const contextMenu = () => {
 
       </article>
 
-      <Modal
+      <FooterModal
         setModalState={setModalState}
         modalState={modalState}
       >
@@ -166,7 +179,7 @@ const contextMenu = () => {
             className="btn btn--secondary"
             onClick={() => _createTask()}
           >New Task</a>
-      </Modal>
+      </FooterModal>
 
       <Footer>
         <a

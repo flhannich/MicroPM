@@ -26,6 +26,8 @@ a {
   }
 }
 
+
+
 h2 {
   font-size: $base-font-size;
   line-height: 1.25;
@@ -36,7 +38,18 @@ label {
   font-size: 13px;
 }
 
+textarea {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  color: var(--font-color);
+}
+
 .paragraph--small p {
+  font-size: 13px;
+}
+
+a.btn {
   font-size: 13px;
 }
 

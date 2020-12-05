@@ -4,148 +4,188 @@ import { Link } from "react-router-dom";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
+//
+// import { _getTask } from '../api/Task'
+// import { _createSubTask, _deleteSubTask } from '../api/Subtask'
 
-import { CardTask, CardSubTask, Modal, Footer } from '../components';
+import { Header, CardSubTask, CardMessage, CardDescription, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
 const Task = () => {
 
-const token = useContext(AuthContext).token;
-const app = useContext(AppContext);
+  const auth = useContext(AuthContext);
+  const app = useContext(AppContext);
 
-console.log(app.task);
+  const token = auth.token;
+  const username = auth.username;
 
-const [task, setTask] = useState([]);
-const [subTasks, setSubTasks] = useState([]);
-const [loading, setLoading] = useState(true);
-const [modalState, setModalState] = useState(false);
-
-const _getSubTasks = () => {
-  if(!token) return;
-  setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/subtasks/task/${app.task}`, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token,
-    }
-  })
-  .then((response) => response.json())
-  .then((json) => setSubTasks(json))
-  .catch((error) => console.error(error))
-  .finally(() => setLoading(false))
-}
+  const [task, setTask] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modalState, setModalState] = useState(false);
 
 
-const _getTask = () => {
-  if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/tasks/${app.task}`, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token,
-    }
-  })
-  .then((response) => response.json())
-  .then((json) => setTask(json))
-  .catch((error) => console.error(error))
-  .finally(() => setLoading(false))
-}
-
-const _createSubTask = () => {
-  if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/subtasks/create/${app.task}`, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token,
-    }
-  })
-  .then((response) => response.json())
-  .then((json) => _getSubTasks())
-  .catch((error) => console.error(error))
-  .finally(() => setModalState(false))
-}
+  const _getTask = () => {
+    if(!token) return;
+    fetch(`http://192.168.178.35:8000/api/tasks/${app.task}`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => setTask(json))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
 
 
-const _deleteTask = (taskId) => {
-  if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/subtasks/${taskId}/delete`, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token,
-    }
-  })
-  .then((response) => response.json())
-  .then((json) => _getSubTasks())
-  .catch((error) => console.error(error))
-}
+  const _createSubTask = () => {
+    if(!token) return;
+    fetch(`http://192.168.178.35:8000/api/subtasks/create/${app.task}`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => _getTask())
+    .catch((error) => console.error(error))
+    .finally(() => setModalState(false))
+  }
 
 
-useEffect(() => {
-  _getTask();
-  // _getSubTasks();
-  contextMenu();
-}, []);
+  const _deleteSubTask = (subTaskId) => {
+    if(!token) return;
+    fetch(`http://192.168.178.35:8000/api/subtasks/${subTaskId}/delete`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+  }
 
 
-const contextMenu = () => {
-  window.addEventListener('contextmenu', (e) => {
-     const menu = new Menu();
-     if (e.target.dataset.task) {
-       menu.append(new MenuItem({
-         label: "Delete Subtask",
-         click: () => {
-           _deleteTask(e.target.dataset.id)
-         }
-       }));
-     }
-     menu.popup({ window: window.remote.getCurrentWindow() })
-   }, false)
-}
+  useEffect(() => {
+    _getTask();
+    contextMenu();
+  }, []);
 
 
+  // console.log(task.subtask.filter(item => item.id !== 27));
+
+  // console.log(setTask(task.subtask.some(item => item.id !== 27)))
+  const contextMenu = () => {
+    window.addEventListener('contextmenu', (e) => {
+       const menu = new Menu();
+       if (e.target.dataset.subtask) {
+         menu.append(new MenuItem({
+           label: "Delete Subtask",
+           click: () => {
+             _deleteSubTask(e.target.dataset.id)
+           }
+         }));
+       }
+       if (e.target.dataset.message) {
+         menu.append(new MenuItem({
+           label: "Create Subtask from Selection",
+           click: () => {
+             _deleteSubTask('000')
+           }
+         }));
+         menu.append(new MenuItem({
+           type: "separator",
+         }));
+         menu.append(new MenuItem({
+           label: "Delete Message",
+           click: () => {
+             _deleteSubTask('000')
+           }
+         }));
+       }
+       menu.popup({ window: window.remote.getCurrentWindow() })
+     }, false)
+  }
 
 
   return (
     <>
 
     {loading
-      ? <p>Loading</p>
+      ? <p></p>
       : (
         <>
 
+      <Header
+        back={app.setTask}
+      />
+
       <article className="main container">
 
+      <ul>
+        <li
+        >
+          <Textarea
+            data={task.name}
+          />
+        </li>
+      </ul>
+
+
+      { task.subtask.length > 0 &&
         <ul>
+        <span className="label pb2">Sub Tasks</span>
+          {task.subtask.map((item, index) =>
+            <li>
+              <CardSubTask
+                key={index}
+                data={item}
+              />
+            </li>
+          )}
+        </ul>
+      }
+
+
+        <ul>
+          <span className="label pb2">Description</span>
           <li
-            onClick={() => app.setTask(null)}
           >
-            <CardTask
-              data={task}
+            <Textarea
+              data={task.description}
             />
           </li>
         </ul>
 
 
-
+        {task.message.length > 0 &&
         <ul>
-        <span className="label pb2">Description</span>
-          <li className="paragraph-small">
-            <p>{task.description}</p>
-          </li>
+          <span className="label pb2">Messages</span>
+
+          {task.message.map((item, index) =>
+            <li>
+              <CardMessage
+                key={index}
+                data={item}
+              />
+            </li>
+          )}
+
         </ul>
+        }
 
 
       </article>
 
-      <Modal
+      <FooterModal
         setModalState={setModalState}
         modalState={modalState}
       >
@@ -153,7 +193,7 @@ const contextMenu = () => {
             className="btn btn--secondary"
             onClick={() => _createSubTask()}
           >New Sub Task</a>
-      </Modal>
+      </FooterModal>
 
       <Footer>
         <a

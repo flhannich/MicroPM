@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\File;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\SubTask;
 
 class Task extends Model
 {
@@ -39,6 +40,11 @@ class Task extends Model
     public function file()
     {
         return $this->hasMany(File::class)->orderBy('type', 'DESC');
+    }
+
+    public function subtask()
+    {
+        return $this->hasMany(SubTask::class);
     }
 
     public function message()

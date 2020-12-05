@@ -6,7 +6,7 @@ import { AuthContext } from './../context/AuthContext.js'
 const Logout = () => {
 
   const context = useContext(AuthContext);
-  console.log(context.token)
+
   // FIX Correct Response if Url is not Correct
 
   const _logout = () => {
