@@ -2,20 +2,41 @@ import React, {useEffect, useState, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
+import { SettingsContext } from '../context/SettingsContext';
 
-import { Header, Logout, CardTask, CardProject, FooterModal, Footer } from '../components';
+import { Header, Logout, CardTask, CardProject, FooterModal, Footer, SettingsAPI } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
 const Dashboard = () => {
 
 const token = useContext(AuthContext).token;
+const settings = useContext(SettingsContext);
 const app = useContext(AppContext);
 
 const [projects, setProjects] = useState([]);
 const [tasks, setTasks] = useState([]);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
+
+console.log(settings.settings)
+
+const _getSettings = () => {
+  if(!token) return;
+  setLoading(true)
+  fetch(`http://192.168.178.35:8000/api/settings`, {
+    method: "get",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'authorization': token,
+    },
+  })
+  .then((response) => response.json())
+  .then((json) => settings.setSettings(json))
+  .catch((error) => console.error(error))
+  .finally(() => setLoading(false))
+}
 
 const _getTasksByStatus = (status) => {
   if(!token) return;
@@ -87,6 +108,7 @@ const _deleteProject = (id) => {
 
 
 useEffect(() => {
+  _getSettings();
   _getProjects();
   _getTasksByStatus('In Progress');
   _contextMenu();
@@ -119,6 +141,16 @@ const _contextMenu = () => {
         <Header />
 
         <Logout />
+
+        {(settings.settings !== null && settings.settings.api === null)
+
+          ? <article className="main container">
+              <SettingsAPI />
+            </article>
+
+          : <>
+
+
       <article className="main container">
 
         {tasks.length > 0 &&
@@ -179,6 +211,10 @@ const _contextMenu = () => {
       </Footer>
 
       </>
+      }
+
+      </>
+
     )}
       </>
     )

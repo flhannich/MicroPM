@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Settings;
 
 class SettingsController extends Controller
 {
-  public function index(Request $request)
+  public function show(Request $request)
   {
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token)->first();
 
     if($user->role === 'admin') {
 
-      $settings = Settings::->get()
+      $settings = Settings::first();
 
       return response()->json($settings, 201);
 
@@ -29,7 +31,7 @@ class SettingsController extends Controller
 
       $request = json_decode($request->getContent());
 
-      $settings = Settings::first()
+      $settings = Settings::first();
 
       $settings->fill($request);
 

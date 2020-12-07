@@ -1,4 +1,4 @@
-mport { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function useFetch(url, init) {
   const [data, setData] = useState(null);

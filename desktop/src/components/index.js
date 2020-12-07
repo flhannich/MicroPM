@@ -17,3 +17,6 @@ export { default as CardDescription } from './CardDescription';
 
 export { default as FooterModal } from './FooterModal';
 export { default as Textarea } from './Textarea';
+
+
+export { default as SettingsAPI } from './SettingsAPI';

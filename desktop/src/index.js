@@ -6,8 +6,9 @@ import Settings from './pages/Settings';
 import Project from './pages/Project';
 import Task from './pages/Task';
 import { BrowserRouter, Route } from "react-router-dom";
-import { AuthProvider } from './context/AuthContext'; // import based on where you put it
-import { AppProvider } from './context/AppContext'; // import based on where you put it
+import { AuthProvider } from './context/AuthContext';
+import { AppProvider } from './context/AppContext';
+import { SettingsProvider } from './context/SettingsContext';
 
 // import * as serviceWorker from './serviceWorker';
 
@@ -16,10 +17,12 @@ ReactDOM.render(
      <BrowserRouter>
       <AuthProvider>
         <AppProvider>
-          <div className="App">
-            <Route path="/" exact component={App} />
-            <Route path="/settings" exact component={Settings} />
-          </div>
+          <SettingsProvider>
+            <div className="App">
+              <Route path="/" exact component={App} />
+              <Route path="/settings" exact component={Settings} />
+            </div>
+          </SettingsProvider>
         </AppProvider>
       </AuthProvider>
     </BrowserRouter>

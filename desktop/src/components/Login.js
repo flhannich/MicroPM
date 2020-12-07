@@ -150,21 +150,6 @@ const Login = () => {
       </div>
 
 
-      <div className="form-group pb4">
-        <div className={`group-item ${urlError && 'has-error'}`}>
-          <label htmlFor="url">Your Api</label>
-          <input
-            type="text"
-            data-type="url"
-            name="url"
-            max-length="200"
-            placeholder="https://example.com/api"
-            onChange={el => {setUrl(el.target.value); setUrlError(false)}}
-            />
-        </div>
-      </div>
-
-
       <div className="form-group pb3">
         <div className="group-item">
           <button
