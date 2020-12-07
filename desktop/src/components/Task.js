@@ -18,6 +18,7 @@ const Task = () => {
   // const username = auth.username;
 
   const [task, setTask] = useState([]);
+  const [review, setReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
 
@@ -141,6 +142,20 @@ const Task = () => {
   }
 
 
+  const updateReview = () => {
+    setReview(!review)
+    if(review) {
+      task.is_review = '0'
+    } else {
+      task.is_review = '1';
+    }
+    _updateTask()
+  };
+
+  const showProjectSettings = () => {
+  }
+
+
   const contextMenu = () => {
     window.addEventListener('contextmenu', (e) => {
        const menu = new Menu();
@@ -179,6 +194,9 @@ const Task = () => {
     contextMenu();
   }, []);
 
+  useEffect(() => {
+    task.is_review === '1' && setReview(true);
+  }, [task]);
 
   return (
     <>
@@ -195,12 +213,21 @@ const Task = () => {
       <article className="main container">
 
       <ul>
-        <li
-        >
-          <Textarea
-            data={task.name}
-            callback={updateName}
-          />
+        <li>
+          <div className="card-text-wrapper">
+            <div className="card-title-wrapper">
+            <Textarea
+              data={task.name}
+              callback={updateName}
+            />
+            <input
+              type="checkbox"
+              value={task.is_review}
+              checked={review}
+              onChange={() => updateReview()}
+            />
+          </div>
+        </div>
         </li>
       </ul>
 
@@ -249,8 +276,6 @@ const Task = () => {
             />
           </li>
         </ul>
-
-
 
 
       </article>

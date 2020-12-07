@@ -126,14 +126,9 @@ const updateName = (data) => {
   }
 }
 
-const updateSync = (data) => {
-  if(project.name !== data) {
-    project.name = data;
-    _updateProject()
-  }
-}
 
-const handleSync = () => {
+
+const updateSync = () => {
   setSync(!sync)
   if(sync) {
     project.is_sync = '0'
@@ -186,7 +181,7 @@ useEffect(() => {
                   type="checkbox"
                   value={project.is_sync}
                   checked={sync}
-                  onChange={() => handleSync()}
+                  onChange={() => updateSync()}
                 />
               </div>
               <div
