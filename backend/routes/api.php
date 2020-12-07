@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SubTaskController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   Route::post('/subtasks/{task}', [SubTaskController::class, 'create']);
   Route::delete('/subtasks/{id}', [SubTaskController::class, 'delete']);
+
+
+  Route::get('/settings', [SettingsController::class, 'show']);
+  Route::delete('/settings', [SettingsController::class, 'update']);
 
 
 
