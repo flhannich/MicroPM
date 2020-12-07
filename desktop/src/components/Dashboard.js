@@ -3,7 +3,7 @@ import React, {useEffect, useState, useContext} from "react";
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 
-import { Header, CardTask, CardProject, FooterModal, Footer } from '../components';
+import { Header, Logout, CardTask, CardProject, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -17,17 +17,17 @@ const [tasks, setTasks] = useState([]);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
 
-const _getTasks = (id) => {
+const _getTasksByStatus = (status) => {
   if(!token) return;
   setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/tasks/get/status`, {
-    method: "POST",
+  fetch(`http://192.168.178.35:8000/api/status/tasks`, {
+    method: "get",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
     },
-    body: JSON.stringify({status: 'In Progress'})
+    body: JSON.stringify({status: status})
   })
   .then((response) => response.json())
   .then((json) => setTasks(json))
@@ -53,13 +53,14 @@ const _getProjects = () => {
 
 const _createProject = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects/create`, {
+  fetch(`http://192.168.178.35:8000/api/projects`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
-    }
+    },
+    body: JSON.stringify({name: 'New Project'})
   })
   .then((response) => response.json())
   .then((json) => _getProjects())
@@ -70,8 +71,8 @@ const _createProject = () => {
 
 const _deleteProject = (id) => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects/${id}/delete`, {
-    method: "POST",
+  fetch(`http://192.168.178.35:8000/api/projects/${id}`, {
+    method: "DELETE",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ const _deleteProject = (id) => {
 
 useEffect(() => {
   _getProjects();
-  _getTasks();
+  _getTasksByStatus('In Progress');
   _contextMenu();
 }, []);
 
@@ -117,6 +118,7 @@ const _contextMenu = () => {
 
         <Header />
 
+        <Logout />
       <article className="main container">
 
         {tasks.length > 0 &&

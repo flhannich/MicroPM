@@ -28,7 +28,7 @@ const Task = () => {
   const _getTask = () => {
     if(!token) return;
     fetch(`http://192.168.178.35:8000/api/tasks/${app.task}`, {
-      method: "POST",
+      method: "GET",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const Task = () => {
 
   const _createSubTask = () => {
     if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/subtasks/create/${app.task}`, {
+    fetch(`http://192.168.178.35:8000/api/subtasks/${app.task}`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -61,8 +61,8 @@ const Task = () => {
 
   const _deleteSubTask = (subTaskId) => {
     if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/subtasks/${subTaskId}/delete`, {
-      method: "POST",
+    fetch(`http://192.168.178.35:8000/api/subtasks/${subTaskId}`, {
+      method: "DELETE",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

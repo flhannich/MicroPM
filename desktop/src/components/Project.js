@@ -23,8 +23,8 @@ const [modalState, setModalState] = useState(false);
 const _getTasks = () => {
   if(!token) return;
   setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/tasks/project/${app.project}`, {
-    method: "POST",
+  fetch(`http://192.168.178.35:8000/api/project/${app.project}/tasks`, {
+    method: "GET",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const _getTasks = () => {
 const _getProject = () => {
   if(!token) return;
   fetch(`http://192.168.178.35:8000/api/projects/${app.project}`, {
-    method: "POST",
+    method: "GET",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const _getProject = () => {
 
 const _createTask = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/tasks/create/${app.project}`, {
+  fetch(`http://192.168.178.35:8000/api/tasks/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -72,8 +72,8 @@ const _createTask = () => {
 
 const _deleteTask = (taskId) => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/tasks/${taskId}/delete`, {
-    method: "POST",
+  fetch(`http://192.168.178.35:8000/api/tasks/${taskId}`, {
+    method: "delete",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -139,7 +139,10 @@ const showProjectSettings = () => {
               className="client-title-wrapper"
               onClick={() => showProjectSettings()}
             >
-              <span className="info pr1">{project.client.name}</span>
+              {(project.client !== null && project.client !== undefined)
+                ? <span className="info">{project.client.name}</span>
+                : <span className="info">Personal</span>
+              }
               <span className="ic">E</span>
             </div>
             </div>

@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Message;
+use App\Models\Subtask;
 
 class ProjectController extends Controller
 {
@@ -74,8 +75,10 @@ class ProjectController extends Controller
 
       if($user) {
 
+        $request = json_decode($request->getContent());
+
         $project = new Project();
-        $project->name = 'New Project';
+        $project->name = $request->name;
         $project->status = 'not_started';
         $project->user_id = $user->id;
         $project->save();
@@ -93,7 +96,15 @@ class ProjectController extends Controller
       if($user) {
         if($user->role === 'admin') {
 
-          Project::where('id',$id)->delete();
+          Project::where('id', $id)->delete();
+          $tasks = Task::where('project_id', $id)->get();
+
+          foreach ($tasks as $task) {
+            Message::where('task_id', $task->id)->delete();
+            Subtask::where('task_id', $task->id)->delete();
+          }
+
+          Task::where('project_id', $id)->delete();
 
           return response()->json(['message' => 'Project deleted'], 201);
 

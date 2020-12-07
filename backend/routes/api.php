@@ -30,28 +30,23 @@ use App\Http\Controllers\SubTaskController;
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   Route::get('/projects', [ProjectController::class, 'index']);
-  Route::post('/projects/{id}', [ProjectController::class, 'show']);
-  Route::post('/projects/create', [ProjectController::class, 'create']);
-  Route::post('/projects/{id}/delete', [ProjectController::class, 'delete']);
-
-  Route::post('/tasks/project/{id}', [TaskController::class, 'index']);
+  Route::get('/projects/{id}', [ProjectController::class, 'show']);
+  Route::post('/projects', [ProjectController::class, 'create']);
+  Route::delete('/projects/{id}', [ProjectController::class, 'delete']);
 
 
+  Route::get('/project/{id}/tasks', [TaskController::class, 'index']);
+  Route::get('/tasks/{id}', [TaskController::class, 'show']);
+  Route::post('/tasks/{project}', [TaskController::class, 'create']);
+  Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
+
+  Route::get('/status/tasks', [TaskController::class, 'showByStatus']);
+
+  Route::post('/subtasks/{task}', [SubTaskController::class, 'create']);
+  Route::delete('/subtasks/{id}', [SubTaskController::class, 'delete']);
 
 
-  Route::post('/tasks/{id}', [TaskController::class, 'show']);
-  Route::post('/tasks/create/{project}', [TaskController::class, 'create']);
-  Route::post('/tasks/{id}/delete', [TaskController::class, 'delete']);
-  Route::post('/tasks/get/status', [TaskController::class, 'showByStatus']);
 
-  Route::post('/subtasks/create/{task}', [SubTaskController::class, 'create']);
-  Route::post('/subtasks/{id}/delete', [SubTaskController::class, 'delete']);
-  //
-  //
-  //
-  //
-  // Route::post('/task/{id}/{status}', [TaskController::class, 'updateStatus']);
-  // Route::post('/task/{id}/{accepted}', [TaskController::class, 'updateAccepted']);
 
   Route::post('/message/create', [MessageController::class, 'create']);
   // Route::get('/message/delete/{message}', [TaskController::class, 'delete']);
