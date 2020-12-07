@@ -10,7 +10,7 @@ ul {
     list-style: none;
     a {
       display: flex;
-      padding: 8px 12px;
+      padding: 10px 12px;
       margin-left: -12px;
       margin-right: -12px;
       border-radius: 5px;
@@ -60,6 +60,8 @@ header.main {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    line-height: 48px;
+    height: 48px;
   }
 }
 

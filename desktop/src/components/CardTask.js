@@ -1,5 +1,3 @@
-import react from "react";
-
 const CardTask = ( { data }) => {
 
   return (

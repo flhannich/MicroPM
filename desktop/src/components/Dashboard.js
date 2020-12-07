@@ -11,8 +11,9 @@ const { Menu, MenuItem } = window.remote;
 const Dashboard = () => {
 
 const token = useContext(AuthContext).token;
-const settings = useContext(SettingsContext);
 const app = useContext(AppContext);
+const settings = useContext(SettingsContext);
+
 
 const [projects, setProjects] = useState([]);
 const [tasks, setTasks] = useState([]);
@@ -71,9 +72,10 @@ const _createProject = () => {
 }
 
 
-const _deleteProject = (id) => {
+  const _deleteProject = (projectId) => {
+  console.log(settings);
   if(!token) return;
-  fetch(`${settings.api}projects/${id}`, {
+  fetch(`${settings.api}projects/${projectId}`, {
     method: "DELETE",
     headers: {
       'Accept': 'application/json',
@@ -82,17 +84,9 @@ const _deleteProject = (id) => {
     }
   })
   .then((response) => response.json())
-  // .then(() => setProjects(projects.filter(item => item.id !== id)))
   .then(() => _getProjects())
   .catch((error) => console.error(error))
 }
-
-
-useEffect(() => {
-  _getProjects();
-  _getTasksByStatus('In Progress');
-  _contextMenu();
-}, [settings]);
 
 
 const _contextMenu = () => {
@@ -109,6 +103,14 @@ const _contextMenu = () => {
      menu.popup({ window: window.remote.getCurrentWindow() })
    }, false)
 }
+
+
+useEffect(() => {
+  _getProjects();
+  _getTasksByStatus('In Progress');
+  _contextMenu()
+}, []);
+
 
   return (
     <>

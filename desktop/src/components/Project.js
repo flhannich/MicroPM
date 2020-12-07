@@ -75,7 +75,7 @@ const _updateProject = () => {
 
 const _createTask = () => {
   if(!token) return;
-  fetch(`${settings.api}api/tasks/${app.project}`, {
+  fetch(`${settings.api}tasks/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -90,9 +90,8 @@ const _createTask = () => {
 }
 
 
-const _deleteTask = (taskId) => {
-  if(!token) return;
-  fetch(`${settings.api}api/tasks/${taskId}`, {
+const _deleteTask = (taskId, contextApi) => {
+  fetch(`${settings.api}tasks/${taskId}`, {
     method: "delete",
     headers: {
       'Accept': 'application/json',
@@ -113,7 +112,7 @@ const contextMenu = () => {
        menu.append(new MenuItem({
          label: "Delete Task",
          click: () => {
-           _deleteTask(e.target.dataset.id)
+           _deleteTask(e.target.dataset.id, settings.api)
          }
        }));
      }

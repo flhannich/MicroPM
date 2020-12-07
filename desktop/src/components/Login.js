@@ -56,39 +56,39 @@ const Login = () => {
     event.preventDefault();
     setErrorMessage([]);
 
-    // let a = validateUsername(username)
-    // let b = validateUrl(url)
-    // let c = validatePassword(password)
-    //
-    // if(a && b && c) {
+    let a = validateUsername(username)
+    let b = validateUrl(api)
+    let c = validatePassword(password)
+
+    if(a && b && c) {
       _login();
-    // }
+    }
 
   }
 
   const validateUrl = (val) => {
-    if(!val.match(/^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)) {
-      setApiError(true)
-      setErrorMessage(prevState => ([
-        ...prevState, 'Somethings wrong about your Url'
-      ]))
-      return false;
-    } else {
+    // if(!val.match(/^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)) {
+    //   setApiError(true)
+    //   setErrorMessage(prevState => ([
+    //     ...prevState, 'Somethings wrong about your Url'
+    //   ]))
+    //   return false;
+    // } else {
       return true;
-    }
+    // }
   }
 
 
   const validateUsername = (val) => {
-    if(!val.match(/\s/)) {
-      setUsernameError(true)
-      setErrorMessage(prevState => ([
-        ...prevState, 'Somethings wrong about your Username'
-      ]))
-      return false;
-    } else {
+    // if(!val.match(/\s/)) {
+    //   setUsernameError(true)
+    //   setErrorMessage(prevState => ([
+    //     ...prevState, 'Somethings wrong about your Username'
+    //   ]))
+    //   return false;
+    // } else {
       return true;
-    }
+    // }
   }
 
 

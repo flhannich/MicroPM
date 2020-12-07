@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 
-import { Login, Logout, Dashboard, Project, Task, Header } from "./components"
+import { Login, Dashboard, Project, Task } from "./components"
 
 import { AuthContext } from './context/AuthContext';
 import { AppContext } from './context/AppContext';

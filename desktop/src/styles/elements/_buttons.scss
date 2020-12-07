@@ -1,6 +1,9 @@
+button.btn,
 a.btn {
   text-decoration: none;
   cursor: default;
+  border: none;
+  background-color: transparent;
   &.btn--none {
     display: inline-block;
     height: 32px;

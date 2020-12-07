@@ -140,9 +140,7 @@ const Task = () => {
 
   }
 
-  // console.log(task.subtask.filter(item => item.id !== 27));
 
-  // console.log(setTask(task.subtask.some(item => item.id !== 27)))
   const contextMenu = () => {
     window.addEventListener('contextmenu', (e) => {
        const menu = new Menu();
@@ -180,7 +178,6 @@ const Task = () => {
     _getTask();
     contextMenu();
   }, []);
-
 
 
   return (
@@ -224,19 +221,8 @@ const Task = () => {
       }
 
 
-        <ul>
-          <span className="label pb2">Description</span>
-          <li
-          >
-            <Textarea
-              data={task.description}
-              callback={updateDescription}
-            />
-          </li>
-        </ul>
 
-
-        {task.message.length > 0 &&
+      {task.message.length > 0 &&
         <ul>
           <span className="label pb2">Messages</span>
 
@@ -250,7 +236,21 @@ const Task = () => {
           )}
 
         </ul>
-        }
+      }
+
+
+        <ul>
+          <span className="label pb2">Description</span>
+          <li
+          >
+            <Textarea
+              data={task.description}
+              callback={updateDescription}
+            />
+          </li>
+        </ul>
+
+
 
 
       </article>
