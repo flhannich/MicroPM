@@ -55,6 +55,7 @@ app.on('ready', () => {
 
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('INIT_TOKEN', store.get('token'));
+    console.log(store.get('api'));
   });
 
 });

@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 import { SettingsContext } from '../context/SettingsContext';
 
-import { Header, Logout, CardTask, CardProject, FooterModal, Footer, SettingsAPI } from '../components';
+import { Header, Logout, CardTask, CardProject, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -19,30 +19,11 @@ const [tasks, setTasks] = useState([]);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
 
-console.log(settings.settings)
-
-const _getSettings = () => {
-  if(!token) return;
-  setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/settings`, {
-    method: "get",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'authorization': token,
-    },
-  })
-  .then((response) => response.json())
-  .then((json) => settings.setSettings(json))
-  .catch((error) => console.error(error))
-  .finally(() => setLoading(false))
-}
-
 const _getTasksByStatus = (status) => {
   if(!token) return;
   setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/status/tasks`, {
-    method: "get",
+  fetch(`${settings.api}status/tasks`, {
+    method: "post",
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -59,7 +40,7 @@ const _getTasksByStatus = (status) => {
 
 const _getProjects = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects`, {
+  fetch(`${settings.api}projects`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -74,7 +55,7 @@ const _getProjects = () => {
 
 const _createProject = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects`, {
+  fetch(`${settings.api}projects`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -92,7 +73,7 @@ const _createProject = () => {
 
 const _deleteProject = (id) => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects/${id}`, {
+  fetch(`${settings.api}projects/${id}`, {
     method: "DELETE",
     headers: {
       'Accept': 'application/json',
@@ -108,11 +89,10 @@ const _deleteProject = (id) => {
 
 
 useEffect(() => {
-  _getSettings();
   _getProjects();
   _getTasksByStatus('In Progress');
   _contextMenu();
-}, []);
+}, [settings]);
 
 
 const _contextMenu = () => {
@@ -141,14 +121,6 @@ const _contextMenu = () => {
         <Header />
 
         <Logout />
-
-        {(settings.settings !== null && settings.settings.api === null)
-
-          ? <article className="main container">
-              <SettingsAPI />
-            </article>
-
-          : <>
 
 
       <article className="main container">
@@ -209,9 +181,6 @@ const _contextMenu = () => {
           onClick={() => setModalState(!modalState)}>
         AD</a>
       </Footer>
-
-      </>
-      }
 
       </>
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-
+import { SettingsContext } from '../context/SettingsContext';
 import { Header, CardTask, CardProject, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
@@ -13,6 +13,7 @@ const Project = () => {
 
 const token = useContext(AuthContext).token;
 const app = useContext(AppContext);
+const settings = useContext(SettingsContext);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
@@ -23,7 +24,7 @@ const [modalState, setModalState] = useState(false);
 const _getTasks = () => {
   if(!token) return;
   setLoading(true)
-  fetch(`http://192.168.178.35:8000/api/project/${app.project}/tasks`, {
+  fetch(`${settings.api}project/${app.project}/tasks`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -40,7 +41,7 @@ const _getTasks = () => {
 
 const _getProject = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/projects/${app.project}`, {
+  fetch(`${settings.api}projects/${app.project}`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -55,7 +56,7 @@ const _getProject = () => {
 
 const _createTask = () => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/tasks/${app.project}`, {
+  fetch(`${settings.api}api/tasks/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -72,7 +73,7 @@ const _createTask = () => {
 
 const _deleteTask = (taskId) => {
   if(!token) return;
-  fetch(`http://192.168.178.35:8000/api/tasks/${taskId}`, {
+  fetch(`${settings.api}api/tasks/${taskId}`, {
     method: "delete",
     headers: {
       'Accept': 'application/json',
@@ -91,8 +92,6 @@ useEffect(() => {
   _getTasks();
   contextMenu();
 }, []);
-//
-// console.log(tasks);
 
 
 const contextMenu = () => {

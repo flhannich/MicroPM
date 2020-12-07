@@ -36,7 +36,8 @@ button[type=submit] {
   background-color: var(--background-color--brand);
   border-radius: var(--border-radius);
   border: none;
-  cursor: pointer
+  color: var(--font-color);
+  cursor: default;
 }
 
 .tag {

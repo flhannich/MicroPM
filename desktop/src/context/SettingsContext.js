@@ -4,14 +4,13 @@ export const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
 
-  const [settings, setSettings] = useState(null);
-  const [task, setTask] = useState(null);
+  const [api, setApi] = useState(null);
 
   return (
     <SettingsContext.Provider
       value={{
-        settings,
-        setSettings,
+        api,
+        setApi,
       }}
     >
       {children}

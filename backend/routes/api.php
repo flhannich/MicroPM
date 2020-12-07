@@ -41,13 +41,14 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   Route::post('/tasks/{project}', [TaskController::class, 'create']);
   Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
 
-  Route::get('/status/tasks', [TaskController::class, 'showByStatus']);
+  Route::post('/status/tasks', [TaskController::class, 'showByStatus']);
 
   Route::post('/subtasks/{task}', [SubTaskController::class, 'create']);
   Route::delete('/subtasks/{id}', [SubTaskController::class, 'delete']);
 
 
   Route::get('/settings', [SettingsController::class, 'show']);
+  Route::patch('/settings', [SettingsController::class, 'update']);
   Route::delete('/settings', [SettingsController::class, 'update']);
 
 

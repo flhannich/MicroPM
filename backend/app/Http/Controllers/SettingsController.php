@@ -27,17 +27,21 @@ class SettingsController extends Controller
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token)->first();
 
+
     if($user->role === 'admin') {
+
 
       $request = json_decode($request->getContent());
 
       $settings = Settings::first();
 
-      $settings->fill($request);
+      $settings->fill(
+        ['api' => $request->api]
+      );
 
       $settings->save();
 
-      return response()->json($settings, 201);
+      return response()->json(['message' => $request], 201);
 
     }
   }

@@ -52,7 +52,7 @@ $desktop: 1200px;
   --font-color--lighter: #{rgba( $base-font-color, .62 )};
   --font-color--lightest: #{rgba( $base-font-color, .38 )};
   --font-color--placeholder: #{rgba( $base-font-color, .38 )};
-  --font-color--warning: red;
+  --font-color--warning: #fff;
 
   --font-color--invert: #eee;
 
@@ -69,7 +69,7 @@ $desktop: 1200px;
   --background-color--dark: #191919;
   --background-color--warn: #fdd8d8;
   --background-color--brand: rgba(0,0,0, .3);
-  --background-color--warning: #ff6a6a;
+  --background-color--warning: rgba(255,0,0, .2);
   --background-color--input: #555;
   /*
     Colors Border

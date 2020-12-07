@@ -1,25 +1,28 @@
 import React, { useState, useContext } from 'react'
 
 import { AuthContext } from './../context/AuthContext.js'
+import { SettingsContext } from './../context/SettingsContext.js'
 
 const Login = () => {
 
   const auth = useContext(AuthContext);
+  const settings = useContext(SettingsContext);
 
-  const [url, setUrl] = useState('')
+  const [api, setApi] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [urlError, setUrlError] = useState(false)
+  const [apiError, setApiError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [usernameError, setUsernameError] = useState(false)
   const [errorMessage, setErrorMessage] = useState([])
   const [isLoading, setLoading] = useState(true)
 
+  console.log(api);
 
   // FIX Correct Response if Url is not Correct
 
   const _login = () => {
-    fetch("http://192.168.178.35:8000/api/login", {
+    fetch(`${api}login`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -35,9 +38,13 @@ const Login = () => {
             setErrorMessage(json.message)
           }
         } else {
-          window.ipcRenderer.send('TOKEN', json.remember_token)
+          window.ipcRenderer.send('TOKEN', {
+            token: json.remember_token,
+            api: api
+          })
           auth.setToken(json.remember_token)
           auth.setUsername(username)
+          settings.setApi(api)
         }
       })
       .catch((error) => setErrorMessage(error))
@@ -61,7 +68,7 @@ const Login = () => {
 
   const validateUrl = (val) => {
     if(!val.match(/^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/)) {
-      setUrlError(true)
+      setApiError(true)
       setErrorMessage(prevState => ([
         ...prevState, 'Somethings wrong about your Url'
       ]))
@@ -131,6 +138,7 @@ const Login = () => {
             name="username"
             max-length="40"
             placeholder="Charlie Chaplin"
+            defaultValue="admin"
             onChange={el => {setUsername(el.target.value); setUsernameError(false)}}
           />
         </div>
@@ -144,7 +152,23 @@ const Login = () => {
             data-type="password"
             name="password"
             max-length="40"
+            defaultValue="1234"
             onChange={el => {setPassword(el.target.value); setPasswordError(false)}}
+          />
+        </div>
+      </div>
+
+
+      <div className="form-group pb3">
+        <div className={`group-item ${apiError && 'has-error'}`}>
+          <label htmlFor="api">Api URL</label>
+          <input
+            type="text"
+            data-type="url"
+            name="api"
+            max-length="100"
+            defaultValue="http://192.168.178.35:8000/api/"
+            onChange={el => {setApi(el.target.value); setApiError(false)}}
           />
         </div>
       </div>

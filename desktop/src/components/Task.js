@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-//
-// import { _getTask } from '../api/Task'
-// import { _createSubTask, _deleteSubTask } from '../api/Subtask'
+import { SettingsContext } from '../context/SettingsContext';
 
 import { Header, CardSubTask, CardMessage, CardDescription, Textarea, FooterModal, Footer } from '../components';
 
@@ -16,6 +14,7 @@ const Task = () => {
 
   const auth = useContext(AuthContext);
   const app = useContext(AppContext);
+  const settings = useContext(SettingsContext);
 
   const token = auth.token;
   const username = auth.username;
@@ -27,7 +26,7 @@ const Task = () => {
 
   const _getTask = () => {
     if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/tasks/${app.task}`, {
+    fetch(`${settings.api}tasks/${app.task}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -44,7 +43,7 @@ const Task = () => {
 
   const _createSubTask = () => {
     if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/subtasks/${app.task}`, {
+    fetch(`${settings.api}subtasks/${app.task}`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -61,7 +60,7 @@ const Task = () => {
 
   const _deleteSubTask = (subTaskId) => {
     if(!token) return;
-    fetch(`http://192.168.178.35:8000/api/subtasks/${subTaskId}`, {
+    fetch(`${settings.api}subtasks/${subTaskId}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
