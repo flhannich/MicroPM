@@ -49,3 +49,13 @@ button[type=submit] {
   line-height: 24px;
   color: var(--font-color--light);
 }
+
+.count {
+  min-width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  background-color: var(--background-color--lightgrey);
+  color: var(--font-color--light) !important;
+  border-radius: 100px;
+}

@@ -17,6 +17,7 @@ const settings = useContext(SettingsContext);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
+const [sync, setSync] = useState(false);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
 
@@ -65,9 +66,7 @@ const _updateProject = () => {
       'Content-Type': 'application/json',
       'authorization': token,
     },
-    body: JSON.stringify({
-        project
-      })
+    body: JSON.stringify({project})
   })
   .then((response) => response.json())
   .catch((error) => console.error(error))
@@ -127,6 +126,23 @@ const updateName = (data) => {
   }
 }
 
+const updateSync = (data) => {
+  if(project.name !== data) {
+    project.name = data;
+    _updateProject()
+  }
+}
+
+const handleSync = () => {
+  setSync(!sync)
+  if(sync) {
+    project.is_sync = '0'
+  } else {
+    project.is_sync = '1';
+  }
+  _updateProject()
+};
+
 const showProjectSettings = () => {
 }
 
@@ -135,7 +151,12 @@ useEffect(() => {
   _getProject();
   _getTasks();
   contextMenu();
+
 }, []);
+
+useEffect(() => {
+  project.is_sync === '1' && setSync(true);
+}, [project]);
 
 
   return (
@@ -155,21 +176,28 @@ useEffect(() => {
         <ul>
           <li className="project-title-wrapper">
             <span className="pr3">IC</span>
-            <div>
-            <Textarea
-              data={project.name}
-              callback={updateName}
-            />
-            <div
-              className="client-title-wrapper"
-              onClick={() => showProjectSettings()}
-            >
-              {(project.client !== null && project.client !== undefined)
-                ? <span className="info">{project.client.name}</span>
-                : <span className="info">Personal</span>
-              }
-              <span className="ic">E</span>
-            </div>
+            <div className="card-text-wrapper">
+              <div className="card-title-wrapper">
+                <Textarea
+                  data={project.name}
+                  callback={updateName}
+                />
+                <input
+                  type="checkbox"
+                  value={project.is_sync}
+                  checked={sync}
+                  onChange={() => handleSync()}
+                />
+              </div>
+              <div
+                className="client-title-wrapper"
+                onClick={() => showProjectSettings()}
+              >
+                {(project.client !== null && project.client !== undefined)
+                  ? <span className="info">{project.client.name}</span>
+                  : <span className="info">Personal</span>
+                }
+              </div>
             </div>
           </li>
         </ul>

@@ -23,12 +23,14 @@ class Project extends Model
         'name',
         'description',
         'status',
+        'is_sync',
         'client_id',
     ];
 
     public function tasks()
     {
-        return $this->hasMany(Task::class)->with('file');
+        return $this->hasMany(Task::class)
+        ->with('file');
     }
 
     public function files()

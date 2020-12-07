@@ -19,6 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();;
             $table->string('client_id')->nullable();;
+            $table->integer('is_sync')->default(0);
             $table->string('user_id');
             $table->string('status')->default('not_started');
         });

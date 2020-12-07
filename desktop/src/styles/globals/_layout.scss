@@ -15,9 +15,17 @@ ul {
       margin-right: -12px;
       border-radius: 5px;
       align-items: center;
-      // border: 1px solid red;
       &:hover {
         background-color: var(--background-color--grey);
+      }
+    }
+    .card-text-wrapper {
+      flex: 1;
+      .card-title-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
     }
   }

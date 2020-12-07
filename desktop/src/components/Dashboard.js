@@ -20,6 +20,8 @@ const [tasks, setTasks] = useState([]);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
 
+console.log(projects);
+
 const _getTasksByStatus = (status) => {
   if(!token) return;
   setLoading(true)

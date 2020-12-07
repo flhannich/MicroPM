@@ -20,6 +20,7 @@ class ProjectController extends Controller
       if($user) {
 
         $projects = Project::with('tasks')
+          ->withCount('tasks')
           ->with('client')
           ->orderBy('updated_at', 'DESC')
           ->get();
@@ -54,16 +55,31 @@ class ProjectController extends Controller
       if($user) {
 
         $request = json_decode($request->getContent());
-        $updated = $request->project;
+        $update = $request->project;
 
-        Project::where('id', $id)
-          ->update(
-            ['name'=> $updated->name],
-            ['description'=> $updated->description],
-            ['status'=> $updated->status],
-            ['client_id'=> $updated->client_id]
-          );
+        // return response()->json(['message' => $updated->is_sync], 201);
 
+        $project = Project::where('id', $id)->first();
+
+        $project->name = $update->name;
+        $project->description = $update->description;
+        $project->status = $update->status;
+        $project->is_sync = $update->is_sync;
+        $project->client_id = $update->client_id;
+
+        $project->save();
+
+
+        //
+        // Project::where('id', $id)
+        //   ->update(
+        //     ['name'=> $updated->name],
+        //     ['description'=> $updated->description],
+        //     ['status'=> $updated->status],
+        //     ['is_sync'=> $updated->is_sync],
+        //     ['client_id'=> $updated->client_id]
+        //   );
+        //
         return response()->json(['message' => 'Project Updated'], 201);
       }
     }

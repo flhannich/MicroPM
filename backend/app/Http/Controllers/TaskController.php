@@ -21,9 +21,9 @@ class TaskController extends Controller
 
       $tasks = Task::where('project_id', $id)
         ->orderBy('status', 'ASC')
-        ->with('file')
-        ->with('subtask')
-        ->with('message')
+        ->withCount('file')
+        ->withCount('subtask')
+        ->withCount('message')
         ->get();
 
       return response()->json($tasks, 200);
