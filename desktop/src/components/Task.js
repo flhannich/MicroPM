@@ -4,9 +4,9 @@ import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 import { SettingsContext } from '../context/SettingsContext';
 
-import { Header, CardSubTask, CardMessage, Textarea, FooterModal, Footer } from '../components';
+import { Header, CardSubTask, CardMessage, CardFile, Textarea, CardMessageSend, FooterModal, Footer } from '../components';
 
-const { Menu, MenuItem } = window.remote;
+const { Menu, MenuItem, Notification } = window.remote;
 
 const Task = () => {
 
@@ -141,6 +141,14 @@ const Task = () => {
 
   }
 
+  const storeMessage = () => {
+
+  }
+
+  const messageNotification = () => {
+    console.log(Notification);
+  }
+
 
   const updateReview = () => {
     setReview(!review)
@@ -248,10 +256,35 @@ const Task = () => {
       }
 
 
+      { task.file.length > 999 &&
+        <ul>
+        <span className="label pb2">Attachments</span>
+          {task.file.map((item, index) =>
+            <li>
+              <CardFile
+                data={item}
+              />
+            </li>
+          )}
+
+          <div
+            onDragEnter={() => console.log('onDragEnter')}
+            onDragOver={() => console.log('onDragOver')}
+            onDrop={() => console.log('onDrop')}
+          >
+            Drag and drop file here
+          </div>
+        </ul>
+      }
+
+
 
       {task.message.length > 0 &&
         <ul>
-          <span className="label pb2">Messages</span>
+          <div className="title-wrapper pb2">
+            <span className="label">Messages</span>
+            <button className="small">Show all</button>
+          </div>
 
           {task.message.map((item, index) =>
             <li>
@@ -261,6 +294,10 @@ const Task = () => {
               />
             </li>
           )}
+
+          <CardMessageSend
+            callback={storeMessage}
+          />
 
         </ul>
       }

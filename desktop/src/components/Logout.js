@@ -7,6 +7,7 @@ const Logout = () => {
 
   const context = useContext(AuthContext);
 
+  console.log(context);
   // FIX Correct Response if Url is not Correct
 
   const _logout = () => {

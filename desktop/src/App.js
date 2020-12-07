@@ -14,6 +14,7 @@ export default function App( probs ) {
 
   useEffect(() => {
     window.ipcRenderer.on('INIT_TOKEN', function (event,data) {
+
       if(data.token !== undefined) {
         auth.setToken(data.token)
       }

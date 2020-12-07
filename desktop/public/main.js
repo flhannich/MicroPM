@@ -133,7 +133,14 @@ function openSettingsWindow() {
     title: 'Settings',
     backgroundColor: '#242424',
     minimizable: false,
-    fullscreenable: false
+    fullscreenable: false,
+    useContentSize: true,
+    webPreferences: {
+      devTools: is.development,
+      nodeIntegration: false,
+      enableRemoteModule: true,
+      preload: __dirname + '/preload.js',
+    }
   })
 
 

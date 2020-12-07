@@ -119,13 +119,13 @@ const contextMenu = () => {
    }, false)
 }
 
+
 const updateName = (data) => {
   if(project.name !== data) {
     project.name = data;
     _updateProject()
   }
 }
-
 
 
 const updateSync = () => {
@@ -189,8 +189,8 @@ useEffect(() => {
                 onClick={() => showProjectSettings()}
               >
                 {(project.client !== null && project.client !== undefined)
-                  ? <span className="info">{project.client.name}</span>
-                  : <span className="info">Personal</span>
+                  ? <button className="small">{project.client.name}</button>
+                  : <button className="small">Personal</button>
                 }
               </div>
             </div>

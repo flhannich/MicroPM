@@ -54,6 +54,15 @@ section.modal {
   }
 }
 
+.card-file {
+  display: inline-block;
+  .image {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+  }
+}
+
 
 header.main {
   position: fixed;
@@ -76,22 +85,33 @@ header.main {
 
 .message-wrapper {
   border-radius: var(--border-radius);
-  background-color: var(--background-color--grey);
+  background-color: var(--background-color--lightgrey);
 }
 
-.message-input-wrapper {
+.message-send-wrapper {
   display: flex;
   align-items: flex-end;
+  justify-content: center;
+  position: relative;
   [contenteditable] {
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color--light);
     background-color: transparent;
-    padding: 4px 8px;
-    margin-right: 4px;
+    padding: 4px 16px;
+    margin: 0;
+    // border-radius: 16px;
   }
-  a.btn {
-    border-radius: 100px !important;
+  button {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
   }
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .project-title-wrapper {
@@ -100,16 +120,6 @@ header.main {
   div {
     flex: 1;
     z-index: 1;
-    span {
-      display: inline-block;
-      border-radius: var(--border-radius);
-      padding: 2px 4px;
-      margin: -2px -4px;
-      cursor: default;
-      &:hover {
-        background-color: var(--background-color--grey);
-      }
-    }
   }
   .ic {
     opacity: 0;

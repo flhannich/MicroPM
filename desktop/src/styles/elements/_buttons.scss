@@ -31,6 +31,35 @@ a.btn {
   }
 }
 
+button.message {
+  display: inline-block;
+  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  color: var(--font-color);
+  cursor: default;
+  &:hover {
+    background-color: var(--background-color--grey);
+  }
+}
+
+button.small {
+  display: inline-block;
+  border-radius: var(--border-radius);
+  padding: 2px 4px;
+  margin: -2px -4px;
+  cursor: default;
+  border: none;
+  background-color: transparent;
+  color: var(--font-color--lightest);
+  &:hover {
+    background-color: var(--background-color--grey);
+  }
+}
+
+
 button[type=submit] {
   height: 42px;
   line-height: 40px;
