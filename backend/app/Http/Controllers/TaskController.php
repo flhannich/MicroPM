@@ -53,7 +53,7 @@ class TaskController extends Controller
   }
 
 
-  public function update($request, $id)
+  public function update(Request $request, $id)
   {
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token);
@@ -61,18 +61,18 @@ class TaskController extends Controller
     if($user) {
 
       $request = json_decode($request->getContent());
+      $update = $request->task;
 
+      $task = Task::where('id', $id)->first();
 
-      Task::where('id',$id)
-        ->where('user_id', $user->id)
-        ->update(
-          ['name'=> $request->name],
-          ['status'=> $request->status],
-          ['is_review'=> $request->is_review],
-          ['is_accepted'=> $request->is_accepted],
-          ['weight'=> $request->weight],
-          ['description'=> $request->description]
-        );
+      $task->name = $update->name;
+      $task->description = $update->description;
+      $task->status = $update->status;
+      $task->is_accepted = $update->is_accepted;
+      $task->is_review = $update->is_review;
+      $task->weight = $update->weight;
+
+      $task->save();
 
       return response()->json(['message' => 'Task updated'], 201);
     }

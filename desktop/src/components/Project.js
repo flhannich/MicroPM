@@ -17,9 +17,11 @@ const settings = useContext(SettingsContext);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
-const [categories, setCategories] = useState([]);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
+
+const [projectName, setProjectName] = useState();
+const [projectClient, setProjectClient] = useState('');
 
 const _getTasks = () => {
   if(!token) return;
@@ -51,6 +53,23 @@ const _getProject = () => {
   })
   .then((response) => response.json())
   .then((json) => setProject(json))
+  .catch((error) => console.error(error))
+}
+
+const _updateProject = () => {
+  if(!token) return;
+  fetch(`${settings.api}projects/${app.project}`, {
+    method: "PATCH",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'authorization': token,
+    },
+    body: JSON.stringify({
+        project
+      })
+  })
+  .then((response) => response.json())
   .catch((error) => console.error(error))
 }
 
@@ -87,13 +106,6 @@ const _deleteTask = (taskId) => {
 }
 
 
-useEffect(() => {
-  _getProject();
-  _getTasks();
-  contextMenu();
-}, []);
-
-
 const contextMenu = () => {
   window.addEventListener('contextmenu', (e) => {
      const menu = new Menu();
@@ -109,9 +121,23 @@ const contextMenu = () => {
    }, false)
 }
 
-const showProjectSettings = () => {
-
+const updateName = (data) => {
+  if(project.name !== data) {
+    project.name = data;
+    _updateProject()
+  }
 }
+
+const showProjectSettings = () => {
+}
+
+
+useEffect(() => {
+  _getProject();
+  _getTasks();
+  contextMenu();
+}, []);
+
 
   return (
     <>
@@ -133,6 +159,7 @@ const showProjectSettings = () => {
             <div>
             <Textarea
               data={project.name}
+              callback={updateName}
             />
             <div
               className="client-title-wrapper"

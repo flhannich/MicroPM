@@ -21,7 +21,9 @@ class Project extends Model
      */
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'status',
+        'client_id',
     ];
 
     public function tasks()

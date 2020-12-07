@@ -4,7 +4,6 @@ export { default as Dashboard } from './Dashboard';
 export { default as Project } from './Project';
 export { default as Task } from './Task';
 export { default as Files } from './Files';
-export { default as SubTasks } from './SubTasks';
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';
 

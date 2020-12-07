@@ -1,15 +1,18 @@
-import react, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import { Textarea } from './'
 
-const CardSubTask = ( { data }) => {
+const CardSubTask = ( { data, callback }) => {
 
   const [checked, setChecked] = useState(false)
-  const [name, setName] = useState(data.name)
+
+  const handleInput = (value) => {
+    callback(data.id, value);
+  };
 
   const handleClick = e => {
     setChecked(!checked);
-    console.log('store status')
+    callback(data.id, checked);
   };
 
   useEffect(() => {
@@ -27,7 +30,7 @@ const CardSubTask = ( { data }) => {
             type="checkbox"
             value={data.status}
             checked={checked}
-            onClick={() => handleClick()}
+            onChange={() => handleClick()}
           />
 
         </span>
@@ -35,15 +38,15 @@ const CardSubTask = ( { data }) => {
           {(!checked)
           ?   <Textarea
                 subTaskId={data.id}
-                data={name}
-                setData={setName}
+                data={data.name}
+                callback={handleInput}
               />
 
           : <p
               data-subtask
               data-id={data.id}
             >
-            {name}
+            {data.name}
             </p>
           }
 

@@ -54,13 +54,14 @@ class ProjectController extends Controller
       if($user) {
 
         $request = json_decode($request->getContent());
+        $updated = $request->project;
 
-
-        Project::where('id',$id)
-          ->where('user_id', $user->id)
+        Project::where('id', $id)
           ->update(
-            ['name'=> $request->name],
-            ['description'=> $request->description]
+            ['name'=> $updated->name],
+            ['description'=> $updated->description],
+            ['status'=> $updated->status],
+            ['client_id'=> $updated->client_id]
           );
 
         return response()->json(['message' => 'Project Updated'], 201);

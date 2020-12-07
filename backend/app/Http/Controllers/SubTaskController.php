@@ -33,12 +33,16 @@ class SubTaskController extends Controller
     if($user) {
 
       $request = json_decode($request->getContent());
+      $update = $request->subtask;
 
-      SubTask::where('id',$id)
-        ->update(
-          ['name'=> $request->name],
-          ['status'=> $request->status]
-        );
+      // return response()->json($request, 201);
+
+      $subtask = SubTask::where('id', $id)->first();
+
+      $subtask->name = $update->name;
+      $subtask->status = $update->status;
+
+      $subtask->save();
 
       return response()->json(['message' => 'Sub Task Updated'], 201);
     }

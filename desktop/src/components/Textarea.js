@@ -1,25 +1,24 @@
-import react, { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
-const Textarea = ( { data, subTaskId }) => {
+const Textarea = ( { data, callback, subTaskId }) => {
 
-  const handleBlur = () => {
-    console.log('update text')
+  const [value, setValue] = useState(data)
+
+  const handleBlur = event => {
+    callback(event.target.innerText);
   }
 
   return (
-<>
-
+    <>
       <div
         className="editable"
         contentEditable={true}
         data-subtask
         data-id={subTaskId}
-        onBlur={() => handleBlur()}
-        dangerouslySetInnerHTML={{__html: data}}
+        onBlur={handleBlur}
+        dangerouslySetInnerHTML={{__html: value}}
       />
-
-
-</>
+    </>
   )
 }
 

@@ -1,12 +1,10 @@
 import React, {useEffect, useState, useContext} from "react";
 
-import { Link } from "react-router-dom";
-
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 import { SettingsContext } from '../context/SettingsContext';
 
-import { Header, CardSubTask, CardMessage, CardDescription, Textarea, FooterModal, Footer } from '../components';
+import { Header, CardSubTask, CardMessage, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -17,7 +15,7 @@ const Task = () => {
   const settings = useContext(SettingsContext);
 
   const token = auth.token;
-  const username = auth.username;
+  // const username = auth.username;
 
   const [task, setTask] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +34,42 @@ const Task = () => {
     })
     .then((response) => response.json())
     .then((json) => setTask(json))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
+
+  const _updateTask = () => {
+    if(!token) return;
+    fetch(`${settings.api}tasks/${app.task}`, {
+      method: "PATCH",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      },
+      body: JSON.stringify({
+          task
+        })
+    })
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
+
+  const _updateSubTask = (subtask) => {
+    if(!token) return;
+    fetch(`${settings.api}subtasks/${subtask.id}`, {
+      method: "PATCH",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      },
+      body: JSON.stringify({
+          subtask
+        })
+    })
+    .then((response) => response.json())
     .catch((error) => console.error(error))
     .finally(() => setLoading(false))
   }
@@ -72,12 +106,39 @@ const Task = () => {
     .catch((error) => console.error(error))
   }
 
+  const updateName = (data) => {
+    if(task.name !== data) {
+      task.name = data;
+      _updateTask()
+    }
+  }
 
-  useEffect(() => {
-    _getTask();
-    contextMenu();
-  }, []);
+  const updateDescription = (data) => {
+    if(task.description !== data) {
+      task.description = data;
+      _updateTask()
+    }
+  }
 
+  const updateSubTask = (id, data) => {
+
+    let item = task.subtask.filter(item => item.id === id)[0];
+
+    if (typeof data === "boolean"){
+      (data)
+      ? item.status = '0'
+      : item.status = '1';
+      _updateSubTask(item)
+    }
+
+    if (typeof data === "string"){
+      if(item.name !== data) {
+        item.name = data;
+        _updateSubTask(item)
+      }
+    }
+
+  }
 
   // console.log(task.subtask.filter(item => item.id !== 27));
 
@@ -115,6 +176,13 @@ const Task = () => {
   }
 
 
+  useEffect(() => {
+    _getTask();
+    contextMenu();
+  }, []);
+
+
+
   return (
     <>
 
@@ -134,6 +202,7 @@ const Task = () => {
         >
           <Textarea
             data={task.name}
+            callback={updateName}
           />
         </li>
       </ul>
@@ -147,6 +216,7 @@ const Task = () => {
               <CardSubTask
                 key={index}
                 data={item}
+                callback={updateSubTask}
               />
             </li>
           )}
@@ -160,6 +230,7 @@ const Task = () => {
           >
             <Textarea
               data={task.description}
+              callback={updateDescription}
             />
           </li>
         </ul>
@@ -188,17 +259,17 @@ const Task = () => {
         setModalState={setModalState}
         modalState={modalState}
       >
-          <a
+          <button
             className="btn btn--secondary"
             onClick={() => _createSubTask()}
-          >New Sub Task</a>
+          >New Sub Task</button>
       </FooterModal>
 
       <Footer>
-        <a
+        <button
           className="btn btn--none"
           onClick={() => setModalState(!modalState)}>
-        AD</a>
+        AD</button>
       </Footer>
 
       </>
