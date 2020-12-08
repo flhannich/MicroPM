@@ -87,9 +87,8 @@ const Task = () => {
         'authorization': token,
       },
     })
-    .then((response) => response.json())
+    .then((response) => _getMessages())
     .catch((error) => console.error(error))
-    .finally(() => setLoading(false))
   }
 
   const _updateTask = () => {
@@ -154,7 +153,22 @@ const Task = () => {
         'authorization': token,
       }
     })
-    .then((response) => response.json())
+    .then((response) => _getTask())
+    .catch((error) => console.error(error))
+  }
+
+
+  const _deleteDocument = (id) => {
+    if(!token) return;
+    fetch(`${settings.api}/api/documents/${id}`, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      },
+    })
+    .then((response) => _getTask())
     .catch((error) => console.error(error))
   }
 
@@ -204,6 +218,10 @@ const Task = () => {
     console.log(Notification);
   }
 
+  const updateTasks = () => {
+    _getTask()
+  }
+
 
   const updateReview = () => {
     setReview(!review)
@@ -229,6 +247,15 @@ const Task = () => {
              _deleteSubTask(e.target.dataset.id)
            }
          }));
+       }
+       if (e.target.dataset.document) {
+         // console.log(new MenuItem());
+         menu.append(new MenuItem({
+           label: "Delete Attachment",
+           click: () => {
+             _deleteDocument(e.target.dataset.id)
+           }
+         }))
        }
        if (e.target.dataset.message) {
          menu.append(new MenuItem({
@@ -323,7 +350,9 @@ const Task = () => {
 
           {messages.length > 0 &&
             messages.map((item, index) =>
-              <li>
+              <li
+                key={index}
+              >
                 <CardMessage
                   key={index}
                   data={item}
@@ -343,7 +372,9 @@ const Task = () => {
         <ul>
         <span className="label pb2">Sub Tasks</span>
           {task.subtask.map((item, index) =>
-            <li>
+            <li
+              key={index}
+            >
               <CardSubTask
                 key={index}
                 data={item}
@@ -369,7 +400,7 @@ const Task = () => {
 
       <Documents
         data={task}
-        callback={_getTask}
+        callback={updateTasks}
       />
 
 

@@ -1,4 +1,4 @@
-import react, { useContext, useEffect, useState } from "react";
+import { useContext, useCallback, useState } from "react";
 
 import { CardDocument } from './'
 
@@ -6,13 +6,14 @@ import { AuthContext } from '../context/AuthContext';
 import { SettingsContext } from '../context/SettingsContext';
 import { AppContext } from '../context/AppContext';
 
+
 const Documents = ( { data, callback }) => {
 
   const settings = useContext(SettingsContext);
   const token = useContext(AuthContext).token;
   const app = useContext(AppContext);
 
-  const [documents, setDocuments] = useState([]);
+  const [dropState, setDropState] = useState(false);
 
 
   const _storeDocuments = (documents) => {
@@ -31,60 +32,48 @@ const Documents = ( { data, callback }) => {
       body: formData
     })
     .then((response) => response.json())
-    // .then((json) => callback())
-    .catch((error) => console.error(error))
-  }
-
-  const _deleteDocuments = () => {
-    if(!token) return;
-    fetch(`${settings.api}/api/documents/${app.task}`, {
-      method: "DELETE",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'authorization': token,
-      },
+    .then((json) => {
+      callback()
+      setDropState(false)
     })
-    .then((response) => response.json())
     .catch((error) => console.error(error))
   }
 
   const onDragOver = event => {
     event.preventDefault();
+    setDropState(true);
+  }
+
+  const onDragLeave = event => {
+    event.preventDefault();
+    setDropState(false);
   }
 
   const onDrop = event => {
     _storeDocuments(event.dataTransfer.files)
   }
 
-  // useEffect(() => {
-  //   _storeDocuments()
-  // }, [documents])
 
   return (
-
     <>
-    { data.document.length > 0 &&
-      <ul>
-      <span className="label pb2">Attachments</span>
-        {data.document.map((item, index) =>
-
-          <li>
-            <CardDocument
-              data={item}
-            />
-          </li>
-        )}
-
-        <div
-          onDragEnter={() => console.log('onDragEnter')}
-          onDragOver={(e) => onDragOver(e)}
-          onDrop={(e) => onDrop(e)}
+        <ul
+        className={`document-dropzone ${dropState && 'is-active'}`}
+        onDragLeave={(e) => onDragLeave(e)}
+        onDragOver={(e) => onDragOver(e)}
+        onDrop={(e) => onDrop(e)}
         >
-          Drag and drop document here
-        </div>
-      </ul>
-    }
+        <span className="label pb2">Attachments</span>
+          {data.document.map((item, index) =>
+            <li
+              key={index}
+            >
+              <CardDocument
+                data={item}
+              />
+            </li>
+          )}
+        </ul>
+
     </>
 
   )

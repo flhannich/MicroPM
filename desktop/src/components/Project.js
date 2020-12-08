@@ -1,11 +1,9 @@
 import React, {useEffect, useState, useContext} from "react";
 
-import { Link } from "react-router-dom";
-
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 import { SettingsContext } from '../context/SettingsContext';
-import { Header, CardTask, CardProject, Textarea, FooterModal, Footer } from '../components';
+import { Header, CardTask, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -20,11 +18,6 @@ const [tasks, setTasks] = useState([]);
 const [sync, setSync] = useState(false);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
-
-const [projectName, setProjectName] = useState();
-const [projectClient, setProjectClient] = useState('');
-
-console.log(tasks);
 
 const _getTasks = () => {
   if(!token) return;
@@ -84,7 +77,6 @@ const _createTask = () => {
       'authorization': token,
     }
   })
-  .then((response) => response.json())
   .then((json) => _getTasks())
   .catch((error) => console.error(error))
   .finally(() => setModalState(false))
@@ -100,7 +92,6 @@ const _deleteTask = (taskId, contextApi) => {
       'authorization': token,
     }
   })
-  .then((response) => response.json())
   .then((json) => _getTasks())
   .catch((error) => console.error(error))
 }
@@ -200,7 +191,9 @@ useEffect(() => {
         </ul>
 
         {[...new Set(tasks.map((item) => item.status))].map((cat, index) =>
-          <ul>
+          <ul
+            key={index}
+          >
             <span className="label pb2">{cat}</span>
 
             {tasks.map((item, index) =>
@@ -228,17 +221,17 @@ useEffect(() => {
         setModalState={setModalState}
         modalState={modalState}
       >
-          <a
+          <button
             className="btn btn--secondary"
             onClick={() => _createTask()}
-          >New Task</a>
+          >New Task</button>
       </FooterModal>
 
       <Footer>
-        <a
+        <button
           className="btn btn--none"
           onClick={() => setModalState(!modalState)}>
-        AD</a>
+        AD</button>
       </Footer>
 
       </>

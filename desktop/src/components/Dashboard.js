@@ -64,7 +64,6 @@ const Dashboard = () => {
       },
       body: JSON.stringify({name: 'New Project'})
     })
-    .then((response) => response.json())
     .then((json) => _getProjects())
     .catch((error) => console.error(error))
     .finally(() => setModalState(false))
@@ -81,7 +80,6 @@ const Dashboard = () => {
         'authorization': token,
       }
     })
-    .then((response) => response.json())
     .then(() => _getProjects())
     .catch((error) => console.error(error))
   }

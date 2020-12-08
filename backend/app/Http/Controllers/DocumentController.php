@@ -10,6 +10,24 @@ use App\Models\Document;
 class DocumentController extends Controller
 {
 
+  public function delete(Request $request, $id)
+  {
+
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token);
+
+    if($user) {
+
+      $document = Document::where('id', $id)->first();
+      File::delete($document->path . '/' . $document->name);
+      $document->delete();
+
+
+      return response(['message' => 'File deleted'], 200);
+    }
+  }
+
+
   public function store(Request $request, $task)
   {
     $token = $request->authorization;
@@ -22,11 +40,13 @@ class DocumentController extends Controller
       $path = 'public/upload/' . $task . '/';
 
       foreach ($files as $file) {
-          $file->move($path, $file->getClientOriginalName());
+
+          $name = str_replace(' ', '-', $file->getClientOriginalName());
+          $file->move($path, $name);
 
           $document = new Document();
 
-          $document->name = $file->getClientOriginalName();
+          $document->name = $name;
           $document->type = $file->getClientMimeType();
           $document->path = $path;
           $document->task_id = $task;
@@ -34,7 +54,6 @@ class DocumentController extends Controller
           $document->save();
 
       };
-
 
         return response(['message' => 'Files uploaded'], 200);
     }
