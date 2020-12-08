@@ -11,7 +11,7 @@ const Logout = () => {
 
   // FIX Correct Response if Url is not Correct
   const _logout = () => {
-    fetch(`${settings.api}api/logout`, {
+    fetch(`${settings.api}/api/logout`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',

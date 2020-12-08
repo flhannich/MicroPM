@@ -10,6 +10,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   Route::delete('/settings', [SettingsController::class, 'update']);
 
 
+  Route::put('/documents/{task}', [DocumentController::class, 'store']);
+  Route::delete('/documents/{id}', [DocumentController::class, 'delete']);
 
 
   Route::get('/messages/{task}/{status}', [MessageController::class, 'index']);

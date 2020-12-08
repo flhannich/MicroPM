@@ -22,7 +22,7 @@ const Dashboard = () => {
   const _getTasksByStatus = (status) => {
     if(!token) return;
     setLoading(true)
-    fetch(`${settings.api}status/tasks`, {
+    fetch(`${settings.api}/api/status/tasks`, {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   const _getProjects = () => {
     if(!token) return;
-    fetch(`${settings.api}projects`, {
+    fetch(`${settings.api}/api/projects`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
   const _createProject = () => {
     if(!token) return;
-    fetch(`${settings.api}projects`, {
+    fetch(`${settings.api}/api/projects`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -73,7 +73,7 @@ const Dashboard = () => {
 
   const _deleteProject = (projectId) => {
     if(!token) return;
-    fetch(`${settings.api}projects/${projectId}`, {
+    fetch(`${settings.api}/api/projects/${projectId}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',

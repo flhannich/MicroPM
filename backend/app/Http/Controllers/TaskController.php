@@ -21,7 +21,7 @@ class TaskController extends Controller
 
       $tasks = Task::where('project_id', $id)
         ->orderBy('status', 'ASC')
-        ->withCount('file')
+        ->withCount('document')
         ->withCount('subtask')
         ->withCount('unread_message')
         ->get();
@@ -43,7 +43,7 @@ class TaskController extends Controller
     if($user) {
 
       $task = Task::where('id', $id)
-        ->with('file')
+        ->with('document')
         ->with('message')
         ->with('subtask')
         ->first();
@@ -107,7 +107,7 @@ class TaskController extends Controller
 
       Task::where('id',$id)->delete();
       Message::where('task_id',$id)->delete();
-      File::where('task_id',$id)->delete();
+      Document::where('task_id',$id)->delete();
 
       return response()->json(['message' => 'Task deleted'], 201);
     }

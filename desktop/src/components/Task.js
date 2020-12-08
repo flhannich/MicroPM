@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 import { SettingsContext } from '../context/SettingsContext';
 
-import { Header, CardSubTask, CardMessage, CardFile, Textarea, CardMessageSend, FooterModal, Footer } from '../components';
+import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem, Notification } = window.remote;
 
@@ -27,7 +27,7 @@ const Task = () => {
 
   const _getTask = () => {
     if(!token) return;
-    fetch(`${settings.api}tasks/${app.task}`, {
+    fetch(`${settings.api}/api/tasks/${app.task}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -43,7 +43,7 @@ const Task = () => {
 
   const _getMessages = (status) => {
     if(!token) return;
-    fetch(`${settings.api}messages/${app.task}/${status}`, {
+    fetch(`${settings.api}/api/messages/${app.task}/${status}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -59,7 +59,7 @@ const Task = () => {
 
   const _createMessage = ( data ) => {
     if(!token) return;
-    fetch(`${settings.api}messages`, {
+    fetch(`${settings.api}/api/messages`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -79,7 +79,7 @@ const Task = () => {
 
   const _deleteMessage = ( id ) => {
     if(!token) return;
-    fetch(`${settings.api}messages/${id}`, {
+    fetch(`${settings.api}/api/messages/${id}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -94,7 +94,7 @@ const Task = () => {
 
   const _updateTask = () => {
     if(!token) return;
-    fetch(`${settings.api}tasks/${app.task}`, {
+    fetch(`${settings.api}/api/tasks/${app.task}`, {
       method: "PATCH",
       headers: {
         'Accept': 'application/json',
@@ -110,7 +110,7 @@ const Task = () => {
 
   const _updateSubTask = (subtask) => {
     if(!token) return;
-    fetch(`${settings.api}subtasks/${subtask.id}`, {
+    fetch(`${settings.api}/api/subtasks/${subtask.id}`, {
       method: "PATCH",
       headers: {
         'Accept': 'application/json',
@@ -129,7 +129,7 @@ const Task = () => {
 
   const _createSubTask = () => {
     if(!token) return;
-    fetch(`${settings.api}subtasks/${app.task}`, {
+    fetch(`${settings.api}/api/subtasks/${app.task}`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -146,7 +146,7 @@ const Task = () => {
 
   const _deleteSubTask = (subTaskId) => {
     if(!token) return;
-    fetch(`${settings.api}subtasks/${subTaskId}`, {
+    fetch(`${settings.api}/api/subtasks/${subTaskId}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -257,13 +257,16 @@ const Task = () => {
     contextMenu();
   }, []);
 
+
   useEffect(() => {
     _getMessages(messageRead);
   }, [messageRead]);
 
+
   useEffect(() => {
     task.is_review === '1' && setReview(true);
   }, [task]);
+
 
   return (
     <>
@@ -300,49 +303,8 @@ const Task = () => {
 
 
 
-
-
-      { task.file.length > 999 &&
-        <ul>
-        <span className="label pb2">Attachments</span>
-          {task.file.map((item, index) =>
-            <li>
-              <CardFile
-                data={item}
-              />
-            </li>
-          )}
-
-          <div
-            onDragEnter={() => console.log('onDragEnter')}
-            onDragOver={() => console.log('onDragOver')}
-            onDrop={() => console.log('onDrop')}
-          >
-            Drag and drop file here
-          </div>
-        </ul>
-      }
-
-
-      { task.subtask.length > 0 &&
-        <ul>
-        <span className="label pb2">Sub Tasks</span>
-          {task.subtask.map((item, index) =>
-            <li>
-              <CardSubTask
-                key={index}
-                data={item}
-                callback={updateSubTask}
-              />
-            </li>
-          )}
-        </ul>
-      }
-
       {review &&
-
         <ul>
-
           <div className="title-wrapper pb2">
             <span className="label">Messages</span>
             {(messageRead === 0)
@@ -369,27 +331,46 @@ const Task = () => {
               </li>
             )
           }
-
           <CardMessageSend
             callback={storeMessage}
           />
-
         </ul>
       }
 
 
 
-
+      { task.subtask.length > 0 &&
         <ul>
-          <span className="label pb2">Description</span>
-          <li
-          >
-            <Textarea
-              data={task.description}
-              callback={updateDescription}
-            />
-          </li>
+        <span className="label pb2">Sub Tasks</span>
+          {task.subtask.map((item, index) =>
+            <li>
+              <CardSubTask
+                key={index}
+                data={item}
+                callback={updateSubTask}
+              />
+            </li>
+          )}
         </ul>
+      }
+
+
+      <ul>
+        <span className="label pb2">Description</span>
+        <li
+        >
+          <Textarea
+            data={task.description}
+            callback={updateDescription}
+          />
+        </li>
+      </ul>
+
+
+      <Documents
+        data={task}
+        callback={_getTask}
+      />
 
 
       </article>

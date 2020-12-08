@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Task;
 use App\Models\User;
-use App\Models\File;
+use App\Models\Document;
 use App\Models\Client;
 
 class Project extends Model
@@ -30,12 +30,12 @@ class Project extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class)
-        ->with('file');
+        ->with('document');
     }
 
-    public function files()
+    public function documents()
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(Document::class);
     }
 
     public function user()

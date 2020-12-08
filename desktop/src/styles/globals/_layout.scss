@@ -54,12 +54,28 @@ section.modal {
   }
 }
 
-.card-file {
-  display: inline-block;
+.card-document {
+  display: flex;
+  align-items: center;
   .image {
-    width: 100px;
-    height: 100px;
+    width: 32px;
+    height: 32px;
     background-size: cover;
+    border-radius: var(--border-radius);
+  }
+  .document {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color--dark);
+    span {
+      line-height: 32px;
+    }
+  }
+  .description {
+    flex: 1;
+    padding-left: 12px;
   }
 }
 
@@ -87,7 +103,7 @@ header.main {
   border-radius: var(--border-radius);
   background-color: var(--background-color--lightgrey);
   &.message-user {
-    background-color: var(--background-color--brand);
+    background-color: var(--background-color--lightgrey);
 
   }
 }
@@ -99,8 +115,8 @@ header.main {
   position: relative;
   [contenteditable] {
     border-radius: var(--border-radius);
-    border: 1px solid var(--border-color--light);
-    background-color: transparent;
+    // border: 1px solid var(--border-color--light);
+    background-color: var(--background-color--lightgrey);
     padding: 4px 16px;
     margin: 0;
     // border-radius: 16px;

@@ -29,7 +29,7 @@ console.log(tasks);
 const _getTasks = () => {
   if(!token) return;
   setLoading(true)
-  fetch(`${settings.api}project/${app.project}/tasks`, {
+  fetch(`${settings.api}/api/project/${app.project}/tasks`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -46,7 +46,7 @@ const _getTasks = () => {
 
 const _getProject = () => {
   if(!token) return;
-  fetch(`${settings.api}projects/${app.project}`, {
+  fetch(`${settings.api}/api/projects/${app.project}`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -61,7 +61,7 @@ const _getProject = () => {
 
 const _updateProject = () => {
   if(!token) return;
-  fetch(`${settings.api}projects/${app.project}`, {
+  fetch(`${settings.api}/api/projects/${app.project}`, {
     method: "PATCH",
     headers: {
       'Accept': 'application/json',
@@ -76,7 +76,7 @@ const _updateProject = () => {
 
 const _createTask = () => {
   if(!token) return;
-  fetch(`${settings.api}tasks/${app.project}`, {
+  fetch(`${settings.api}/api/tasks/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -92,7 +92,7 @@ const _createTask = () => {
 
 
 const _deleteTask = (taskId, contextApi) => {
-  fetch(`${settings.api}tasks/${taskId}`, {
+  fetch(`${settings.api}/api/tasks/${taskId}`, {
     method: "delete",
     headers: {
       'Accept': 'application/json',

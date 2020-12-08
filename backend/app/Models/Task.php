@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Project;
-use App\Models\File;
+use App\Models\Document;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\SubTask;
@@ -38,9 +38,9 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function file()
+    public function document()
     {
-        return $this->hasMany(File::class)->orderBy('type', 'DESC');
+        return $this->hasMany(Document::class)->orderBy('type', 'DESC');
     }
 
     public function subtask()

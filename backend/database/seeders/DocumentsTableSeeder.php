@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\File;
+use App\Models\Document;
 
-class FilesTableSeeder extends Seeder
+class DocumentsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,12 +14,12 @@ class FilesTableSeeder extends Seeder
      */
     public function run()
     {
-        File::truncate();
+        Document::truncate();
 
         $faker = \Faker\Factory::create();
 
         for ($i = 0; $i < 5; $i++) {
-            File::create([
+            Document::create([
                 'name' => $faker->firstNameFemale,
                 'description' => $faker->paragraph,
                 'path' => $faker->url,

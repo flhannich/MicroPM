@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Message;
-use App\Models\File;
+use App\Models\Document;
 
 
 class UserController extends Controller
@@ -53,7 +53,7 @@ class UserController extends Controller
         Project::where('user_id',$id)->delete();
         Message::where('user_id',$id)->delete();
         Task::where('user_id',$id)->delete();
-        File::where('user_id',$id)->delete();
+        Document::where('user_id',$id)->delete();
 
         return response()->json($newuser);
 

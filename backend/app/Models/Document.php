@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Task;
 use App\Models\Project;
 
-class File extends Model
+class Document extends Model
 {
     use HasFactory;
 
@@ -19,6 +19,8 @@ class File extends Model
     protected $fillable = [
         'name',
         'path',
+        'task_id',
+        'project_id',
         'type',
     ];
 

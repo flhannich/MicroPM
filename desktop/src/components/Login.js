@@ -20,7 +20,7 @@ const Login = () => {
   // FIX Correct Response if Url is not Correct
 
   const _login = () => {
-    fetch(`${api}login`, {
+    fetch(`${api}/api/login`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -166,7 +166,7 @@ const Login = () => {
             data-type="url"
             name="api"
             max-length="100"
-            defaultValue="http://192.168.178.35:8000/api/"
+            defaultValue="http://192.168.178.35:8000"
             onChange={el => {setApi(el.target.value); setApiError(false)}}
           />
         </div>

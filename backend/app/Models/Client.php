@@ -11,7 +11,7 @@ use Laravel\Passport\HasApiTokens;
 
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\File;
+use App\Models\Document;
 
 class Client extends Model
 {
