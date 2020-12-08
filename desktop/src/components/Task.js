@@ -59,7 +59,7 @@ const Task = () => {
 
   const _createMessage = ( data ) => {
     if(!token) return;
-    fetch(`${settings.api}messages/${app.task}`, {
+    fetch(`${settings.api}messages`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -70,6 +70,22 @@ const Task = () => {
         message: data,
         task: app.task
       })
+    })
+    .then((response) =>  _getMessages(messageRead))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
+
+
+  const _deleteMessage = ( id ) => {
+    if(!token) return;
+    fetch(`${settings.api}messages/${id}`, {
+      method: "DELETE",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      },
     })
     .then((response) => response.json())
     .catch((error) => console.error(error))
@@ -176,6 +192,10 @@ const Task = () => {
 
   }
 
+  const createSubTaskSelection = ( ) => {
+
+  }
+
   const storeMessage = ( data ) => {
     _createMessage(data)
   }
@@ -214,7 +234,7 @@ const Task = () => {
          menu.append(new MenuItem({
            label: "Create Subtask from Selection",
            click: () => {
-             _deleteSubTask('000')
+             createSubTaskSelection('000')
            }
          }));
          menu.append(new MenuItem({
@@ -223,7 +243,7 @@ const Task = () => {
          menu.append(new MenuItem({
            label: "Delete Message",
            click: () => {
-             _deleteSubTask('000')
+             _deleteMessage(e.target.dataset.id)
            }
          }));
        }

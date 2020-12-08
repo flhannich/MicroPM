@@ -59,7 +59,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   Route::get('/messages/{task}/{status}', [MessageController::class, 'index']);
   Route::post('/messages', [MessageController::class, 'create']);
-  Route::delete('/messages', [MessageController::class, 'delete']);
+  Route::delete('/messages/{id}', [MessageController::class, 'delete']);
   // Route::get('/message/delete/{message}', [TaskController::class, 'delete']);
 
   Route::post('/login', [UserController::class, 'login']);

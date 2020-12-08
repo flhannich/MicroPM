@@ -40,7 +40,8 @@ const Login = () => {
         } else {
           window.ipcRenderer.send('TOKEN', {
             token: json.remember_token,
-            api: api
+            api: api,
+            username: username
           })
           auth.setToken(json.remember_token)
           auth.setUsername(username)

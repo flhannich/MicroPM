@@ -4,7 +4,7 @@ import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
-const CardMessage = ( { data }) => {
+const CardMessage = ( { data, callback }) => {
 
   const elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })

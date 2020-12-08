@@ -42,7 +42,7 @@ class MessageController extends Controller
       $message->user_id = $user->id;
       $message->save();
 
-      return response()->json('Created', 201);
+      return response()->json('Message Send', 201);
 
     } else {
 
@@ -52,18 +52,16 @@ class MessageController extends Controller
   }
 
 
-  public function delete($request, $id)
+  public function delete(Request $request, $id)
   {
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token);
 
     if($user) {
 
-      Message::where('id',$id)
-        ->where('user_id', $user->id)
-        ->delete();
+      Message::where('id',$id)->delete();
 
-      return response()->json(['message' => 'Task deleted'], 201);
+      return response()->json(['message' => 'Message deleted'], 201);
     }
   }
 

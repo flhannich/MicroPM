@@ -1,25 +1,27 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const CardMessageSend = ( { data, callback, subTaskId }) => {
 
+  const node = useRef();
   const [value, setValue] = useState(data)
 
-  const handleBlur = event => {
-    callback(event.target.innerText);
+  const handleClick = () => {
+    callback(node.current.innerText)
   }
 
   return (
     <div className="message-send-wrapper">
       <div
+        ref={node}
         className="editable"
         contentEditable={true}
         data-subtask
         data-id={subTaskId}
-        onBlur={handleBlur}
         dangerouslySetInnerHTML={{__html: value}}
       />
       <button
         className="message"
+        onClick={handleClick}
       >
       S
       </button>
