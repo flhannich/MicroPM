@@ -8,12 +8,11 @@ const settings = useContext(SettingsContext);
 
   return (
 
-    <a data-document data-id={data.id}>
+    <span data-document data-id={data.id}>
 
     { (data.type === 'image/jpeg' || data.type === 'image/png')
 
     ? <div className="card-document">
-
         <div className="image" style={{backgroundImage: `url(${settings.api}/${data.path}${data.name})`}} />
         <div className="description">
           <span className="label">{data.name}</span>
@@ -31,7 +30,7 @@ const settings = useContext(SettingsContext);
     }
 
 
-    </a>
+    </span>
 
   )
 }

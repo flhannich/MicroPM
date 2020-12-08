@@ -140,6 +140,7 @@ useEffect(() => {
   _getTasks();
   contextMenu();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
 useEffect(() => {
@@ -196,10 +197,9 @@ useEffect(() => {
           >
             <span className="label pb2">{cat}</span>
 
-            {tasks.map((item, index) =>
-              <>
-              {item.status === cat &&
+            {tasks.map((item, index) => item.status === cat &&
                 <li
+                  key={index}
                   onClick={() => app.setTask(item.id)}
                 >
                   <CardTask
@@ -207,8 +207,6 @@ useEffect(() => {
                     data={item}
                   />
                 </li>
-              }
-              </>
             )}
           </ul>
         )}

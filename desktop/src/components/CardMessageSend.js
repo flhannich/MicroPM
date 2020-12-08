@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 const CardMessageSend = ( { data, callback, subTaskId }) => {
 
   const node = useRef();
-  const [value, setValue] = useState(data)
 
   const handleClick = () => {
     callback(node.current.innerText)
@@ -17,7 +16,7 @@ const CardMessageSend = ( { data, callback, subTaskId }) => {
         contentEditable={true}
         data-subtask
         data-id={subTaskId}
-        dangerouslySetInnerHTML={{__html: value}}
+        dangerouslySetInnerHTML={{__html: data}}
       />
       <button
         className="message"

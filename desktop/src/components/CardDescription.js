@@ -1,9 +1,7 @@
-import react, { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { Textarea } from './'
 const CardDescription = ( { data }) => {
-
-  const [edit, setEdit] = useState(false)
 
   const node = useRef();
 
@@ -11,7 +9,6 @@ const CardDescription = ( { data }) => {
     if (node.current.contains(e.target)) {
       return;
     }
-    setEdit(false);
   };
 
   useEffect(() => {

@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { Link } from "react-router-dom";
+import React, { useContext } from 'react'
 
 import { AuthContext } from './../context/AuthContext.js'
 import { SettingsContext } from './../context/SettingsContext.js'
@@ -35,14 +34,9 @@ const Logout = () => {
 
 
   return (
-    <>
 
-      {(auth.token !== null)
-        ? <a className="btn btn--secondary" onClick={logout}>Logout</a>
-        : <Link className="btn btn--secondary" to="/">Login</Link>
-      }
+        <button className="btn btn--secondary" onClick={logout}>Logout</button>
 
-    </>
   )
 }
 

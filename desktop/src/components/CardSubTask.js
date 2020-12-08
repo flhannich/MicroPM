@@ -17,6 +17,8 @@ const CardSubTask = ( { data, callback }) => {
 
   useEffect(() => {
     data.status === '1' && setChecked(true);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

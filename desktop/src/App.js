@@ -25,6 +25,7 @@ export default function App( probs ) {
         auth.setUsername(data.username)
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 // php artisan serve --host=192.168.178.35 --port=8000

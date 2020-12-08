@@ -14,6 +14,7 @@ const Dashboard = () => {
   const app = useContext(AppContext);
   const settings = useContext(SettingsContext);
 
+
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,10 +103,15 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    _getProjects();
-    _getTasksByStatus('In Progress');
+
+    if(settings.api !== null) {
+      _getProjects();
+      _getTasksByStatus('In Progress');
+    }
     _contextMenu()
-  }, [settings]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings.api]);
 
 
     return (
@@ -166,17 +172,17 @@ const Dashboard = () => {
           setModalState={setModalState}
           modalState={modalState}
         >
-            <a
+            <button
               className="btn btn--secondary"
               onClick={() => _createProject()}
-            >New Project</a>
+            >New Project</button>
         </FooterModal>
 
         <Footer>
-          <a
+          <button
             className="btn btn--none"
             onClick={() => setModalState(!modalState)}>
-          AD</a>
+          AD</button>
         </Footer>
 
         </>

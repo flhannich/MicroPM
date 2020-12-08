@@ -3,7 +3,7 @@ const CardProject = ( { data }) => {
   return (
 
     <>
-      <a data-project data-id={data.id}>
+      <span data-project data-id={data.id}>
         <div className="pr3">IC</div>
         <div className="card-text-wrapper">
           <div className="card-title-wrapper">
@@ -21,7 +21,7 @@ const CardProject = ( { data }) => {
           }
         </div>
 
-      </a>
+      </span>
     </>
 
   )

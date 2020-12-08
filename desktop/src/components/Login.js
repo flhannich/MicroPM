@@ -15,7 +15,6 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState(false)
   const [usernameError, setUsernameError] = useState(false)
   const [errorMessage, setErrorMessage] = useState([])
-  const [isLoading, setLoading] = useState(true)
 
   // FIX Correct Response if Url is not Correct
 

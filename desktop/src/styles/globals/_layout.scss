@@ -8,6 +8,7 @@ ul {
   margin-bottom: 16px;
   li {
     list-style: none;
+    > span,
     a {
       display: flex;
       padding: 10px 12px;
@@ -16,6 +17,7 @@ ul {
       border-radius: 5px;
       align-items: center;
       justify-content: space-between;
+      cursor: default;
       &:hover {
         background-color: var(--background-color--grey);
       }

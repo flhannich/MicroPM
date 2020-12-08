@@ -6,7 +6,11 @@ import { SettingsContext } from '../context/SettingsContext';
 
 import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer } from '../components';
 
-const { Menu, MenuItem, Notification } = window.remote;
+// console.log(Notification);
+
+// const { Menu, MenuItem, Notification } = window.remote;
+
+const { Menu, MenuItem } = window.remote;
 
 const Task = () => {
 
@@ -214,10 +218,6 @@ const Task = () => {
     _createMessage(data)
   }
 
-  const messageNotification = () => {
-    console.log(Notification);
-  }
-
   const updateTasks = () => {
     _getTask()
   }
@@ -232,9 +232,6 @@ const Task = () => {
     }
     _updateTask()
   };
-
-  const showProjectSettings = () => {
-  }
 
 
   const contextMenu = () => {
@@ -282,11 +279,15 @@ const Task = () => {
   useEffect(() => {
     _getTask();
     contextMenu();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
   useEffect(() => {
     _getMessages(messageRead);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageRead]);
 
 

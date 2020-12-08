@@ -1,13 +1,12 @@
-import react, {useContext, useState} from "react";
-
+// import { useState, useContext } from "react";
 
 import { Logout } from '../components';
 
-import { AuthContext } from './../context/AuthContext.js'
+// import { AuthContext } from './../context/AuthContext.js'
 
 export default function Settings() {
 
-const auth = useContext(AuthContext)
+// const auth = useContext(AuthContext)
 
     return (
       <>

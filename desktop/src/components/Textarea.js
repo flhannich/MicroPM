@@ -1,8 +1,4 @@
-import { useState } from "react";
-
 const Textarea = ( { data, callback, subTaskId }) => {
-
-  const [value, setValue] = useState(data)
 
   const handleBlur = event => {
     callback(event.target.innerText);
@@ -16,7 +12,7 @@ const Textarea = ( { data, callback, subTaskId }) => {
         data-subtask
         data-id={subTaskId}
         onBlur={handleBlur}
-        dangerouslySetInnerHTML={{__html: value}}
+        dangerouslySetInnerHTML={{__html: data}}
       />
     </>
   )

@@ -1,4 +1,4 @@
-import react, {useContext, useState } from "react";
+import { useContext, useState } from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { SettingsContext } from '../context/SettingsContext';

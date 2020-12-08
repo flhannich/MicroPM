@@ -1,4 +1,4 @@
-import react, { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 const FooterModal = ( { children, modalState, setModalState }) => {
 
@@ -17,6 +17,8 @@ const FooterModal = ( { children, modalState, setModalState }) => {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

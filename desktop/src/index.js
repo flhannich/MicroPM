@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './styles/app.scss';
 import App from './App';
 import Settings from './pages/Settings';
-import Project from './pages/Project';
-import Task from './pages/Task';
 import { BrowserRouter, Route } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';

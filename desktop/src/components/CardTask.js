@@ -3,7 +3,7 @@ const CardTask = ( { data }) => {
   return (
 
     <>
-      <a data-task data-id={data.id}>
+      <span data-task data-id={data.id}>
         <h2>{data.name}</h2>
         <div>
           {data.is_review === '1' &&
@@ -13,7 +13,7 @@ const CardTask = ( { data }) => {
             <span className="icon">U</span>
           }
         </div>
-      </a>
+      </span>
     </>
 
   )
