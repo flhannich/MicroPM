@@ -9,6 +9,23 @@ use App\Models\Message;
 class MessageController extends Controller
 {
 
+  public function index(Request $request, $task, $status)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token);
+
+    if($user) {
+
+      $messages = Message::where('task_id', $task)
+        ->where('is_read', $status)
+        ->with('user')
+        ->get();
+
+      return response()->json($messages, 200);
+    }
+  }
+
+
   public function create(Request $request)
   {
     $token = $request->header('authorization');
@@ -49,4 +66,5 @@ class MessageController extends Controller
       return response()->json(['message' => 'Task deleted'], 201);
     }
   }
+
 }

@@ -24,6 +24,7 @@ class MessagesTableSeeder extends Seeder
          for ($i = 0; $i < 5; $i++) {
              Message::create([
                  'message' => $faker->paragraph,
+                 'is_read' => 0,
                  'user_id' => '',
                  'task_id' => '',
              ]);

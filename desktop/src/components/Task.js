@@ -18,6 +18,8 @@ const Task = () => {
   // const username = auth.username;
 
   const [task, setTask] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [messageRead, setMessageRead] = useState(0);
   const [review, setReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
@@ -39,6 +41,41 @@ const Task = () => {
     .finally(() => setLoading(false))
   }
 
+  const _getMessages = (status) => {
+    if(!token) return;
+    fetch(`${settings.api}messages/${app.task}/${status}`, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => setMessages(json))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
+
+  const _createMessage = ( data ) => {
+    if(!token) return;
+    fetch(`${settings.api}messages/${app.task}`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      },
+      body: JSON.stringify({
+        message: data,
+        task: app.task
+      })
+    })
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
+
   const _updateTask = () => {
     if(!token) return;
     fetch(`${settings.api}tasks/${app.task}`, {
@@ -48,9 +85,7 @@ const Task = () => {
         'Content-Type': 'application/json',
         'authorization': token,
       },
-      body: JSON.stringify({
-          task
-        })
+      body: JSON.stringify({task})
     })
     .then((response) => response.json())
     .catch((error) => console.error(error))
@@ -141,8 +176,8 @@ const Task = () => {
 
   }
 
-  const storeMessage = () => {
-
+  const storeMessage = ( data ) => {
+    _createMessage(data)
   }
 
   const messageNotification = () => {
@@ -203,6 +238,10 @@ const Task = () => {
   }, []);
 
   useEffect(() => {
+    _getMessages(messageRead);
+  }, [messageRead]);
+
+  useEffect(() => {
     task.is_review === '1' && setReview(true);
   }, [task]);
 
@@ -240,20 +279,7 @@ const Task = () => {
       </ul>
 
 
-      { task.subtask.length > 0 &&
-        <ul>
-        <span className="label pb2">Sub Tasks</span>
-          {task.subtask.map((item, index) =>
-            <li>
-              <CardSubTask
-                key={index}
-                data={item}
-                callback={updateSubTask}
-              />
-            </li>
-          )}
-        </ul>
-      }
+
 
 
       { task.file.length > 999 &&
@@ -278,22 +304,51 @@ const Task = () => {
       }
 
 
-
-      {task.message.length > 0 &&
+      { task.subtask.length > 0 &&
         <ul>
-          <div className="title-wrapper pb2">
-            <span className="label">Messages</span>
-            <button className="small">Show all</button>
-          </div>
-
-          {task.message.map((item, index) =>
+        <span className="label pb2">Sub Tasks</span>
+          {task.subtask.map((item, index) =>
             <li>
-              <CardMessage
+              <CardSubTask
                 key={index}
                 data={item}
+                callback={updateSubTask}
               />
             </li>
           )}
+        </ul>
+      }
+
+      {review &&
+
+        <ul>
+
+          <div className="title-wrapper pb2">
+            <span className="label">Messages</span>
+            {(messageRead === 0)
+              ? <button
+                  className="small"
+                  onClick={() => {setMessageRead(1)}}
+                  >
+                Show All</button>
+              : <button
+                  className="small"
+                  onClick={() => {setMessageRead(0)}}
+                  >
+                Hide</button>
+            }
+          </div>
+
+          {messages.length > 0 &&
+            messages.map((item, index) =>
+              <li>
+                <CardMessage
+                  key={index}
+                  data={item}
+                />
+              </li>
+            )
+          }
 
           <CardMessageSend
             callback={storeMessage}
@@ -301,6 +356,8 @@ const Task = () => {
 
         </ul>
       }
+
+
 
 
         <ul>
