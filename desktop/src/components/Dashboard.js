@@ -14,7 +14,6 @@ const Dashboard = () => {
   const app = useContext(AppContext);
   const settings = useContext(SettingsContext);
 
-
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +85,7 @@ const Dashboard = () => {
   }
 
 
-  const _contextMenu = () => {
+  const contextMenu = () => {
     window.addEventListener('contextmenu', (e) => {
        const menu = new Menu();
        if (e.target.dataset.project) {
@@ -99,7 +98,7 @@ const Dashboard = () => {
        }
        menu.popup({ window: window.remote.getCurrentWindow() })
      }, false)
-  }
+   }
 
 
   useEffect(() => {
@@ -107,11 +106,12 @@ const Dashboard = () => {
     if(settings.api !== null) {
       _getProjects();
       _getTasksByStatus('In Progress');
+      contextMenu();
     }
-    _contextMenu()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings.api]);
+
+
 
 
     return (

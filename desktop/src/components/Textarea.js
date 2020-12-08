@@ -6,14 +6,22 @@ const Textarea = ( { data, callback, subTaskId }) => {
 
   return (
     <>
-      <div
-        className="editable"
-        contentEditable={true}
-        data-subtask
-        data-id={subTaskId}
-        onBlur={handleBlur}
-        dangerouslySetInnerHTML={{__html: data}}
+      {(subTaskId !== undefined)
+      ? <div
+          className="editable"
+          contentEditable={true}
+          data-subtask
+          data-id={subTaskId}
+          onBlur={handleBlur}
+          dangerouslySetInnerHTML={{__html: data}}
       />
+      : <div
+          className="editable"
+          contentEditable={true}
+          onBlur={handleBlur}
+          dangerouslySetInnerHTML={{__html: data}}
+        />
+      }
     </>
   )
 }

@@ -83,7 +83,7 @@ const _createTask = () => {
 }
 
 
-const _deleteTask = (taskId, contextApi) => {
+const _deleteTask = (taskId) => {
   fetch(`${settings.api}/api/tasks/${taskId}`, {
     method: "delete",
     headers: {
@@ -97,20 +97,20 @@ const _deleteTask = (taskId, contextApi) => {
 }
 
 
-const contextMenu = () => {
+useEffect(() => {
   window.addEventListener('contextmenu', (e) => {
      const menu = new Menu();
      if (e.target.dataset.task) {
        menu.append(new MenuItem({
          label: "Delete Task",
          click: () => {
-           _deleteTask(e.target.dataset.id, settings.api)
+           _deleteTask(e.target.dataset.id)
          }
        }));
      }
      menu.popup({ window: window.remote.getCurrentWindow() })
    }, false)
-}
+})
 
 
 const updateName = (data) => {
@@ -138,7 +138,6 @@ const showProjectSettings = () => {
 useEffect(() => {
   _getProject();
   _getTasks();
-  contextMenu();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
