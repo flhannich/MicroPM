@@ -113,14 +113,16 @@ class ProjectController extends Controller
       if($user) {
         if($user->role === 'admin') {
 
-          Project::where('id', $id)->delete();
+
           $tasks = Task::where('project_id', $id)->get();
 
           foreach ($tasks as $task) {
             Message::where('task_id', $task->id)->delete();
             Subtask::where('task_id', $task->id)->delete();
+            Document::where('task_id', $task->id)->delete();
           }
 
+          Project::where('id', $id)->delete();
           Task::where('project_id', $id)->delete();
 
           return response()->json(['message' => 'Project deleted'], 201);

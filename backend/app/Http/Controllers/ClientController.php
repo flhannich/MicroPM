@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-use App\Models\Client;
+use App\Models\User;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Message;
 use App\Models\Document;
 
 
-class ClientController extends Controller
+class UserController extends Controller
 {
 
-  public function create(Request $request)
+  public function index(Request $request)
   {
     $request = json_decode($request->getContent());
     $user = User::where('name', $request->username)->first();
@@ -27,12 +27,32 @@ class ClientController extends Controller
     if($user) {
       if($user->role === 'admin') {
 
-        $newclient = Client::create([
-          'name' => $request->name,
-          'password' => bcrypt($request->password)
-        ]);
+        $clients = Client::get();
 
-        return response()->json($newclient);
+        return response()->json($clients);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
+  public function create(Request $request)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        $client = new Client;
+        $client->username = $request->username;
+        $client->password = bcrypt($request->password);
+
+        $client->save();
+
+        return response()->json($client, 200);
 
       } else {
         return response()->json(['message' => 'Not permitted'], 201);
@@ -43,19 +63,15 @@ class ClientController extends Controller
 
   public function delete(Request $request, $id)
   {
-    $request = json_decode($request->getContent());
-    $user = User::where('name', $request->username)->first();
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
 
     if($user) {
       if($user->role === 'admin') {
 
-        Client::where('id',$id)->delete();
-        Project::where('user_id',$id)->delete();
-        Message::where('user_id',$id)->delete();
-        Task::where('user_id',$id)->delete();
-        Document::where('user_id',$id)->delete();
+        Client::find($id)->delete();
 
-        return response()->json(['message' => 'Client Deleted'], 201);
+        return response()->json(['message' => 'Client deleted'], 200);
 
       } else {
         return response()->json(['message' => 'Not permitted'], 201);
@@ -64,33 +80,35 @@ class ClientController extends Controller
   }
 
 
-  public function update($request, $id)
+  public function update(Request $request, $id)
   {
     $token = $request->header('authorization');
-    $client = Client::where('remember_token', $token);
+    $user = User::where('remember_token', $token)->first();
 
-    if($client) {
+    if($user) {
+      if($user->role === 'admin') {
 
-      $request = json_decode($request->getContent());
+        $request = json_decode($request->getContent());
 
-      Client::where('id',$client->id)
-        ->where('user_id', $client->id)
-        ->update(
-          ['name'=> $request->name],
-          ['email'=> $request->email]
-          ['api'=> $request->api]
-        );
+        $client =  Client::find($id)
+        $client->username = $request->username;
+        $client->password = bcrypt($request->password);
+        $client->save();
 
-      return response()->json(['message' => 'Task updated'], 201);
+        return response()->json(['message' => 'Client updated'], 200);
+      }
+      else {
+        return response()->json(['message' => 'Not Permitted'], 200);
+      }
     }
   }
 
 
-  public function login (Request $request) {
+  public function login(Request $request) {
 
     $request = json_decode($request->getContent());
 
-    $client = Client::where('name', $request->username)->first();
+    $client = Client::where('username', $request->username)->first();
 
     if ($client) {
       if (Hash::check($request->password, $client->password)) {
@@ -109,18 +127,15 @@ class ClientController extends Controller
       }
     }
     else {
-      return response(["message" =>'Client does not exist'], 422);
+      return response(["message" =>'User does not exist'], 422);
     }
-
-    return response([$request], 200);
-
   }
 
 
-  public function logout (Request $request) {
+  public function logout(Request $request) {
 
     $token = $request->header('authorization');
-    $client = Client::where('remember_token', $token)->first();
+    $client = User::where('remember_token', $token)->first();
 
     if($client) {
 

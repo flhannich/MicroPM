@@ -19,6 +19,25 @@ use App\Models\Document;
 class UserController extends Controller
 {
 
+  public function index(Request $request)
+  {
+    $request = json_decode($request->getContent());
+    $user = User::where('name', $request->username)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        $users = User::get();
+
+        return response()->json($users);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
   public function create(Request $request)
   {
     $request = json_decode($request->getContent());
@@ -27,10 +46,12 @@ class UserController extends Controller
     if($user) {
       if($user->role === 'admin') {
 
-        $newuser = User::create([
-          'name' => $request->name,
-          'password' => bcrypt($request->password)
-        ]);
+        $newuser = new User;
+        $newuser->username = $request->username;
+        $newuser->role = 'Contributor';
+        $newuser->password = bcrypt($request->password);
+
+        $newuser->save();
 
         return response()->json($newuser);
 
@@ -43,19 +64,15 @@ class UserController extends Controller
 
   public function delete(Request $request, $id)
   {
-    $request = json_decode($request->getContent());
-    $user = User::where('name', $request->username)->first();
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
 
     if($user) {
       if($user->role === 'admin') {
 
-        User::where('id',$id)->delete();
-        Project::where('user_id',$id)->delete();
-        Message::where('user_id',$id)->delete();
-        Task::where('user_id',$id)->delete();
-        Document::where('user_id',$id)->delete();
+        User::find($id)->delete();
 
-        return response()->json($newuser);
+        return response()->json(['message' => 'User deleted'], 200);
 
       } else {
         return response()->json(['message' => 'Not permitted'], 201);
@@ -64,29 +81,45 @@ class UserController extends Controller
   }
 
 
-  public function update($request, $id)
+  public function updateRole(Request $request, $id)
   {
     $token = $request->header('authorization');
-    $user = User::where('remember_token', $token);
+    $user = User::where('remember_token', $token)->first();
 
     if($user) {
 
       $request = json_decode($request->getContent());
 
-      User::where('id',$user->id)
-        ->where('user_id', $user->id)
-        ->update(
-          ['name'=> $request->name],
-          ['email'=> $request->email],
-          ['api'=> $request->api]
-        );
+        $updateuser = Client::find($id)
+        $updateuser->role = $request->role;
+        $updateuser->save();
 
-      return response()->json(['message' => 'Task updated'], 201);
+      return response()->json(['message' => 'User Role updated'], 201);
     }
   }
 
 
-  public function login (Request $request) {
+  public function update(Request $request, $id)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
+
+    if($user) {
+
+      $request = json_decode($request->getContent());
+
+        $updateuser = Client::find($user->id)
+        $updateuser->username = $request->username;
+        $updateuser->role = $request->role;
+        $updateuser->password = bcrypt($request->password);
+        $updateuser->save();
+
+      return response()->json(['message' => 'User updated'], 201);
+    }
+  }
+
+
+  public function login(Request $request) {
 
     $request = json_decode($request->getContent());
 
@@ -117,7 +150,7 @@ class UserController extends Controller
   }
 
 
-  public function logout (Request $request) {
+  public function logout(Request $request) {
 
     $token = $request->header('authorization');
     $user = User::where('remember_token', $token)->first();

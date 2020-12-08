@@ -56,8 +56,16 @@ class SubTaskController extends Controller
 
     if($user) {
 
+      $request = json_decode($request->getContent());
+      $name = $request->subtask;
+
+      if($name) {
+        $subtask->name = $name;
+      } else {
+        $subtask->name = 'New Task';
+      }
+
       $subtask = new SubTask();
-      $subtask->name = 'New Sub Task';
       $subtask->status = 0;
       $subtask->task_id = $task;
       $subtask->save();

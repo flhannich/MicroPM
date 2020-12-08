@@ -24,8 +24,8 @@ class DocumentsTableSeeder extends Seeder
                 'description' => $faker->paragraph,
                 'path' => $faker->url,
                 'type' => $faker->fileExtension,
-                'task_id' => '',
-                'project_id' => '',
+                'task_id' => 1,
+                'user_id' => 1,
             ]);
         };
     }

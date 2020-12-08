@@ -97,7 +97,7 @@ const _deleteTask = (taskId) => {
 }
 
 
-useEffect(() => {
+const contextMenu = () => {
   window.addEventListener('contextmenu', (e) => {
      const menu = new Menu();
      if (e.target.dataset.task) {
@@ -110,7 +110,7 @@ useEffect(() => {
      }
      menu.popup({ window: window.remote.getCurrentWindow() })
    }, false)
-})
+}
 
 
 const updateName = (data) => {
@@ -138,9 +138,11 @@ const showProjectSettings = () => {
 useEffect(() => {
   _getProject();
   _getTasks();
+  contextMenu();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
+
 
 useEffect(() => {
   project.is_sync === '1' && setSync(true);

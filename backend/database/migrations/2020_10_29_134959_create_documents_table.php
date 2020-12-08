@@ -20,7 +20,7 @@ class CreateDocumentsTable extends Migration
             $table->string('path');
             $table->string('type');
             $table->string('task_id');
-            $table->string('project_id');
+            $table->string('user_id');
             $table->timestamps();
         });
     }
