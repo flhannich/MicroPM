@@ -86,6 +86,10 @@ header.main {
 .message-wrapper {
   border-radius: var(--border-radius);
   background-color: var(--background-color--lightgrey);
+  &.message-user {
+    background-color: var(--background-color--brand);
+
+  }
 }
 
 .message-send-wrapper {

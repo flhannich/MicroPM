@@ -53,4 +53,9 @@ class Task extends Model
         return $this->hasMany(Message::class)->orderBy('updated_at', 'DESC')->with('user');
     }
 
+    public function unread_message()
+    {
+        return $this->hasMany(Message::class)->where('is_read', '0');
+    }
+
 }

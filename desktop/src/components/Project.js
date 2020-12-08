@@ -24,6 +24,8 @@ const [modalState, setModalState] = useState(false);
 const [projectName, setProjectName] = useState();
 const [projectClient, setProjectClient] = useState('');
 
+console.log(tasks);
+
 const _getTasks = () => {
   if(!token) return;
   setLoading(true)

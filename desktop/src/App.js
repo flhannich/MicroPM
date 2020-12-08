@@ -21,6 +21,9 @@ export default function App( probs ) {
       if(data.api !== undefined) {
         settings.setApi(data.api)
       }
+      if(data.api !== undefined) {
+        auth.setUsername(data.username)
+      }
     })
   }, [])
 

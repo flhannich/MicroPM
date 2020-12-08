@@ -17,8 +17,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState([])
   const [isLoading, setLoading] = useState(true)
 
-  console.log(api);
-
   // FIX Correct Response if Url is not Correct
 
   const _login = () => {

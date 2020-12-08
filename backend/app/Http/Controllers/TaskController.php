@@ -23,7 +23,7 @@ class TaskController extends Controller
         ->orderBy('status', 'ASC')
         ->withCount('file')
         ->withCount('subtask')
-        ->withCount('message')
+        ->withCount('unread_message')
         ->get();
 
       return response()->json($tasks, 200);
@@ -124,7 +124,9 @@ class TaskController extends Controller
 
       $request = json_decode($request->getContent());
 
-      $task = Task::where('status', $request->status)->get();
+      $task = Task::where('status', $request->status)
+        ->withCount('unread_message')
+        ->get();
 
       return response()->json($task, 201);
     }

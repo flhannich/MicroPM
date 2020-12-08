@@ -21,6 +21,16 @@ class MessageController extends Controller
         ->with('user')
         ->get();
 
+
+      $updates = Message::where('is_read', '0')
+        ->where('task_id', $task)
+        ->get();
+
+      foreach ($updates as $update) {
+        $update->is_read = '1';
+        $update->save();
+      };
+
       return response()->json($messages, 200);
     }
   }

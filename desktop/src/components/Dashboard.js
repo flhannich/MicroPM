@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 import { SettingsContext } from '../context/SettingsContext';
 
-import { Header, CardTask, CardProject, FooterModal, Footer } from '../components';
+import { Header, Logout, CardTask, CardProject, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -119,6 +119,8 @@ const Dashboard = () => {
           <>
 
         <Header />
+
+        <Logout />
 
         <article className="main container">
 

@@ -1,20 +1,24 @@
-import react from "react";
+import {useContext} from "react";
 
-import { format } from "date-fns"
 import { de } from 'date-fns/locale'
 import formatDistance from 'date-fns/formatDistance'
 
+import { AuthContext } from '../context/AuthContext';
+
 const CardMessage = ( { data, callback }) => {
+
+  const auth = useContext(AuthContext);
 
   const elapsedTime = (time) => {
     return formatDistance( new Date(Date.parse(time)), new Date(), { addSuffix: true, locale: de })
   }
 
+
   return (
 
     <>
       <div
-        className="message-wrapper pa3 mb2"
+        className={`message-wrapper pa3 mb2 ${auth.username === data.user.name && "message-user"}`}
       >
         <div>
           <span className="author pr1">{data.user.name}</span>

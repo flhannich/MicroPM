@@ -15,6 +15,7 @@ const Task = () => {
   const settings = useContext(SettingsContext);
 
   const token = auth.token;
+  // const token = auth.token;
   // const username = auth.username;
 
   const [task, setTask] = useState([]);
@@ -23,7 +24,6 @@ const Task = () => {
   const [review, setReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
-
 
   const _getTask = () => {
     if(!token) return;

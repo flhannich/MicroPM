@@ -2,27 +2,27 @@ import React, { useState, useContext } from 'react'
 import { Link } from "react-router-dom";
 
 import { AuthContext } from './../context/AuthContext.js'
+import { SettingsContext } from './../context/SettingsContext.js'
 
 const Logout = () => {
 
-  const context = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  const settings = useContext(SettingsContext);
 
-  console.log(context);
   // FIX Correct Response if Url is not Correct
-
   const _logout = () => {
-    fetch(`http://192.168.178.35:8000/api/logout`, {
+    fetch(`${settings.api}api/logout`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'authorization': context.token,
+          'authorization': auth.token,
         }
       })
       .then((response) => response.json())
       .then((json) => {
         window.ipcRenderer.send('TOKEN', null)
-        context.setToken(null)
+        auth.setToken(null)
         console.log('logged out')
       })
       .catch((error) => console.error(error))
@@ -37,7 +37,7 @@ const Logout = () => {
   return (
     <>
 
-      {(context.token !== null)
+      {(auth.token !== null)
         ? <a className="btn btn--secondary" onClick={logout}>Logout</a>
         : <Link className="btn btn--secondary" to="/">Login</Link>
       }
