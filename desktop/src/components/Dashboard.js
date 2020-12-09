@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
@@ -18,6 +18,10 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
+
+  const projectsRef = useRef(projects);
+  projectsRef.current = projects;
+
 
   const _getTasksByStatus = (status) => {
     if(!token) return;
@@ -53,6 +57,7 @@ const Dashboard = () => {
     .catch((error) => console.error(error))
   }
 
+
   const _createProject = () => {
     if(!token) return;
     fetch(`${settings.api}/api/projects`, {
@@ -80,7 +85,6 @@ const Dashboard = () => {
         'authorization': token,
       }
     })
-    .then(() => _getProjects())
     .catch((error) => console.error(error))
   }
 
@@ -92,12 +96,20 @@ const Dashboard = () => {
          menu.append(new MenuItem({
            label: "Delete Project",
            click: () => {
-             _deleteProject(e.target.dataset.id)
+             removeProject(e.target.dataset.id)
            }
          }));
        }
        menu.popup({ window: window.remote.getCurrentWindow() })
      }, false)
+   }
+
+
+   const removeProject = (id) => {
+     _deleteProject(id)
+
+     const filteredProjects = projectsRef.current.filter(item => item.id !== parseInt(id))
+     setProjects(filteredProjects)
    }
 
 

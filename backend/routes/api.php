@@ -46,6 +46,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
   Route::post('/status/tasks', [TaskController::class, 'showByStatus']);
 
+  Route::get('/subtasks/{task}', [SubTaskController::class, 'index']);
   Route::post('/subtasks/{task}', [SubTaskController::class, 'create']);
   Route::patch('/subtasks/{id}', [SubTaskController::class, 'update']);
   Route::delete('/subtasks/{id}', [SubTaskController::class, 'delete']);

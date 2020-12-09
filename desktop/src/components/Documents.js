@@ -15,7 +15,6 @@ const Documents = ( { data, callback }) => {
 
   const [dropState, setDropState] = useState(false);
 
-
   const _storeDocuments = (documents) => {
     if(!token) return;
     const formData = new FormData();

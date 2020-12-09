@@ -90,7 +90,7 @@ class UserController extends Controller
 
       $request = json_decode($request->getContent());
 
-        $updateuser = Client::find($id)
+        $updateuser = Client::find($id);
         $updateuser->role = $request->role;
         $updateuser->save();
 
@@ -108,7 +108,7 @@ class UserController extends Controller
 
       $request = json_decode($request->getContent());
 
-        $updateuser = Client::find($user->id)
+        $updateuser = Client::find($user->id);
         $updateuser->username = $request->username;
         $updateuser->role = $request->role;
         $updateuser->password = bcrypt($request->password);

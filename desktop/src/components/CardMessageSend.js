@@ -5,7 +5,9 @@ const CardMessageSend = ( { data, callback, subTaskId }) => {
   const node = useRef();
 
   const handleClick = () => {
+    (node.current.innerText !== '') &&
     callback(node.current.innerText)
+    node.current.innerText = ''
   }
 
   return (

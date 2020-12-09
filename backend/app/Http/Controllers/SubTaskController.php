@@ -15,7 +15,7 @@ class SubTaskController extends Controller
 
     if($user) {
 
-      $subtasks = Task::where('task_id', $id)->get();
+      $subtasks = SubTask::where('task_id', $id)->get();
 
       return response()->json($subtasks, 200);
 
@@ -57,15 +57,15 @@ class SubTaskController extends Controller
     if($user) {
 
       $request = json_decode($request->getContent());
-      $name = $request->subtask;
 
-      if($name) {
-        $subtask->name = $name;
+      $subtask = new SubTask();
+
+      if(isset($request->name)) {
+        $subtask->name = $request->name;
       } else {
         $subtask->name = 'New Task';
       }
 
-      $subtask = new SubTask();
       $subtask->status = 0;
       $subtask->task_id = $task;
       $subtask->save();

@@ -19,14 +19,35 @@ class TaskController extends Controller
 
     if($user) {
 
-      $tasks = Task::where('project_id', $id)
-        ->orderBy('status', 'ASC')
+      $completed = Task::where('project_id', $id)
+        ->where('status', 'Completed')
+        ->orderBy('created_at', 'ASC')
         ->withCount('document')
         ->withCount('subtask')
         ->withCount('unread_message')
         ->get();
 
-      return response()->json($tasks, 200);
+      $progress = Task::where('project_id', $id)
+        ->where('status', 'In Progress')
+        ->orderBy('created_at', 'ASC')
+        ->withCount('document')
+        ->withCount('subtask')
+        ->withCount('unread_message')
+        ->get();
+
+      $notstarted = Task::where('project_id', $id)
+        ->where('status', 'Not Started')
+        ->orderBy('created_at', 'ASC')
+        ->withCount('document')
+        ->withCount('subtask')
+        ->withCount('unread_message')
+        ->get();
+
+      return response()->json([
+        'completed' => $completed,
+        'progress' => $progress,
+        'notstarted' => $notstarted
+        ], 200);
 
     } else {
 

@@ -31,7 +31,7 @@ class DocumentController extends Controller
   public function store(Request $request, $task)
   {
     $token = $request->authorization;
-    $user = User::where('remember_token', $token);
+    $user = User::where('remember_token', $token)->first();
 
     if($user) {
 
@@ -50,7 +50,7 @@ class DocumentController extends Controller
           $document->type = $file->getClientMimeType();
           $document->path = $path;
           $document->task_id = $task;
-          $document->project_id = 0;
+          $document->user_id = $user->id;
           $document->save();
 
       };

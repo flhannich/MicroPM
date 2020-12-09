@@ -17,12 +17,15 @@ export default function App( probs ) {
 
       if(data.token !== undefined) {
         auth.setToken(data.token)
+        // auth.setToken(null)
       }
       if(data.api !== undefined) {
         settings.setApi(data.api)
+        // settings.setApi(null)
       }
       if(data.api !== undefined) {
         auth.setUsername(data.username)
+        // auth.setUsername(null)
       }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps

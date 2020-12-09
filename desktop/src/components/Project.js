@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
@@ -18,6 +18,10 @@ const [tasks, setTasks] = useState([]);
 const [sync, setSync] = useState(false);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
+
+const tasksRef = useRef(tasks);
+tasksRef.current = tasks;
+
 
 const _getTasks = () => {
   if(!token) return;
@@ -83,8 +87,8 @@ const _createTask = () => {
 }
 
 
-const _deleteTask = (taskId) => {
-  fetch(`${settings.api}/api/tasks/${taskId}`, {
+const _deleteTask = (id) => {
+  fetch(`${settings.api}/api/tasks/${id}`, {
     method: "delete",
     headers: {
       'Accept': 'application/json',
@@ -92,7 +96,6 @@ const _deleteTask = (taskId) => {
       'authorization': token,
     }
   })
-  .then((json) => _getTasks())
   .catch((error) => console.error(error))
 }
 
@@ -104,7 +107,7 @@ const contextMenu = () => {
        menu.append(new MenuItem({
          label: "Delete Task",
          click: () => {
-           _deleteTask(e.target.dataset.id)
+           removeTask(e.target.dataset.id)
          }
        }));
      }
@@ -131,7 +134,11 @@ const updateSync = () => {
   _updateProject()
 };
 
-const showProjectSettings = () => {
+const removeTask = (id) => {
+  _deleteTask(id)
+
+  const filteredTasks = tasksRef.current.filter(item => item.id !== parseInt(id))
+  setTasks(filteredTasks)
 }
 
 
@@ -164,7 +171,8 @@ useEffect(() => {
       <article className="main container">
 
         <ul>
-          <li className="project-title-wrapper">
+          <li>
+            <div className="project-title-wrapper">
             <span className="pr3">IC</span>
             <div className="card-text-wrapper">
               <div className="card-title-wrapper">
@@ -181,7 +189,6 @@ useEffect(() => {
               </div>
               <div
                 className="client-title-wrapper"
-                onClick={() => showProjectSettings()}
               >
                 {(project.client !== null && project.client !== undefined)
                   ? <button className="small">{project.client.name}</button>
@@ -189,28 +196,57 @@ useEffect(() => {
                 }
               </div>
             </div>
+            </div>
           </li>
         </ul>
 
-        {[...new Set(tasks.map((item) => item.status))].map((cat, index) =>
-          <ul
-            key={index}
-          >
-            <span className="label pb2">{cat}</span>
 
-            {tasks.map((item, index) => item.status === cat &&
-                <li
-                  key={index}
-                  onClick={() => app.setTask(item.id)}
-                >
-                  <CardTask
-                    key={index}
-                    data={item}
-                  />
-                </li>
-            )}
-          </ul>
-        )}
+        <ul>
+          <span className="label pb2">In Progress</span>
+          {tasks.progress.map((item, index) =>
+            <li
+              key={index}
+              onClick={() => app.setTask(item.id)}
+            >
+              <CardTask
+                key={index}
+                data={item}
+              />
+            </li>
+          )}
+        </ul>
+
+
+        <ul>
+          <span className="label pb2">Not Started</span>
+          {tasks.notstarted.map((item, index) =>
+            <li
+              key={index}
+              onClick={() => app.setTask(item.id)}
+            >
+              <CardTask
+                key={index}
+                data={item}
+              />
+            </li>
+          )}
+        </ul>
+
+
+        <ul>
+          <span className="label pb2">Completed</span>
+          {tasks.completed.map((item, index) =>
+            <li
+              key={index}
+              onClick={() => app.setTask(item.id)}
+            >
+              <CardTask
+                key={index}
+                data={item}
+              />
+            </li>
+          )}
+        </ul>
 
 
 
@@ -240,3 +276,25 @@ useEffect(() => {
   }
 
 export default Project
+
+
+
+// {[...new Set(tasks.map((item) => item.status))].map((cat, index) =>
+//   <ul
+//     key={index}
+//   >
+//     <span className="label pb2">{cat}</span>
+//
+//     {tasks.map((item, index) => item.status === cat &&
+//         <li
+//           key={index}
+//           onClick={() => app.setTask(item.id)}
+//         >
+//           <CardTask
+//             key={index}
+//             data={item}
+//           />
+//         </li>
+//     )}
+//   </ul>
+// )}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
@@ -24,10 +24,17 @@ const Task = () => {
 
   const [task, setTask] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [subTasks, setSubTasks] = useState([]);
   const [messageRead, setMessageRead] = useState(0);
   const [review, setReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
+
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+
+  const subTasksRef = useRef(subTasks);
+  subTasksRef.current = subTasks;
 
   const _getTask = () => {
     if(!token) return;
@@ -57,6 +64,22 @@ const Task = () => {
     })
     .then((response) => response.json())
     .then((json) => setMessages(json))
+    .catch((error) => console.error(error))
+    .finally(() => setLoading(false))
+  }
+
+  const _getSubTasks = (taskId) => {
+    if(!token) return;
+    fetch(`${settings.api}/api/subtasks/${app.task}`, {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'authorization': token,
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => setSubTasks(json))
     .catch((error) => console.error(error))
     .finally(() => setLoading(false))
   }
@@ -91,7 +114,6 @@ const Task = () => {
         'authorization': token,
       },
     })
-    .then((response) => _getMessages())
     .catch((error) => console.error(error))
   }
 
@@ -124,13 +146,11 @@ const Task = () => {
           subtask
         })
     })
-    .then((response) => response.json())
     .catch((error) => console.error(error))
-    .finally(() => setLoading(false))
   }
 
 
-  const _createSubTask = () => {
+  const _createSubTask = (selection) => {
     if(!token) return;
     fetch(`${settings.api}/api/subtasks/${app.task}`, {
       method: "POST",
@@ -138,10 +158,10 @@ const Task = () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'authorization': token,
-      }
+      },
+      body: JSON.stringify({name: selection})
     })
-    .then((response) => response.json())
-    .then((json) => _getTask())
+    .then((json) => _getSubTasks())
     .catch((error) => console.error(error))
     .finally(() => setModalState(false))
   }
@@ -157,7 +177,6 @@ const Task = () => {
         'authorization': token,
       }
     })
-    .then((response) => _getTask())
     .catch((error) => console.error(error))
   }
 
@@ -192,7 +211,7 @@ const Task = () => {
 
   const updateSubTask = (id, data) => {
 
-    let item = task.subtask.filter(item => item.id === id)[0];
+    let item = subTasks.filter(item => item.id === id)[0];
 
     if (typeof data === "boolean"){
       (data)
@@ -207,20 +226,30 @@ const Task = () => {
         _updateSubTask(item)
       }
     }
-
   }
 
-  const createSubTaskSelection = ( ) => {
+  const removeSubTask = (id) => {
+    _deleteSubTask(id)
 
+    const filteredSubTasks = subTasksRef.current.filter(item => item.id !== parseInt(id))
+    setSubTasks(filteredSubTasks)
   }
 
   const storeMessage = ( data ) => {
     _createMessage(data)
   }
 
+  const removeMessage = (id) => {
+    _deleteMessage(id)
+
+    const filteredMessages = messagesRef.current.filter(item => item.id !== parseInt(id))
+    setMessages(filteredMessages)
+  }
+
   const updateTasks = () => {
     _getTask()
   }
+
 
 
   const updateReview = () => {
@@ -241,7 +270,7 @@ const Task = () => {
          menu.append(new MenuItem({
            label: "Delete Subtask",
            click: () => {
-             _deleteSubTask(e.target.dataset.id)
+             removeSubTask(e.target.dataset.id)
            }
          }));
        }
@@ -255,10 +284,11 @@ const Task = () => {
          }))
        }
        if (e.target.dataset.message) {
+         let selection = window.getSelection()
          menu.append(new MenuItem({
            label: "Create Subtask from Selection",
            click: () => {
-             createSubTaskSelection('000')
+             _createSubTask(selection.toString())
            }
          }));
          menu.append(new MenuItem({
@@ -267,7 +297,7 @@ const Task = () => {
          menu.append(new MenuItem({
            label: "Delete Message",
            click: () => {
-             _deleteMessage(e.target.dataset.id)
+             removeMessage(e.target.dataset.id)
            }
          }));
        }
@@ -278,6 +308,7 @@ const Task = () => {
 
   useEffect(() => {
     _getTask();
+    _getSubTasks();
     contextMenu();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -369,10 +400,10 @@ const Task = () => {
 
 
 
-      { task.subtask.length > 0 &&
+      { subTasks.length > 0 &&
         <ul>
         <span className="label pb2">Sub Tasks</span>
-          {task.subtask.map((item, index) =>
+          {subTasks.map((item, index) =>
             <li
               key={index}
             >
