@@ -1,5 +1,6 @@
 body {
-  font-family: 'Inter-Regular', sans-serif;
+  font: caption;
+  font-family: sans-serif;
   font-size: $base-font-size;
   line-height: $base-line-height;
   color: var(--font-color);
@@ -31,11 +32,13 @@ a {
 h2 {
   font-size: $base-font-size;
   line-height: 1.25;
+  -webkit-user-select:none;
   // font-weight: 600;
 }
 
 label {
   font-size: 13px;
+  -webkit-user-select:none;
 }
 
 textarea {
@@ -47,6 +50,7 @@ textarea {
 
 .paragraph--small p {
   font-size: 13px;
+  -webkit-user-select:none;
 }
 
 a.btn {
@@ -58,6 +62,7 @@ button.small {
 }
 
 span {
+  -webkit-user-select:none;
   &.error-message {
     font-size: 13px;
   }

@@ -8,7 +8,6 @@ const Store = require('electron-store');
 let mainWindow;
 let Tray = null
 
-
 const schema = {
   launchAtStart: true
 }
@@ -20,7 +19,7 @@ const createMainWindow = () => {
     height: 450,
     show: false,
     frame: false,
-    vibrancy: 'dark',
+    vibrancy: 'ultra-dark',
     fullscreenable: false,
     resizable: false,
     webPreferences: {
@@ -154,3 +153,7 @@ function openSettingsWindow() {
     settingsWindow = null
   })
 }
+
+try {
+  require('electron-reloader')(module)
+} catch (_) {}
