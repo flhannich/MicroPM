@@ -1,10 +1,10 @@
 import {useContext} from "react";
 
-import { SettingsContext } from '../context/SettingsContext';
+import { AppContext } from '../context/AppContext';
 
 const CardDocument = ( { data }) => {
 
-const settings = useContext(SettingsContext);
+const app = useContext(AppContext);
 
   return (
 
@@ -13,7 +13,7 @@ const settings = useContext(SettingsContext);
     { (data.type === 'image/jpeg' || data.type === 'image/png')
 
     ? <div className="card-document">
-        <div className="image" style={{backgroundImage: `url(${settings.api}/${data.path}${data.name})`}} />
+        <div className="image" style={{backgroundImage: `url(${app.api}/${data.path}${data.name})`}} />
         <div className="description">
           <span className="label">{data.name}</span>
         </div>

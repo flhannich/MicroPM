@@ -3,13 +3,11 @@ import { useContext, useState } from "react";
 import { CardDocument } from './'
 
 import { AuthContext } from '../context/AuthContext';
-import { SettingsContext } from '../context/SettingsContext';
 import { AppContext } from '../context/AppContext';
 
 
 const Documents = ( { data, callback }) => {
 
-  const settings = useContext(SettingsContext);
   const token = useContext(AuthContext).token;
   const app = useContext(AppContext);
 
@@ -26,7 +24,7 @@ const Documents = ( { data, callback }) => {
     formData.append('authorization', token);
     formData.append('_method', 'put');
 
-    fetch(`${settings.api}/api/documents/${app.task}`, {
+    fetch(`${app.api}/api/documents/${app.task}`, {
       method: "POST",
       body: formData
     })

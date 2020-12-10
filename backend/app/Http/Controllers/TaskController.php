@@ -25,6 +25,7 @@ class TaskController extends Controller
         ->withCount('document')
         ->withCount('subtask')
         ->withCount('unread_message')
+        ->with('time')
         ->get();
 
       $progress = Task::where('project_id', $id)
@@ -33,6 +34,7 @@ class TaskController extends Controller
         ->withCount('document')
         ->withCount('subtask')
         ->withCount('unread_message')
+        ->with('time')
         ->get();
 
       $notstarted = Task::where('project_id', $id)
@@ -41,6 +43,7 @@ class TaskController extends Controller
         ->withCount('document')
         ->withCount('subtask')
         ->withCount('unread_message')
+        ->with('time')
         ->get();
 
       return response()->json([
@@ -65,8 +68,7 @@ class TaskController extends Controller
 
       $task = Task::where('id', $id)
         ->with('document')
-        ->with('message')
-        ->with('subtask')
+        ->with('time')
         ->first();
 
       return response()->json($task, 201);

@@ -6,7 +6,7 @@ import Settings from './pages/Settings';
 import { BrowserRouter, Route } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
-import { SettingsProvider } from './context/SettingsContext';
+import { TimerProvider } from './context/TimerContext';
 
 // import * as serviceWorker from './serviceWorker';
 
@@ -15,12 +15,12 @@ ReactDOM.render(
      <BrowserRouter>
       <AuthProvider>
         <AppProvider>
-          <SettingsProvider>
+          <TimerProvider>
             <div className="App">
               <Route path="/" exact component={App} />
               <Route path="/settings" exact component={Settings} />
             </div>
-          </SettingsProvider>
+          </TimerProvider>
         </AppProvider>
       </AuthProvider>
     </BrowserRouter>

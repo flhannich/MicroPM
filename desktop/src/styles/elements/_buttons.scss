@@ -6,11 +6,16 @@ a.btn {
   background-color: transparent;
   &.btn--none {
     display: inline-block;
-    height: 32px;
-    line-height: 32px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 12px;
+    margin: 0 -12px;
     border-radius: var(--border-radius);
     color: var(--font-color);
     transition: all 0.5s ease-out;
+    &:hover {
+      background-color: var(--background-color--grey);
+    }
   }
   &.btn--secondary {
     display: inline-block;

@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 
 import { AuthContext } from './../context/AuthContext.js'
-import { SettingsContext } from './../context/SettingsContext.js'
+import { AppContext } from './../context/AppContext.js'
 
 const Login = () => {
 
   const auth = useContext(AuthContext);
-  const settings = useContext(SettingsContext);
+  const app = useContext(AppContext);
 
   const [api, setApi] = useState('')
   const [username, setUsername] = useState('')
@@ -42,7 +42,7 @@ const Login = () => {
           })
           auth.setToken(json.remember_token)
           auth.setUsername(username)
-          settings.setApi(api)
+          app.setApi(api)
         }
       })
       .catch((error) => setErrorMessage(error))

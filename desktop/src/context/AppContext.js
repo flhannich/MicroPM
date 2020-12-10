@@ -1,11 +1,12 @@
-import { createContext, useState} from 'react';
+import { useRef, useState, createContext, useEffect } from 'react'
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
-  const [project, setProject] = useState(null);
-  const [task, setTask] = useState(null);
+  const [project, setProject] = useState(null); // FOR BACK NAVIGATION
+  const [task, setTask] = useState(null); // FOR BACK NAVIGATION
+  const [api, setApi] = useState(null);
 
   return (
     <AppContext.Provider
@@ -14,6 +15,8 @@ export const AppProvider = ({ children }) => {
         setProject,
         task,
         setTask,
+        api,
+        setApi,
       }}
     >
       {children}

@@ -11,6 +11,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TimeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   Route::patch('/settings', [SettingsController::class, 'update']);
   Route::delete('/settings', [SettingsController::class, 'update']);
 
+  Route::patch('/time/{id}', [TimeController::class, 'update']);
+  Route::post('/time', [TimeController::class, 'create']);
 
   Route::put('/documents/{task}', [DocumentController::class, 'store']);
   Route::delete('/documents/{id}', [DocumentController::class, 'delete']);

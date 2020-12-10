@@ -58,7 +58,6 @@ class TrayGenerator {
   createTray = () => {
     this.tray = new Tray(path.join(__dirname, './../assets/logo/logo-tray.png'));
     this.tray.setIgnoreDoubleClickEvents(true);
-    this.tray.setTitle('00:12'); // macOS only
     this.tray.on('click', this.toggleWindow);
     this.tray.on('right-click', this.rightClickMenu);
   };

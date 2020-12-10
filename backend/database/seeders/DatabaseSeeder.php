@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
           $this->call(ClientsTableSeeder::class);
           $this->call(SubTasksTableSeeder::class);
           $this->call(MessagesTableSeeder::class);
+          $this->call(TimesTableSeeder::class);
       }
 }

@@ -1,15 +1,14 @@
-import React, {useEffect, useContext} from "react";
+import React, {useEffect, useContext, useState} from "react";
 
-import { Login, Dashboard, Project, Task } from "./components"
+import { Login, Dashboard, Project, Task, Timer } from "./components"
 
 import { AuthContext } from './context/AuthContext';
 import { AppContext } from './context/AppContext';
-import { SettingsContext } from './context/SettingsContext';
+import { TimerProvider } from './context/TimerContext';
 
 export default function App( probs ) {
 
   const auth = useContext(AuthContext);
-  const settings = useContext(SettingsContext);
   const app = useContext(AppContext);
 
   useEffect(() => {
@@ -20,8 +19,8 @@ export default function App( probs ) {
         // auth.setToken(null)
       }
       if(data.api !== undefined) {
-        settings.setApi(data.api)
-        // settings.setApi(null)
+        app.setApi(data.api)
+        // app.setApi(null)
       }
       if(data.api !== undefined) {
         auth.setUsername(data.username)
@@ -39,6 +38,8 @@ export default function App( probs ) {
         {(auth.token === null)
           ? <Login />
           : <>
+
+              <Timer />
 
               {app.project === null && app.task === null &&
                 <Dashboard />

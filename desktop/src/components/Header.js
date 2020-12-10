@@ -10,7 +10,6 @@ const Header = ( { back } ) => {
             onClick={() => back(null)}>
           B</button>
         }
-        <h2>Active Task</h2>
       </div>
     </header>
   )

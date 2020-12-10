@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-import { SettingsContext } from '../context/SettingsContext';
 
 import { Header, Logout, CardTask, CardProject, FooterModal, Footer } from '../components';
 
@@ -12,7 +11,6 @@ const Dashboard = () => {
 
   const token = useContext(AuthContext).token;
   const app = useContext(AppContext);
-  const settings = useContext(SettingsContext);
 
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -26,7 +24,7 @@ const Dashboard = () => {
   const _getTasksByStatus = (status) => {
     if(!token) return;
     setLoading(true)
-    fetch(`${settings.api}/api/status/tasks`, {
+    fetch(`${app.api}/api/status/tasks`, {
       method: "post",
       headers: {
         'Accept': 'application/json',
@@ -44,7 +42,7 @@ const Dashboard = () => {
 
   const _getProjects = () => {
     if(!token) return;
-    fetch(`${settings.api}/api/projects`, {
+    fetch(`${app.api}/api/projects`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -60,7 +58,7 @@ const Dashboard = () => {
 
   const _createProject = () => {
     if(!token) return;
-    fetch(`${settings.api}/api/projects`, {
+    fetch(`${app.api}/api/projects`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -77,7 +75,7 @@ const Dashboard = () => {
 
   const _deleteProject = (projectId) => {
     if(!token) return;
-    fetch(`${settings.api}/api/projects/${projectId}`, {
+    fetch(`${app.api}/api/projects/${projectId}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -115,13 +113,13 @@ const Dashboard = () => {
 
   useEffect(() => {
 
-    if(settings.api !== null) {
+    if(app.api !== null) {
       _getProjects();
       _getTasksByStatus('In Progress');
       contextMenu();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings.api]);
+  }, [app.api]);
 
 
     return (

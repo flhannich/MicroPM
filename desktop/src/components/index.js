@@ -6,6 +6,7 @@ export { default as Task } from './Task';
 export { default as Documents } from './Documents';
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';
+export { default as Timer } from './Timer';
 
 export { default as CardMessage } from './CardMessage';
 export { default as CardMessageSend } from './CardMessageSend';
@@ -17,6 +18,3 @@ export { default as CardDescription } from './CardDescription';
 
 export { default as FooterModal } from './FooterModal';
 export { default as Textarea } from './Textarea';
-
-
-export { default as SettingsAPI } from './SettingsAPI';

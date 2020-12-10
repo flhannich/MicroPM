@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-import { SettingsContext } from '../context/SettingsContext';
 import { Header, CardTask, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
@@ -11,7 +10,6 @@ const Project = () => {
 
 const token = useContext(AuthContext).token;
 const app = useContext(AppContext);
-const settings = useContext(SettingsContext);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
@@ -26,7 +24,7 @@ tasksRef.current = tasks;
 const _getTasks = () => {
   if(!token) return;
   setLoading(true)
-  fetch(`${settings.api}/api/project/${app.project}/tasks`, {
+  fetch(`${app.api}/api/project/${app.project}/tasks`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -43,7 +41,7 @@ const _getTasks = () => {
 
 const _getProject = () => {
   if(!token) return;
-  fetch(`${settings.api}/api/projects/${app.project}`, {
+  fetch(`${app.api}/api/projects/${app.project}`, {
     method: "GET",
     headers: {
       'Accept': 'application/json',
@@ -58,7 +56,7 @@ const _getProject = () => {
 
 const _updateProject = () => {
   if(!token) return;
-  fetch(`${settings.api}/api/projects/${app.project}`, {
+  fetch(`${app.api}/api/projects/${app.project}`, {
     method: "PATCH",
     headers: {
       'Accept': 'application/json',
@@ -73,7 +71,7 @@ const _updateProject = () => {
 
 const _createTask = () => {
   if(!token) return;
-  fetch(`${settings.api}/api/tasks/${app.project}`, {
+  fetch(`${app.api}/api/tasks/${app.project}`, {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -88,7 +86,7 @@ const _createTask = () => {
 
 
 const _deleteTask = (id) => {
-  fetch(`${settings.api}/api/tasks/${id}`, {
+  fetch(`${app.api}/api/tasks/${id}`, {
     method: "delete",
     headers: {
       'Accept': 'application/json',

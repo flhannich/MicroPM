@@ -2,7 +2,9 @@ import {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-import { SettingsContext } from '../context/SettingsContext';
+import { TimerContext } from '../context/TimerContext';
+
+import { taskTotalTime } from '../utils/helpers';
 
 import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer } from '../components';
 
@@ -16,7 +18,7 @@ const Task = () => {
 
   const auth = useContext(AuthContext);
   const app = useContext(AppContext);
-  const settings = useContext(SettingsContext);
+  const timer = useContext(TimerContext);
 
   const token = auth.token;
   // const token = auth.token;
@@ -38,7 +40,7 @@ const Task = () => {
 
   const _getTask = () => {
     if(!token) return;
-    fetch(`${settings.api}/api/tasks/${app.task}`, {
+    fetch(`${app.api}/api/tasks/${app.task}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -54,7 +56,7 @@ const Task = () => {
 
   const _getMessages = (status) => {
     if(!token) return;
-    fetch(`${settings.api}/api/messages/${app.task}/${status}`, {
+    fetch(`${app.api}/api/messages/${app.task}/${status}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -70,7 +72,7 @@ const Task = () => {
 
   const _getSubTasks = (taskId) => {
     if(!token) return;
-    fetch(`${settings.api}/api/subtasks/${app.task}`, {
+    fetch(`${app.api}/api/subtasks/${app.task}`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -86,7 +88,7 @@ const Task = () => {
 
   const _createMessage = ( data ) => {
     if(!token) return;
-    fetch(`${settings.api}/api/messages`, {
+    fetch(`${app.api}/api/messages`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -106,7 +108,7 @@ const Task = () => {
 
   const _deleteMessage = ( id ) => {
     if(!token) return;
-    fetch(`${settings.api}/api/messages/${id}`, {
+    fetch(`${app.api}/api/messages/${id}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -119,7 +121,7 @@ const Task = () => {
 
   const _updateTask = () => {
     if(!token) return;
-    fetch(`${settings.api}/api/tasks/${app.task}`, {
+    fetch(`${app.api}/api/tasks/${app.task}`, {
       method: "PATCH",
       headers: {
         'Accept': 'application/json',
@@ -135,7 +137,7 @@ const Task = () => {
 
   const _updateSubTask = (subtask) => {
     if(!token) return;
-    fetch(`${settings.api}/api/subtasks/${subtask.id}`, {
+    fetch(`${app.api}/api/subtasks/${subtask.id}`, {
       method: "PATCH",
       headers: {
         'Accept': 'application/json',
@@ -152,7 +154,7 @@ const Task = () => {
 
   const _createSubTask = (selection) => {
     if(!token) return;
-    fetch(`${settings.api}/api/subtasks/${app.task}`, {
+    fetch(`${app.api}/api/subtasks/${app.task}`, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -169,7 +171,7 @@ const Task = () => {
 
   const _deleteSubTask = (subTaskId) => {
     if(!token) return;
-    fetch(`${settings.api}/api/subtasks/${subTaskId}`, {
+    fetch(`${app.api}/api/subtasks/${subTaskId}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -183,7 +185,7 @@ const Task = () => {
 
   const _deleteDocument = (id) => {
     if(!token) return;
-    fetch(`${settings.api}/api/documents/${id}`, {
+    fetch(`${app.api}/api/documents/${id}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -250,8 +252,6 @@ const Task = () => {
     _getTask()
   }
 
-
-
   const updateReview = () => {
     setReview(!review)
     if(review) {
@@ -262,6 +262,8 @@ const Task = () => {
     _updateTask()
   };
 
+
+  console.log('render');
 
   const contextMenu = () => {
     window.addEventListener('contextmenu', (e) => {
@@ -345,10 +347,31 @@ const Task = () => {
         <li>
           <div className="card-text-wrapper">
             <div className="card-title-wrapper">
+
             <Textarea
               data={task.name}
               callback={updateName}
             />
+
+            <button
+              className="small mr2"
+            >
+              {taskTotalTime(task.time)}
+            </button>
+
+            {timer.pause
+
+              ? <button
+                className="small"
+                onClick={() => timer.startTimer(task.id, task.name, task.time[0].time)}
+              >Start</button>
+
+              : <button
+                  className="small"
+                  onClick={() => timer.stopTimer()}
+                >Pause</button>
+            }
+
             <input
               type="checkbox"
               value={task.is_review}
@@ -356,6 +379,7 @@ const Task = () => {
               onChange={() => updateReview()}
             />
           </div>
+
         </div>
         </li>
       </ul>

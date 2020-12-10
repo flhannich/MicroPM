@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
 
 import { AuthContext } from './../context/AuthContext.js'
-import { SettingsContext } from './../context/SettingsContext.js'
+import { AppContext } from './../context/AppContext.js'
 
 const Logout = () => {
 
   const auth = useContext(AuthContext);
-  const settings = useContext(SettingsContext);
+  const app = useContext(AppContext);
 
   // FIX Correct Response if Url is not Correct
   const _logout = () => {
-    fetch(`${settings.api}/api/logout`, {
+    fetch(`${app.api}/api/logout`, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
