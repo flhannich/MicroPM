@@ -13,19 +13,21 @@ export default function App( probs ) {
 
   useEffect(() => {
     window.ipcRenderer.on('INIT_TOKEN', function (event,data) {
+      if(data !== undefined) {
+        if(data.token !== undefined) {
+          auth.setToken(data.token)
+          // auth.setToken(null)
+        }
+        if(data.api !== undefined) {
+          app.setApi(data.api)
+          // app.setApi(null)
+        }
+        if(data.api !== undefined) {
+          auth.setUsername(data.username)
+          // auth.setUsername(null)
+        }
+      }
 
-      if(data.token !== undefined) {
-        auth.setToken(data.token)
-        // auth.setToken(null)
-      }
-      if(data.api !== undefined) {
-        app.setApi(data.api)
-        // app.setApi(null)
-      }
-      if(data.api !== undefined) {
-        auth.setUsername(data.username)
-        // auth.setUsername(null)
-      }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

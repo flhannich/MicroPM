@@ -20,7 +20,7 @@ const createMainWindow = () => {
     height: 450,
     show: false,
     frame: false,
-    vibrancy: 'ultra-dark',
+    vibrancy: 'dark',
     fullscreenable: false,
     resizable: false,
     webPreferences: {

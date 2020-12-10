@@ -165,7 +165,7 @@ const Login = () => {
             data-type="url"
             name="api"
             max-length="100"
-            defaultValue="http://192.168.178.35:8000"
+            defaultValue="http://192.168.178.83:8000"
             onChange={el => {setApi(el.target.value); setApiError(false)}}
           />
         </div>
