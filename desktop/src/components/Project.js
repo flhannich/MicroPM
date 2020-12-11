@@ -264,7 +264,8 @@ useEffect(() => {
         <button
           className="btn btn--none"
           onClick={() => setModalState(!modalState)}>
-        AD</button>
+AD
+        </button>
       </Footer>
 
       </>

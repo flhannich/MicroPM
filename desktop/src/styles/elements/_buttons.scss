@@ -11,7 +11,7 @@ a.btn {
     padding: 0 12px;
     margin: 0 -12px;
     border-radius: var(--border-radius);
-    color: var(--font-color);
+    color: var(--font-color); 
     transition: all 0.5s ease-out;
     &:hover {
       background-color: var(--background-color--grey);
@@ -33,6 +33,18 @@ a.btn {
     padding: 0 24px;
     background-color: var(--font-color);
     color: var(--font-color--brand-invert);
+  }
+  &.btn--icon {
+    height: 32px;
+    line-height: 32px;
+    margin: 0 -12px;
+    border-radius: var(--border-radius);
+    color: var(--font-color);
+    transition: all 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
   }
 }
 

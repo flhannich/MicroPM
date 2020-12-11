@@ -190,7 +190,10 @@ const Dashboard = () => {
           <button
             className="btn btn--none"
             onClick={() => setModalState(!modalState)}>
-          AD</button>
+              <svg viewBox="0 0 85 85" className="ic-svg s24"> 
+                <use xlinkHref="/assets/sprite.svg#play"></use>
+              </svg>
+          </button>
         </Footer>
 
         </>
