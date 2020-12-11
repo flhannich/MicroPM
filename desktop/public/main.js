@@ -71,6 +71,7 @@ const template = [
     label: app.name,
     submenu: [
       { role: 'about' },
+      { type: 'separator' },
       {
         label: 'Settings',
         click: openSettingsWindow
@@ -83,6 +84,11 @@ const template = [
         click: event => store.set('launchAtStart', event.checked)
       },
       { role: 'services' },
+      { type: 'separator' },
+      {
+        label: 'Logout',
+        click: logout
+      },
       { type: 'separator' },
       { role: 'quit' }
     ]
@@ -113,11 +119,16 @@ const template = [
   }
 ]
 
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 
-var settingsWindow = null
+
+function logout() {
+  console.log('logout');
+}
+
+var settingsWindow = null;
 
 function openSettingsWindow() {
   if (settingsWindow) {

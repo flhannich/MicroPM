@@ -8,7 +8,7 @@ const app = useContext(AppContext);
 
   return (
 
-    <span data-document data-id={data.id}>
+    <a data-document data-id={data.id}>
 
     { (data.type === 'image/jpeg' || data.type === 'image/png')
 
@@ -30,7 +30,7 @@ const app = useContext(AppContext);
     }
 
 
-    </span>
+    </a>
 
   )
 }

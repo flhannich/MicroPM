@@ -54,7 +54,7 @@ const Documents = ( { data, callback }) => {
   return (
     <>
         <ul
-        className={`document-dropzone ${dropState && 'is-active'}`}
+        className={`dropzone ${dropState && 'is-active'}`}
         onDragLeave={(e) => onDragLeave(e)}
         onDragOver={(e) => onDragOver(e)}
         onDrop={(e) => onDrop(e)}

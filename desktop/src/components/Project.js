@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-import { Header, CardTask, Textarea, FooterModal, Footer } from '../components';
+import { Header, TaskList, CardTask, Textarea, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -108,6 +108,15 @@ const contextMenu = () => {
            removeTask(e.target.dataset.id)
          }
        }));
+       menu.append(new MenuItem({
+        type: "separator",
+       }));
+       menu.append(new MenuItem({
+         label: "Delete Task",
+         click: () => {
+           removeTask(e.target.dataset.id)
+         }
+       }));
      }
      menu.popup({ window: window.remote.getCurrentWindow() })
    }, false)
@@ -185,7 +194,7 @@ useEffect(() => {
                     callback={updateName}
                   />
 
-                  <span className="checkbox-container">
+                  <span className="checkbox-status-container">
 
                     <input
                       type="checkbox"
@@ -218,54 +227,12 @@ useEffect(() => {
           </li>
         </ul>
 
-
-        <ul>
-          <span className="label pb2">In Progress</span>
-          {tasks.progress.map((item, index) =>
-            <li
-              key={index}
-              onClick={() => app.setTask(item.id)}
-            >
-              <CardTask
-                key={index}
-                data={item}
-              />
-            </li>
-          )}
-        </ul>
-
-
-        <ul>
-          <span className="label pb2">Not Started</span>
-          {tasks.notstarted.map((item, index) =>
-            <li
-              key={index}
-              onClick={() => app.setTask(item.id)}
-            >
-              <CardTask
-                key={index}
-                data={item}
-              />
-            </li>
-          )}
-        </ul>
-
-
-        <ul>
-          <span className="label pb2">Completed</span>
-          {tasks.completed.map((item, index) =>
-            <li
-              key={index}
-              onClick={() => app.setTask(item.id)}
-            >
-              <CardTask
-                key={index}
-                data={item}
-              />
-            </li>
-          )}
-        </ul>
-
+        
+        <TaskList
+          title="In Progress"
+          data={tasks}
+        />
+        
 
 
       </article>

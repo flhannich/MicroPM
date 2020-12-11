@@ -3,6 +3,7 @@ export { default as Logout } from './Logout';
 export { default as Dashboard } from './Dashboard';
 export { default as Project } from './Project';
 export { default as Task } from './Task';
+export { default as TaskList } from './TaskList';
 export { default as Documents } from './Documents';
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';

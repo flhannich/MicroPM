@@ -1,10 +1,16 @@
-const CardProject = ( { data }) => {
+import {useState} from 'react';
 
+const CardProject = ( { data }) => {
+  
   return (
 
     <>
-      <span data-project data-id={data.id}>
-      <svg viewBox="0 0 100 100" className="ic-svg mr3 s16"> 
+
+      <span 
+        data-project 
+        data-id={data.id}
+      >
+          <svg viewBox="0 0 100 100" className="ic-svg mr3 s16"> 
             <use xlinkHref="/assets/sprite.svg#folder"></use>
           </svg>
         <div className="card-text-wrapper">

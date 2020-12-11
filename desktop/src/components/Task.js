@@ -353,7 +353,9 @@ const Task = () => {
               callback={updateName}
             />
 
-            {timer.pause &&
+            {task.status === 'In Progress' &&
+            <>
+            {timer.time.id !== task.id &&
 
               <button
                 className="small"
@@ -372,7 +374,7 @@ const Task = () => {
               {taskTotalTime(task.time)}
             </button>
 
-            <span className="checkbox-container">
+            <span className="checkbox-status-container">
 
               <input
                 type="checkbox"
@@ -382,13 +384,14 @@ const Task = () => {
               />
 
               <span className="checkmark-container">
-                <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+                <svg viewBox="0 0 100 100" className="ic-svg s16"> 
                   <use xlinkHref="/assets/sprite.svg#review"></use>
                 </svg>
               </span>
 
             </span>
-
+          </>
+          }
           </div>
 
         </div>

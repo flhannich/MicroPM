@@ -90,8 +90,12 @@ const Timer = () => {
 
       <div className="timer-wrapper container pt2 pb2">
 
-        <span className="label">{timer.time.name}</span>
-{timer.time.id &&
+        <span 
+         className="label"
+        >{timer.time.name}</span>
+
+        {timer.time.id &&
+
           <div className="timer mr2">
 
             {timer.pause
@@ -115,7 +119,10 @@ const Timer = () => {
                 </button>
             }
 
-          <h2>{timer.time.count}</h2>
+          {!timer.pause &&
+            <h2>{timer.time.count}</h2>
+          }
+
         </div>
 
 }
