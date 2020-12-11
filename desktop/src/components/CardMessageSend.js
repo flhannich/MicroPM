@@ -21,10 +21,12 @@ const CardMessageSend = ( { data, callback, subTaskId }) => {
         dangerouslySetInnerHTML={{__html: data}}
       />
       <button
-        className="message"
+        className="btn btn--icon"
         onClick={handleClick}
       >
-      S
+        <svg viewBox="0 0 85 85" className="ic-svg s16"> 
+          <use xlinkHref="/assets/sprite.svg#send"></use>
+        </svg>
       </button>
     </div>
   )

@@ -26,7 +26,7 @@ const CardSubTask = ( { data, callback }) => {
     <>
       <div className={`subtask-wrapper pb2 ${checked && 'is-done'}`}>
 
-        <span className={`checkbox-wrapper ${checked && 'is-checked'}`}>
+        <span className="checkbox-container">
 
           <input
             type="checkbox"
@@ -35,7 +35,14 @@ const CardSubTask = ( { data, callback }) => {
             onChange={() => handleClick()}
           />
 
+          <span className="checkmark-container">
+            <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+              <use xlinkHref="/assets/sprite.svg#checkmark"></use>
+            </svg>
+          </span>
+
         </span>
+
 
           {(!checked)
           ?   <Textarea

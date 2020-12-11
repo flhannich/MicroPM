@@ -11,7 +11,7 @@ ul {
     > span,
     a {
       display: flex;
-      padding: 10px 12px;
+      padding: 6px 12px;
       margin-left: -12px;
       margin-right: -12px;
       border-radius: 5px;
@@ -23,6 +23,10 @@ ul {
         background-color: var(--background-color--grey);
       }
     }
+    .card-icon-wrapper {
+      display: flex;
+      align-items: center;
+    }
     .card-text-wrapper {
       flex: 1;
       .card-title-wrapper {
@@ -30,6 +34,12 @@ ul {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        button {
+          margin-left: 8px;
+        }
+        .checkbox-container {
+          margin-left: 12px;
+        }
       }
     }
   }
@@ -133,14 +143,15 @@ section.modal {
     border-radius: var(--border-radius);
     // border: 1px solid var(--border-color--light);
     background-color: var(--background-color--lightgrey);
-    padding: 4px 16px;
+    padding: 8px 16px;
     margin: 0;
     // border-radius: 16px;
   }
   button {
     position: absolute;
-    right: 6px;
-    bottom: 6px;
+    right: 8px;
+    bottom: 10px;
+    margin: -6px -5px !important;
   }
 }
 
@@ -174,17 +185,11 @@ section.modal {
   &.is-done {
     opacity: .5;
   }
+  .checkbox-container {
+    left: -4px;
+  }
 }
 
-.checkbox-wrapper {
-  &.is-checked {
-  }
-  input[type="checkbox"] {
-    margin-right: 8px;
-    margin-top: 5px;
-  }
-
-}
 
 [contenteditable] {
   outline: 0px solid transparent;
@@ -227,7 +232,7 @@ article.main {
   left: 0;
   right: 0;
   overflow: auto;
-  padding-top: 16px;
+  padding-top:8px;
 }
 
 footer.main {
@@ -235,6 +240,8 @@ footer.main {
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
+  justify-content: center;
   a {
     display: inline-block;
     margin: 0 10px;

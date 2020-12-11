@@ -28,7 +28,7 @@ const Task = () => {
   const [messages, setMessages] = useState([]);
   const [subTasks, setSubTasks] = useState([]);
   const [messageRead, setMessageRead] = useState(0);
-  const [review, setReview] = useState(false);
+  const [isReview, setIsReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
 
@@ -253,8 +253,8 @@ const Task = () => {
   }
 
   const updateReview = () => {
-    setReview(!review)
-    if(review) {
+    setIsReview(!isReview)
+    if(isReview) {
       task.is_review = '0'
     } else {
       task.is_review = '1';
@@ -325,7 +325,7 @@ const Task = () => {
 
 
   useEffect(() => {
-    task.is_review === '1' && setReview(true);
+    task.is_review === '1' && setIsReview(true);
   }, [task]);
 
 
@@ -353,31 +353,42 @@ const Task = () => {
               callback={updateName}
             />
 
+            {timer.pause &&
+
+              <button
+                className="small"
+                onClick={() => timer.startTimer(task.id, task.name, task.time[0].time)}
+              >
+                <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+                  <use xlinkHref="/assets/sprite.svg#play"></use>
+                </svg>
+              </button>
+
+            }
+
             <button
               className="small mr2"
             >
               {taskTotalTime(task.time)}
             </button>
 
-            {timer.pause
+            <span className="checkbox-container">
 
-              ? <button
-                className="small"
-                onClick={() => timer.startTimer(task.id, task.name, task.time[0].time)}
-              >Start</button>
+              <input
+                type="checkbox"
+                value={task.is_review}
+                checked={isReview}
+                onChange={() => updateReview()}
+              />
 
-              : <button
-                  className="small"
-                  onClick={() => timer.stopTimer()}
-                >Pause</button>
-            }
+              <span className="checkmark-container">
+                <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+                  <use xlinkHref="/assets/sprite.svg#review"></use>
+                </svg>
+              </span>
 
-            <input
-              type="checkbox"
-              value={task.is_review}
-              checked={review}
-              onChange={() => updateReview()}
-            />
+            </span>
+
           </div>
 
         </div>
@@ -386,7 +397,7 @@ const Task = () => {
 
 
 
-      {review &&
+      {isReview &&
         <ul>
           <div className="title-wrapper pb2">
             <span className="label">Messages</span>
@@ -474,9 +485,11 @@ const Task = () => {
 
       <Footer>
         <button
-          className="btn btn--none"
+          className="btn btn--icon"
           onClick={() => setModalState(!modalState)}>
-            AD
+            <svg viewBox="0 0 100 100" className="ic-svg s16"> 
+              <use xlinkHref="/assets/sprite.svg#more"></use>
+            </svg>
         </button>
       </Footer>
 

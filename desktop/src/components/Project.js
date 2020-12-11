@@ -13,7 +13,7 @@ const app = useContext(AppContext);
 
 const [project, setProject] = useState([]);
 const [tasks, setTasks] = useState([]);
-const [sync, setSync] = useState(false);
+const [isSync, setIsSync] = useState(false);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
 
@@ -123,8 +123,8 @@ const updateName = (data) => {
 
 
 const updateSync = () => {
-  setSync(!sync)
-  if(sync) {
+  setIsSync(!isSync)
+  if(isSync) {
     project.is_sync = '0'
   } else {
     project.is_sync = '1';
@@ -150,7 +150,7 @@ useEffect(() => {
 
 
 useEffect(() => {
-  project.is_sync === '1' && setSync(true);
+  project.is_sync === '1' && setIsSync(true);
 }, [project]);
 
 
@@ -171,29 +171,49 @@ useEffect(() => {
         <ul>
           <li>
             <div className="project-title-wrapper">
-            <span className="pr3">IC</span>
-            <div className="card-text-wrapper">
-              <div className="card-title-wrapper">
-                <Textarea
-                  data={project.name}
-                  callback={updateName}
-                />
-                <input
-                  type="checkbox"
-                  value={project.is_sync}
-                  checked={sync}
-                  onChange={() => updateSync()}
-                />
+
+              <svg viewBox="0 0 100 100" className="ic-svg mr3 s16"> 
+                <use xlinkHref="/assets/sprite.svg#folder"></use>
+              </svg>
+
+              <div className="card-text-wrapper">
+
+                <div className="card-title-wrapper">
+
+                  <Textarea
+                    data={project.name}
+                    callback={updateName}
+                  />
+
+                  <span className="checkbox-container">
+
+                    <input
+                      type="checkbox"
+                      value={project.is_sync}
+                      checked={isSync}
+                      onChange={() => updateSync()}
+                      />
+
+                    <span className="checkmark-container">
+                      <svg viewBox="0 0 100 100" className="ic-svg s16"> 
+                        <use xlinkHref="/assets/sprite.svg#sync"></use>
+                      </svg>
+                    </span>
+
+                  </span>
+
+                </div>
+
+                <div
+                  className="client-title-wrapper"
+                >
+                  {(project.client !== null && project.client !== undefined)
+                    ? <button className="small">{project.client.name}</button>
+                    : <button className="small">Personal</button>
+                  }
+                </div>
+
               </div>
-              <div
-                className="client-title-wrapper"
-              >
-                {(project.client !== null && project.client !== undefined)
-                  ? <button className="small">{project.client.name}</button>
-                  : <button className="small">Personal</button>
-                }
-              </div>
-            </div>
             </div>
           </li>
         </ul>
@@ -262,9 +282,11 @@ useEffect(() => {
 
       <Footer>
         <button
-          className="btn btn--none"
+          className="btn btn--icon"
           onClick={() => setModalState(!modalState)}>
-AD
+            <svg viewBox="0 0 100 100" className="ic-svg s16"> 
+              <use xlinkHref="/assets/sprite.svg#more"></use>
+            </svg>
         </button>
       </Footer>
 

@@ -45,6 +45,9 @@ a.btn {
     align-items: center;
     justify-content: center;
     width: 32px;
+    &:hover {
+      background-color: var(--background-color--grey);
+    }
   }
 }
 

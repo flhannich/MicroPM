@@ -82,6 +82,7 @@ const Timer = () => {
       }
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[timer.pause, timer.time.id])
 
 
@@ -90,7 +91,7 @@ const Timer = () => {
       <div className="timer-wrapper container pt2 pb2">
 
         <span className="label">{timer.time.name}</span>
-
+{timer.time.id &&
           <div className="timer mr2">
 
             {timer.pause
@@ -98,16 +99,26 @@ const Timer = () => {
               ? <button
                 className="small"
                 onClick={() => timer.startTimer(timer.time.id, timer.time.name, timer.time.count)}
-              >Start</button>
+              >
+                <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+                  <use xlinkHref="/assets/sprite.svg#play"></use>
+                </svg>
+              </button>
 
               : <button
                   className="small"
                   onClick={() => timer.stopTimer()}
-                >Pause</button>
+                >
+                  <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+                    <use xlinkHref="/assets/sprite.svg#stop"></use>
+                  </svg>
+                </button>
             }
 
           <h2>{timer.time.count}</h2>
         </div>
+
+}
     </div>
 
   )

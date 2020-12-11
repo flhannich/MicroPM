@@ -18,10 +18,12 @@ const CardTask = ( { data }) => {
             </span>
           }
           {data.is_review === '1' &&
-            <span className="icon">R</span>
+            <svg viewBox="0 0 100 100" className="ic-svg svg--brand s16"> 
+              <use xlinkHref="/assets/sprite.svg#review"></use>
+            </svg>
           }
-          {data.unread_message_count > 0 &&
-            <span className="icon">U</span>
+          {data.unread_message_count === 0 &&
+            <span className="count">{data.tasks_count}</span>
           }
         </div>
       </span>

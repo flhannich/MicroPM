@@ -4,15 +4,20 @@ const CardProject = ( { data }) => {
 
     <>
       <span data-project data-id={data.id}>
-        <div className="pr3">IC</div>
+      <svg viewBox="0 0 100 100" className="ic-svg mr3 s16"> 
+            <use xlinkHref="/assets/sprite.svg#folder"></use>
+          </svg>
         <div className="card-text-wrapper">
+
           <div className="card-title-wrapper">
-            <h2 className="pb1">{data.name}</h2>
-            <div>
+  
+            <h2>{data.name}</h2>
+            <div className="card-icon-wrapper">
               {data.is_sync === '1' &&
-                <span className="icon">S</span>
+                <svg viewBox="0 0 100 100" className="ic-svg svg--brand s16 mr2"> 
+                  <use xlinkHref="/assets/sprite.svg#sync"></use>
+                </svg>
               }
-              <span className="count">{data.tasks_count}</span>
             </div>
           </div>
           {(data.client !== null && data.client !== undefined)

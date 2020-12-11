@@ -1,9 +1,9 @@
 .ic-svg {
     display: inline-block;
-    fill: #fff;
-    use {
-        width: 100%;
-        height: 100%;
+    fill: var(--font-color--lighter);
+    &.s10 {
+        width: 10px;
+        height: 10px;
     }
     &.s16 {
         width: 16px;
@@ -17,4 +17,9 @@
         width: 32px;
         height: 32px;
     }
+    &.svg--brand {
+        fill: var(--background-color--brand);
+    }
 }
+
+

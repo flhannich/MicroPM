@@ -80,8 +80,8 @@ $desktop: 1200px;
   --border-color--brand: #71A9E0;
   --border-color--standard: #bbb;
   --border-color--dark: #;
-  --border-color--input: #383838;
-  --border-color--input--focus: #383838;
+  --border-color--input: rgba(255,255,255, .54);
+  --border-color--input--focus: rgba(255,255,255, .38);
   --border-color--warning: red;
 
   --input-color--border-focus: 1px solid #000;

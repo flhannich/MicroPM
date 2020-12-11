@@ -193,3 +193,54 @@ form {
     margin: 0 0 0 22px;
   }
   }
+
+
+
+  .checkbox-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    input {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      opacity: 0;
+      &:checked {
+        & ~ .checkmark-container {
+          border-color: transparent;
+          background-color: var(--background-color--dark);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          svg {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .checkmark-container {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--border-color--input);
+      border-radius: var(--border-radius);
+      z-index: -1;
+      svg {
+        opacity: 0;
+      }
+    }
+  }
+  

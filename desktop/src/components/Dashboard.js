@@ -132,8 +132,6 @@ const Dashboard = () => {
 
         <Header />
 
-        <Logout />
-
         <article className="main container">
 
           {tasks.length > 0 &&
@@ -188,10 +186,10 @@ const Dashboard = () => {
 
         <Footer>
           <button
-            className="btn btn--none"
+            className="btn btn--icon"
             onClick={() => setModalState(!modalState)}>
-              <svg viewBox="0 0 85 85" className="ic-svg s24"> 
-                <use xlinkHref="/assets/sprite.svg#play"></use>
+              <svg viewBox="0 0 100 100" className="ic-svg s16"> 
+                <use xlinkHref="/assets/sprite.svg#more"></use>
               </svg>
           </button>
         </Footer>

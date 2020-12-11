@@ -15,7 +15,7 @@ const store = new Store(schema);
 
 const createMainWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 350,
+    width: 320,
     height: 450,
     show: false,
     frame: false,

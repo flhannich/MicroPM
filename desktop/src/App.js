@@ -1,10 +1,9 @@
-import React, {useEffect, useContext, useState} from "react";
+import React, {useEffect, useContext} from "react";
 
 import { Login, Dashboard, Project, Task, Timer } from "./components"
 
 import { AuthContext } from './context/AuthContext';
 import { AppContext } from './context/AppContext';
-import { TimerProvider } from './context/TimerContext';
 
 export default function App( probs ) {
 
