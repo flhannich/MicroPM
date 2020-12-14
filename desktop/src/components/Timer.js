@@ -96,12 +96,16 @@ const Timer = () => {
 
         {timer.time.id &&
 
-          <div className="timer mr2">
+          <div className="timer">
+
+            {!timer.pause &&
+              <h2 className="pr2">{timer.time.count}</h2>
+            }
 
             {timer.pause
 
               ? <button
-                className="small"
+                className="btn btn--icon"
                 onClick={() => timer.startTimer(timer.time.id, timer.time.name, timer.time.count)}
               >
                 <svg viewBox="0 0 100 100" className="ic-svg s10"> 
@@ -110,7 +114,7 @@ const Timer = () => {
               </button>
 
               : <button
-                  className="small"
+                  className="btn btn--icon"
                   onClick={() => timer.stopTimer()}
                 >
                   <svg viewBox="0 0 100 100" className="ic-svg s10"> 
@@ -118,10 +122,6 @@ const Timer = () => {
                   </svg>
                 </button>
             }
-
-          {!timer.pause &&
-            <h2>{timer.time.count}</h2>
-          }
 
         </div>
 

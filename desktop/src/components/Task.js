@@ -358,7 +358,7 @@ const Task = () => {
             {timer.time.id !== task.id &&
 
               <button
-                className="small"
+                className="btn btn--icon"
                 onClick={() => timer.startTimer(task.id, task.name, task.time[0].time)}
               >
                 <svg viewBox="0 0 100 100" className="ic-svg s10"> 
@@ -369,7 +369,7 @@ const Task = () => {
             }
 
             <button
-              className="small mr2"
+              className="btn btn--small mr2"
             >
               {taskTotalTime(task.time)}
             </button>
@@ -406,12 +406,12 @@ const Task = () => {
             <span className="label">Messages</span>
             {(messageRead === 0)
               ? <button
-                  className="small"
+                  className="btn btn--small"
                   onClick={() => {setMessageRead(1)}}
                   >
                 Show All</button>
               : <button
-                  className="small"
+                  className="btn btn--small"
                   onClick={() => {setMessageRead(0)}}
                   >
                 Hide</button>

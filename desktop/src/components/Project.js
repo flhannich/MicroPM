@@ -108,15 +108,6 @@ const contextMenu = () => {
            removeTask(e.target.dataset.id)
          }
        }));
-       menu.append(new MenuItem({
-        type: "separator",
-       }));
-       menu.append(new MenuItem({
-         label: "Delete Task",
-         click: () => {
-           removeTask(e.target.dataset.id)
-         }
-       }));
      }
      menu.popup({ window: window.remote.getCurrentWindow() })
    }, false)
@@ -213,14 +204,10 @@ useEffect(() => {
 
                 </div>
 
-                <div
-                  className="client-title-wrapper"
-                >
-                  {(project.client !== null && project.client !== undefined)
-                    ? <button className="small">{project.client.name}</button>
-                    : <button className="small">Personal</button>
-                  }
-                </div>
+                {(project.client !== null && project.client !== undefined)
+                  ? <button className="btn btn--small">{project.client.name}</button>
+                  : <button className="btn btn--small">Personal</button>
+                }
 
               </div>
             </div>

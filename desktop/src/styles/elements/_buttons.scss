@@ -35,21 +35,36 @@ a.btn {
     color: var(--font-color--brand-invert);
   }
   &.btn--icon {
-    height: 32px;
-    line-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    min-width: 24px;
     margin: 0 -12px;
     border-radius: var(--border-radius);
     color: var(--font-color);
     transition: all 0.5s ease-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
+    line-height: 24px;
+    &:hover {
+      background-color: var(--background-color--grey);
+    }
+  }
+  &.btn--small {
+    border-radius: var(--border-radius);
+    padding: 2px 4px;
+    margin: -2px -4px;
+    height: 20px;
+    cursor: default;
+    border: none;
+    background-color: transparent;
+    color: var(--font-color--lightest);
     &:hover {
       background-color: var(--background-color--grey);
     }
   }
 }
+
 
 button.message {
   display: inline-block;
@@ -65,19 +80,7 @@ button.message {
   }
 }
 
-button.small {
-  display: inline-block;
-  border-radius: var(--border-radius);
-  padding: 2px 4px;
-  margin: -2px -4px;
-  cursor: default;
-  border: none;
-  background-color: transparent;
-  color: var(--font-color--lightest);
-  &:hover {
-    background-color: var(--background-color--grey);
-  }
-}
+
 
 
 button[type=submit] {
