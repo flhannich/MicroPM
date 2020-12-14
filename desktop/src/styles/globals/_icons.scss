@@ -1,6 +1,10 @@
 .ic-svg {
     display: inline-block;
     fill: var(--font-color--lighter);
+    &.s8 {
+        width: 8px;
+        height: 8px;
+    }
     &.s10 {
         width: 10px;
         height: 10px;

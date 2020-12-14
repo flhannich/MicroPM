@@ -6,7 +6,7 @@ import { TimerContext } from '../context/TimerContext';
 
 import { taskTotalTime } from '../utils/helpers';
 
-import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer } from '../components';
+import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer, ModalMessage } from '../components';
 
 // console.log(Notification);
 
@@ -27,6 +27,8 @@ const Task = () => {
   const [task, setTask] = useState([]);
   const [messages, setMessages] = useState([]);
   const [subTasks, setSubTasks] = useState([]);
+  const [modalMessage, setModalMessage] = useState(null);
+  const [modalMessageCallback, setModalStateCallback] = useState(null);
   const [messageRead, setMessageRead] = useState(0);
   const [isReview, setIsReview] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -204,6 +206,28 @@ const Task = () => {
     }
   }
 
+
+  const _storeDocuments = (documents) => {
+    if(!token) return;
+    const formData = new FormData();
+
+    for (var i = 0; i < documents.length; i++) {
+      formData.append('documents[]', documents[i], documents[i].name);
+    }
+
+    formData.append('authorization', token);
+    formData.append('_method', 'put');
+
+    fetch(`${app.api}/api/documents/${app.task}`, {
+      method: "POST",
+      body: formData
+    })
+    .then((response) => _getTask())
+    .catch((error) => console.error(error))
+    .finally(() => setModalState(false))
+  }
+
+  
   const updateDescription = (data) => {
     if(task.description !== data) {
       task.description = data;
@@ -231,8 +255,8 @@ const Task = () => {
   }
 
   const removeSubTask = (id) => {
+    // setModalMessage('Will be delete in 5s');
     _deleteSubTask(id)
-
     const filteredSubTasks = subTasksRef.current.filter(item => item.id !== parseInt(id))
     setSubTasks(filteredSubTasks)
   }
@@ -288,7 +312,7 @@ const Task = () => {
        if (e.target.dataset.message) {
          let selection = window.getSelection()
          menu.append(new MenuItem({
-           label: "Create Subtask from Selection",
+           label: "Create Subtask",
            click: () => {
              _createSubTask(selection.toString())
            }
@@ -353,13 +377,11 @@ const Task = () => {
               callback={updateName}
             />
 
-            {task.status === 'In Progress' &&
-            <>
-            {timer.time.id !== task.id &&
+            {timer.time.id !== task.id && task.status === 'In Progress' &&
 
               <button
                 className="btn btn--icon"
-                onClick={() => timer.startTimer(task.id, task.name, task.time[0].time)}
+                onClick={() => timer.startTimer(task.id, task.name)}
               >
                 <svg viewBox="0 0 100 100" className="ic-svg s10"> 
                   <use xlinkHref="/assets/sprite.svg#play"></use>
@@ -367,6 +389,9 @@ const Task = () => {
               </button>
 
             }
+
+            {task.status === 'In Progress' &&
+            <>
 
             <button
               className="btn btn--small mr2"
@@ -394,7 +419,14 @@ const Task = () => {
           }
           </div>
 
+          <div className="pt1">
+            <button className="btn btn--status">
+              {task.status}
+            </button>
+          </div>
+          
         </div>
+
         </li>
       </ul>
 
@@ -402,8 +434,8 @@ const Task = () => {
 
       {isReview &&
         <ul>
-          <div className="title-wrapper pb2">
-            <span className="label">Messages</span>
+          <div className="title-wrapper">
+            <span className="label">Requests</span>
             {(messageRead === 0)
               ? <button
                   className="btn btn--small"
@@ -430,12 +462,11 @@ const Task = () => {
               </li>
             )
           }
-          <CardMessageSend
+          {/* <CardMessageSend
             callback={storeMessage}
-          />
+          />  */}
         </ul>
       }
-
 
 
       { subTasks.length > 0 &&
@@ -476,6 +507,11 @@ const Task = () => {
 
       </article>
 
+      <ModalMessage
+        data={modalMessage}
+        callback={setModalStateCallback}
+      />
+
       <FooterModal
         setModalState={setModalState}
         modalState={modalState}
@@ -483,7 +519,15 @@ const Task = () => {
           <button
             className="btn btn--secondary"
             onClick={() => _createSubTask()}
-          >New Sub Task</button>
+          >Add Task</button>
+          <button
+            className="btn btn--secondary btn--upload">
+            <input 
+              type="file"  
+              onChange={(event) => _storeDocuments(event.target.files)}
+              multiple
+            />  
+          Upload File</button>
       </FooterModal>
 
       <Footer>

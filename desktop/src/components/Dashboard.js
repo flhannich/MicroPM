@@ -142,7 +142,6 @@ const Dashboard = () => {
               {tasks.map((item, index) =>
                 <li
                   key={index}
-                  onClick={() => app.setTask(item.id)}
                 >
                   <CardTask
                     key={index}
@@ -161,7 +160,6 @@ const Dashboard = () => {
               {projects.map((item, index) =>
                 <li
                   key={index}
-                  onClick={() => app.setProject(item.id)}
                 >
                   <CardProject
                     key={index}

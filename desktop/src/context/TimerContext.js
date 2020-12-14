@@ -7,6 +7,7 @@ export const TimerProvider = ({ children }) => {
     const timer = useRef();
 
     const [pause, setPause] = useState(true);
+
     const [time, setTime] = useState({
       id: null,
       name: null,
@@ -14,7 +15,14 @@ export const TimerProvider = ({ children }) => {
     });
 
 
-    const startTimer = (id, name, startTime) => {
+    const startTimer = (id, name) => {
+      console.log('started');
+      setTime({
+        id: id,
+        name: name,
+        count: '0:00:00'
+      })
+
       setPause(false)
 
       // let { s, m, h } = parseTime(startTime);
@@ -54,6 +62,7 @@ export const TimerProvider = ({ children }) => {
 
     const stopTimer = () => {
       setPause(true);
+      // setTime({count: null});
       clearInterval(timer.current);
     };
 

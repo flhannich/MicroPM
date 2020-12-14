@@ -90,16 +90,19 @@ const Timer = () => {
 
       <div className="timer-wrapper container pt2 pb2">
 
-        <span 
-         className="label"
-        >{timer.time.name}</span>
+        <button 
+         className="btn btn--none"
+         onClick={() => app.setTask(timer.time.id)}
+        >{timer.time.name}</button>
 
         {timer.time.id &&
 
           <div className="timer">
 
             {!timer.pause &&
+
               <h2 className="pr2">{timer.time.count}</h2>
+
             }
 
             {timer.pause

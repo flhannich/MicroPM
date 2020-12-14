@@ -1,14 +1,19 @@
-import {useState} from 'react';
+import {useContext} from 'react';
+
+import { AppContext } from '../context/AppContext';
 
 const CardProject = ( { data }) => {
   
+  const app = useContext(AppContext);
+
   return (
 
     <>
 
-      <span 
+      <a 
         data-project 
         data-id={data.id}
+        onClick={() => app.setProject(data.id)}
       >
           <svg viewBox="0 0 100 100" className="ic-svg mr3 s16"> 
             <use xlinkHref="/assets/sprite.svg#folder"></use>
@@ -20,7 +25,7 @@ const CardProject = ( { data }) => {
             <h2>{data.name}</h2>
             <div className="card-icon-wrapper">
               {data.is_sync === '1' &&
-                <svg viewBox="0 0 100 100" className="ic-svg svg--brand s16 mr2"> 
+                <svg viewBox="0 0 100 100" className="ic-svg svg--brand s16"> 
                   <use xlinkHref="/assets/sprite.svg#sync"></use>
                 </svg>
               }
@@ -32,7 +37,7 @@ const CardProject = ( { data }) => {
           }
         </div>
 
-      </span>
+      </a>
     </>
 
   )

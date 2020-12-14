@@ -4,6 +4,7 @@ a.btn {
   cursor: default;
   border: none;
   background-color: transparent;
+  white-space: nowrap;
   &.btn--none {
     display: inline-block;
     height: 28px;
@@ -34,6 +35,19 @@ a.btn {
     background-color: var(--font-color);
     color: var(--font-color--brand-invert);
   }
+  &.btn--upload {
+    position: relative;
+    overflow: hidden;
+    input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px solid red;
+      opacity: 0;
+    }
+  }
   &.btn--icon {
     display: flex;
     align-items: center;
@@ -61,6 +75,18 @@ a.btn {
     color: var(--font-color--lightest);
     &:hover {
       background-color: var(--background-color--grey);
+    }
+  }
+  &.btn--status {
+    border-radius: var(--border-radius);
+    padding: 2px 8px;
+    height: 20px;
+    cursor: default;
+    border: none;
+    background-color: var(--background-color--brand);
+    color: var(--font-color--dark);
+    &:hover {
+      background-color: var(--background-color--brand--dark);
     }
   }
 }

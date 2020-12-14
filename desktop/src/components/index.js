@@ -18,4 +18,5 @@ export { default as CardSubTask } from './CardSubTask';
 export { default as CardDescription } from './CardDescription';
 
 export { default as FooterModal } from './FooterModal';
+export { default as ModalMessage } from './ModalMessage';
 export { default as Textarea } from './Textarea';

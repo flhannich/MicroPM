@@ -11,34 +11,48 @@ ul {
     > span,
     a {
       display: flex;
-      padding: 6px 12px;
+      padding: 4px 12px;
       margin-left: -12px;
       margin-right: -12px;
       border-radius: 5px;
-      align-items: center;
+      align-items: center; 
       justify-content: space-between;
       cursor: default;
       -webkit-user-select:none;
       &:hover {
         background-color: var(--background-color--grey);
       }
+      >svg {
+        margin-right: 8px;
+      }
     }
     .card-icon-wrapper {
       display: flex;
       align-items: center;
     }
+    .card-subtask {
+      padding: 6px 0;
+    }
+    .card-document {
+      padding: 6px 0;
+    }
     .card-text-wrapper {
       flex: 1;
+      padding: 6px 0;
       .card-title-wrapper {
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         button {
-          margin-left: 8px;
+          margin-right: 8px;
         }
         .checkbox-container {
           margin-left: 12px;
+        }
+        .inner-wrapper {
+          display: flex;
+          align-items: center;
         }
       }
     }
@@ -51,12 +65,14 @@ ul {
 
 section.modal {
   position: absolute;
-  display: inline-block;
   bottom: 44px;
   left: 50%;
   transform: translate(-50%, 0);
   border-radius: var(--border-radius);
   background-color: var(--background-color--dark);
+  > div {
+    display: flex;
+  }
   &.is-hidden {
     pointer-events: none;
     opacity: 0;
@@ -72,7 +88,7 @@ section.modal {
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  .label {
+  button.btn--none {
     position: absolute;
     left: 50%;
     margin-top: -1px;
@@ -83,7 +99,7 @@ section.modal {
     align-items: center;
     min-height: 32px;
     h2 {
-      margin-left: 8px;
+      margin-right: 4px;
     }
   }
 }
@@ -126,10 +142,10 @@ section.modal {
 
 
 .message-wrapper {
-  border-radius: var(--border-radius);
-  background-color: var(--background-color--lightgrey);
+  // border-radius: var(--border-radius);
+  // background-color: var(--background-color--lightgrey);
   &.message-user {
-    background-color: var(--background-color--lightgrey);
+    // background-color: var(--background-color--lightgrey);
 
   }
 }
@@ -150,8 +166,10 @@ section.modal {
   button {
     position: absolute;
     right: 12px;
-    bottom: 13px;
+    bottom: 14px;
     margin: -6px -5px !important;
+    transform: rotate(-25deg);
+    border-radius: 100px !important;
   }
 }
 
@@ -173,7 +191,7 @@ section.modal {
   }
 }
 
-.subtask-wrapper {
+.card-subtask {
   display: flex;
   align-items: flex-start;
   div {
@@ -232,7 +250,7 @@ article.main {
   left: 0;
   right: 0;
   overflow: auto;
-  padding-top:8px;
+  padding-top: 0;
 }
 
 footer.main {

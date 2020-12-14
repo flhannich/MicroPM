@@ -61,6 +61,7 @@ const TaskList = ({ data, title }) => {
           onDrop={(e) => onDrop(e)}
         >
           <span className="label pb2">{status}</span>
+          
           {data.map((item, index) => (item.status === status) &&
           
             <li
@@ -68,7 +69,6 @@ const TaskList = ({ data, title }) => {
               draggable="true"
               onDragStart={(e) => onDragStart(e)}
               onDragEnd={(e) => onDragEnd(e)}
-              onClick={() => app.setTask(item.id)}
             >
               <CardTask
                 key={index}

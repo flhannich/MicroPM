@@ -24,7 +24,7 @@ const CardSubTask = ( { data, callback }) => {
   return (
 
     <>
-      <div className={`subtask-wrapper pb2 ${checked && 'is-done'}`}>
+      <div className={`card-subtask pb2 ${checked && 'is-done'}`}>
 
         <span className="checkbox-container">
 
