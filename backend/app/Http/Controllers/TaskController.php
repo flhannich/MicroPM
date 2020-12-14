@@ -46,6 +46,8 @@ class TaskController extends Controller
       $task = Task::where('id', $id)
         ->with('document')
         ->with('time')
+        ->withCount('message')
+        ->withCount('unread_message')
         ->first();
 
       return response()->json($task, 201);

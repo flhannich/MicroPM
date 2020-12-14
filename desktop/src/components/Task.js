@@ -441,7 +441,7 @@ const Task = () => {
                   className="btn btn--small"
                   onClick={() => {setMessageRead(1)}}
                   >
-                Show All</button>
+                Show All ({task.message_count})</button>
               : <button
                   className="btn btn--small"
                   onClick={() => {setMessageRead(0)}}

@@ -269,7 +269,7 @@ form {
       opacity: 0;
       &:hover {
         & ~ .checkmark-container {
-          background-color: var(--background-color--dark);
+          background-color: var(--background-color--lightgrey);
         }
       }
       &:checked {

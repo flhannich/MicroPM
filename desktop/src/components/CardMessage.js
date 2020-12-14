@@ -18,7 +18,7 @@ const CardMessage = ( { data, callback }) => {
 
     <>
       <div
-        className={`message-wrapper mt2 pb2 ${auth.username === data.user.name && "message-user"}`}
+        className={`message-wrapper mt2 pt2 pl3 pr3 pb3 ${auth.username === data.user.name && "message-user"}`}
       >
         <div>
           <span className="info">{elapsedTime(data.updated_at)}</span>

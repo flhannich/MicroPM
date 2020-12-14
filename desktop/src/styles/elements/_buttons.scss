@@ -61,7 +61,7 @@ a.btn {
     transition: all 0.5s ease-out;
     line-height: 24px;
     &:hover {
-      background-color: var(--background-color--grey);
+      background-color: var(--background-color--lightgrey);
     }
   }
   &.btn--small {
@@ -74,7 +74,7 @@ a.btn {
     background-color: transparent;
     color: var(--font-color--lightest);
     &:hover {
-      background-color: var(--background-color--grey);
+      background-color: var(--background-color--lightgrey);
     }
   }
   &.btn--status {
@@ -83,10 +83,10 @@ a.btn {
     height: 20px;
     cursor: default;
     border: none;
-    background-color: var(--background-color--brand);
+    background-color: var(--background-color--light);
     color: var(--font-color--dark);
     &:hover {
-      background-color: var(--background-color--brand--dark);
+      background-color: var(--background-color--lightgrey);
     }
   }
 }
@@ -102,7 +102,7 @@ button.message {
   color: var(--font-color);
   cursor: default;
   &:hover {
-    background-color: var(--background-color--grey);
+    background-color: var(--background-color--lightgrey);
   }
 }
 
