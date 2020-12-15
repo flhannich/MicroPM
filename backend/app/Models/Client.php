@@ -35,7 +35,6 @@ class Client extends Model
      * @var array
      */
     protected $hidden = [
-        'id',
         'secret',
         'created_at',
         'updated_at',

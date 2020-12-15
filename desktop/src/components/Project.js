@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-import { Header, TaskList, CardTask, Textarea, FooterModal, Footer } from '../components';
+import { Header, TaskList, CardTask, Textarea, FooterModal, Footer, Dropdown } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
@@ -10,12 +10,16 @@ const Project = () => {
 
 const token = useContext(AuthContext).token;
 const app = useContext(AppContext);
-
 const [project, setProject] = useState([]);
+const [projectClient, setProjectClient] = useState(false);
 const [tasks, setTasks] = useState([]);
+const [clients, setClients] = useState([]);
 const [isSync, setIsSync] = useState(false);
 const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
+const [dropdownState, setDropdownState] = useState(false);
+
+console.log(project);
 
 const tasksRef = useRef(tasks);
 tasksRef.current = tasks;
@@ -33,7 +37,9 @@ const _getTasks = () => {
     }
   })
   .then((response) => response.json())
-  .then((json) => setTasks(json))
+  .then((json) => {
+    setTasks(json)
+  })
   .catch((error) => console.error(error))
   .finally(() => setLoading(false))
 }
@@ -50,7 +56,27 @@ const _getProject = () => {
     }
   })
   .then((response) => response.json())
-  .then((json) => setProject(json))
+  .then((json) => {
+    setProject(json)
+    setProjectClient(json.client.name)
+  })
+  .catch((error) => console.error(error))
+}
+
+const _getClients = () => {
+  if(!token) return;
+  fetch(`${app.api}/api/clients`, {
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'authorization': token,
+    }
+  })
+  .then((response) => response.json())
+  .then((json) => {
+    setClients(json)
+  })
   .catch((error) => console.error(error))
 }
 
@@ -85,6 +111,21 @@ const _createTask = () => {
 }
 
 
+const _updateTask = (task) => {
+  if(!token) return;
+  fetch(`${app.api}/api/tasks/${task.id}`, {
+    method: "PATCH",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'authorization': token,
+    },
+    body: JSON.stringify({task})
+  })
+  .catch((error) => console.error(error))
+
+}
+
 const _deleteTask = (id) => {
   fetch(`${app.api}/api/tasks/${id}`, {
     method: "delete",
@@ -113,6 +154,14 @@ const contextMenu = () => {
    }, false)
 }
 
+const updateClient = (client) => {
+  if(project.client_id !== client.id) {
+    project.client_id = client.id;
+    setProjectClient(client.name);
+    setDropdownState(false);
+    _updateProject()
+  }
+}
 
 const updateName = (data) => {
   if(project.name !== data) {
@@ -120,6 +169,19 @@ const updateName = (data) => {
     _updateProject()
   }
 }
+
+const updateTaskStatus = (id, status) => {
+  let newTaskArray = [];
+  tasks.forEach((item, index) => {
+    if(item.id === parseInt(id)) {
+      item.status = status;
+      _updateTask(item);
+    }
+    newTaskArray.push(item);
+  });
+  setTasks(newTaskArray);
+}
+
 
 
 const updateSync = () => {
@@ -142,6 +204,7 @@ const removeTask = (id) => {
 
 useEffect(() => {
   _getProject();
+  _getClients();
   _getTasks();
   contextMenu();
 
@@ -204,10 +267,36 @@ useEffect(() => {
 
                 </div>
 
-                {(project.client !== null && project.client !== undefined)
-                  ? <button className="btn btn--small">{project.client.name}</button>
-                  : <button className="btn btn--small">Personal</button>
-                }
+
+                <div className="dropdown-wrapper">
+
+                  <button 
+                    className="btn btn--small"
+                    onClick={() => setDropdownState(!dropdownState)}
+                    >
+                      {(project.client !== null && project.client !== undefined)
+                        ? `${projectClient}`
+                        : 'Choose client'
+                      }
+                  </button>
+
+                  <Dropdown
+                    setDropdownState={setDropdownState}
+                    dropdownState={dropdownState}
+                  >
+                   { clients.map((item, index) => 
+                      <button 
+                      key={index}
+                      onClick={() => updateClient(item)}
+                      className="btn btn--none">
+                      {item.name}
+                    </button>
+                    )}
+          
+                  </Dropdown>
+
+                </div>
+
 
               </div>
             </div>
@@ -216,23 +305,13 @@ useEffect(() => {
 
         
         <TaskList
-          title="In Progress"
           data={tasks}
+          callback={updateTaskStatus}
         />
         
 
 
       </article>
-
-      <FooterModal
-        setModalState={setModalState}
-        modalState={modalState}
-      >
-          <button
-            className="btn btn--secondary"
-            onClick={() => _createTask()}
-          >New Task</button>
-      </FooterModal>
 
       <Footer>
         <button
@@ -243,6 +322,17 @@ useEffect(() => {
             </svg>
         </button>
       </Footer>
+
+
+      <FooterModal
+        setModalState={setModalState}
+        modalState={modalState}
+      >
+          <button
+            className="btn btn--secondary"
+            onClick={() => _createTask()}
+          >New Task</button>
+      </FooterModal>
 
       </>
     )}

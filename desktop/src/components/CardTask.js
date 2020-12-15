@@ -8,13 +8,24 @@ const CardTask = ( { data }) => {
   const app = useContext(AppContext);
   const timer = useContext(TimerContext);
 
+  const onDragStart = (e) => {
+    e.dataTransfer.setData("text/plain", data.id);
+    // e.dataTransfer.setData("text/plain",JSON.stringify(data));
+  }
+
+  const onDragEnd = (e) => {
+    // e.dataTransfer.clearData();
+  }
+
   return (
 
-    <>
       <a 
-      data-task 
-      data-id={data.id}
-      onClick={() => app.setTask(data.id)}
+        data-task 
+        data-id={data.id}
+        onClick={() => app.setTask(data.id)}
+        onDragStart={(e) => onDragStart(e)}
+        onDragEnd={(e) => onDragEnd(e, data.id)}
+        draggable="true"
       >
 
       {timer.time.id === data.id && !timer.pause &&
@@ -49,6 +60,10 @@ const CardTask = ( { data }) => {
                 <span className="count">{data.tasks_count}</span>
               }
 
+              {data.subtask_count === 0 &&
+                <span className="count">{data.tasks_count}</span>
+              }
+
             </div>
             
           </div>
@@ -56,7 +71,6 @@ const CardTask = ( { data }) => {
         </div>
 
       </a>
-    </>
 
   )
 }

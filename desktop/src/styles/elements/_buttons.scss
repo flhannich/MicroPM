@@ -5,15 +5,14 @@ a.btn {
   border: none;
   background-color: transparent;
   white-space: nowrap;
+  transition: all 0.1s ease-out;
   &.btn--none {
-    display: inline-block;
     height: 28px;
     line-height: 28px;
     padding: 0 12px;
     margin: 0 -12px;
     border-radius: var(--border-radius);
     color: var(--font-color); 
-    transition: all 0.5s ease-out;
     &:hover {
       background-color: var(--background-color--grey);
     }

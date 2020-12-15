@@ -11,6 +11,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TimeController;
 
 /*
@@ -52,6 +53,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
   Route::patch('/subtasks/{id}', [SubTaskController::class, 'update']);
   Route::delete('/subtasks/{id}', [SubTaskController::class, 'delete']);
 
+
+  Route::get('/clients', [ClientController::class, 'index']);
 
   Route::get('/settings', [SettingsController::class, 'show']);
   Route::patch('/settings', [SettingsController::class, 'update']);

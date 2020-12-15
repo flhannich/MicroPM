@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-const FooterModal = ( { children, modalState, setModalState }) => {
+const Dropdown = ( { children, dropdownState, setDropdownState }) => {
 
   const node = useRef();
 
@@ -8,7 +8,7 @@ const FooterModal = ( { children, modalState, setModalState }) => {
     if (node.current.contains(e.target)) {
       return;
     }
-    setModalState(false);
+    setDropdownState(false);
   };
 
   useEffect(() => {
@@ -21,20 +21,19 @@ const FooterModal = ( { children, modalState, setModalState }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(modalState);
-
   return (
 
     <section
-      className={`modal ${modalState? "is-active":"is-hidden"}`}
+
+      className={`dropdown ${dropdownState? "is-active":"is-hidden"}`}
       ref={node}
       >
       <div className="pa1">
-      {children}
+       {children}
       </div>
     </section>
 
   )
 }
 
-export default FooterModal
+export default Dropdown

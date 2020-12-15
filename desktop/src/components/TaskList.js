@@ -2,74 +2,77 @@ import { useContext, useState } from 'react';
 
 import { CardTask } from './';
 import { AppContext } from '../context/AppContext';
+import { AuthContext } from '../context/AuthContext';
 
 
-const TaskList = ({ data, title }) => {
+const TaskList = ({ data, callback }) => {
 
-  const app = useContext(AppContext);
-  const [dropState, setDropState] = useState(false);
+  // const statusSet = [...new Set(data.map(item => item.status))]
 
-  const statusSet = [...new Set(data.map(item => item.status))]
-
-  const _updateTask = (task) => {
-    console.log(task)
-  }
-
+  const statusSet = [
+    'In Progress', 'Not Started', 'Completed'
+  ]
   
-  const onDragOver = event => {
-    event.preventDefault();
+  let dropzone;
 
-    setDropState(true);
+  const onDragOver = e => {
+    e.preventDefault(); 
+    // if(dropzone !== null) {
+    //   if(e.target.tagName === 'ul') {
+    //     dropzone = e.target;
+    //   } else {
+    //     dropzone = e.target.closest('ul');
+    //   }
+    //   dropzone.classList.add('is-active');
+    // }
+    // setDropState(true);
   }
 
 
-  const onDragLeave = event => {
-    event.preventDefault();
-
-    setDropState(false);
+  const onDragLeave = e => {
+    e.preventDefault(); 
   }
 
 
-  const onDrop = event => {
-    event.preventDefault();
+  const onDrop = e => {
+    e.preventDefault();
 
-    _updateTask(event.dataTransfer)
+    if(e.target.tagName === 'ul') {
+      dropzone = e.target;
+    } else {
+      dropzone = e.target.closest('ul');
+    }
+
+    let status = dropzone.dataset.status;
+    let id = e.dataTransfer.getData("text/plain");
+
+    callback(id, status)
+
+    e.dataTransfer.clearData();
   }
 
 
-  const onDragEnd = event => {
-  }
-
-
-  const onDragStart = event => {
-    event.preventDefault();
-
-    console.log(event);
-  }
-
+  // ${dropState && 'is-active'}
 
   return (
     <>
 
       {statusSet.map((status, index) =>
-
         <ul
           key={index}
-          className={`dropzone ${dropState && 'is-active'}`}
+          className={`dropzone`}
           onDragLeave={(e) => onDragLeave(e)}
           onDragOver={(e) => onDragOver(e)}
           onDrop={(e) => onDrop(e)}
+          data-status = {status}
         >
           <span className="label pb2">{status}</span>
           
           {data.map((item, index) => (item.status === status) &&
-          
+
             <li
               key={index}
-              draggable="true"
-              onDragStart={(e) => onDragStart(e)}
-              onDragEnd={(e) => onDragEnd(e)}
-            >
+            > 
               <CardTask
                 key={index}
                 data={item}

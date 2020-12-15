@@ -6,7 +6,7 @@ import { TimerContext } from '../context/TimerContext';
 
 import { taskTotalTime } from '../utils/helpers';
 
-import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer, ModalMessage } from '../components';
+import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer, ModalMessage, Dropdown } from '../components';
 
 // console.log(Notification);
 
@@ -21,18 +21,20 @@ const Task = () => {
   const timer = useContext(TimerContext);
 
   const token = auth.token;
-  // const token = auth.token;
-  // const username = auth.username;
+
 
   const [task, setTask] = useState([]);
+  const [taskStatus, setTaskStatus] = useState();
   const [messages, setMessages] = useState([]);
   const [subTasks, setSubTasks] = useState([]);
-  const [modalMessage, setModalMessage] = useState(null);
+  const [modalMessage, setModalMessage] = useState(false);
   const [modalMessageCallback, setModalStateCallback] = useState(null);
   const [messageRead, setMessageRead] = useState(0);
   const [isReview, setIsReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
+  const [dropdownStatus, setDropdownStatus] = useState(false);
+
 
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
@@ -51,7 +53,10 @@ const Task = () => {
       }
     })
     .then((response) => response.json())
-    .then((json) => setTask(json))
+    .then((json) => {
+      setTask(json)
+      setTaskStatus(json.status)
+    })
     .catch((error) => console.error(error))
     .finally(() => setLoading(false))
   }
@@ -286,6 +291,15 @@ const Task = () => {
     _updateTask()
   };
 
+  
+  const updateStatus = (status) => {
+    if(task.status !== status) {
+      task.status = status;
+      setTaskStatus(status)
+      _updateTask();
+    }
+  }
+
 
   console.log('render');
 
@@ -336,7 +350,6 @@ const Task = () => {
     _getTask();
     _getSubTasks();
     contextMenu();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -390,7 +403,7 @@ const Task = () => {
 
             }
 
-            {task.status === 'In Progress' &&
+            {taskStatus === 'In Progress' &&
             <>
 
             <button
@@ -419,12 +432,39 @@ const Task = () => {
           }
           </div>
 
-          <div className="pt1">
-            <button className="btn btn--status">
-              {task.status}
+          {/* <div className="dropdown-wrapper pt1">
+
+           <button 
+              className="btn btn--status"
+              onClick={() => setDropdownStatus(!dropdownStatus)}
+              >
+              {taskStatus}
             </button>
-          </div>
-          
+
+            <Dropdown
+              setDropdownState={setDropdownStatus}
+              dropdownState={dropdownStatus}
+            >
+              <button 
+                onClick={() => updateStatus('In Progress')}
+                className="btn btn--none">
+                In Progress
+              </button>
+              <button 
+                onClick={() => updateStatus('Completed')}
+                className="btn btn--none">
+                Completed
+              </button>
+              <button 
+                onClick={() => updateStatus('Not Started')}
+                className="btn btn--none">
+                Not Started
+              </button>
+            </Dropdown>
+    
+            
+          </div> */}
+
         </div>
 
         </li>
@@ -507,10 +547,10 @@ const Task = () => {
 
       </article>
 
-      <ModalMessage
+      {/* <ModalMessage
         data={modalMessage}
         callback={setModalStateCallback}
-      />
+      /> */}
 
       <FooterModal
         setModalState={setModalState}

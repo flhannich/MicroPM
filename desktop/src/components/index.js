@@ -19,4 +19,5 @@ export { default as CardDescription } from './CardDescription';
 
 export { default as FooterModal } from './FooterModal';
 export { default as ModalMessage } from './ModalMessage';
+export { default as Dropdown } from './Dropdown';
 export { default as Textarea } from './Textarea';
