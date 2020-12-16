@@ -85,11 +85,6 @@ const template = [
       },
       { role: 'services' },
       { type: 'separator' },
-      {
-        label: 'Logout',
-        click: logout
-      },
-      { type: 'separator' },
       { role: 'quit' }
     ]
   },
@@ -124,10 +119,6 @@ Menu.setApplicationMenu(menu);
 
 
 
-function logout() {
-  console.log('logout');
-}
-
 var settingsWindow = null;
 
 function openSettingsWindow() {
@@ -152,6 +143,9 @@ function openSettingsWindow() {
       preload: __dirname + '/preload.js',
     }
   })
+
+
+  // ipc.on('logout', (event, message) => console.log(message));
 
 
   if (is.development) {

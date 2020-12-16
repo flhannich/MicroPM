@@ -11,7 +11,7 @@ const Project = () => {
 const token = useContext(AuthContext).token;
 const app = useContext(AppContext);
 const [project, setProject] = useState([]);
-const [projectClient, setProjectClient] = useState(false);
+const [projectClient, setProjectClient] = useState(null);
 const [tasks, setTasks] = useState([]);
 const [clients, setClients] = useState([]);
 const [isSync, setIsSync] = useState(false);
@@ -58,7 +58,9 @@ const _getProject = () => {
   .then((response) => response.json())
   .then((json) => {
     setProject(json)
-    setProjectClient(json.client.name)
+    if(json.client !== null) {
+      setProjectClient(json.client.name)
+    }
   })
   .catch((error) => console.error(error))
 }
@@ -105,7 +107,10 @@ const _createTask = () => {
       'authorization': token,
     }
   })
-  .then((json) => _getTasks())
+  .then((response) => response.json())
+  .then((json) => {
+    app.setTask(json.id)
+  })
   .catch((error) => console.error(error))
   .finally(() => setModalState(false))
 }

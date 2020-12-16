@@ -37,5 +37,29 @@ class ClientController extends Controller
       }
     }
   }
+
+  public function create(Request $request)
+  {
+    $token = $request->header('authorization');
+    $user = User::where('remember_token', $token)->first();
+
+    if($user) {
+      if($user->role === 'admin') {
+
+        $newclient = new User;
+        $newclient->username = $request->username;
+        $newclient->password = bcrypt($request->password);
+
+        $newclient->save();
+
+        return response()->json($newclient);
+
+      } else {
+        return response()->json(['message' => 'Not permitted'], 201);
+      }
+    }
+  }
+
+
 }
 

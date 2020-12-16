@@ -125,7 +125,7 @@ section.dropdown {
     align-items: center;
     min-height: 32px;
     h2 {
-      margin-right: 4px;
+      margin-right: 8px;
     }
   }
 }
@@ -294,4 +294,30 @@ footer.main {
 
 .text--right {
   text-align: right;
+}
+
+
+.tab-navigation {
+  display: flex;
+  width: 100%;
+  margin: 0 -12px;
+  button {
+    margin: 0 !important;
+    opacity: .5;
+    &.is-active {
+      opacity: 1;
+    }
+  }
+}
+
+.tabs-wrapper {
+  .tab {
+    &.is-active {
+      display: block;
+    }
+    &.is-hidden {
+      display: none;
+    }
+  }
+
 }

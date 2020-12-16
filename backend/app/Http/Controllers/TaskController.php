@@ -95,7 +95,7 @@ class TaskController extends Controller
       $task->client_id = 1;
       $task->save();
 
-      return response()->json(['message' => 'New Task Created'], 201);
+      return response()->json($task, 201);
     }
   }
 

@@ -101,7 +101,7 @@ class ProjectController extends Controller
         $project->user_id = $user->id;
         $project->save();
 
-        return response()->json(['message' => 'New Project Created'], 201);
+        return response()->json($project, 201);
       }
     }
 

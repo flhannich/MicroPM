@@ -67,7 +67,10 @@ const Dashboard = () => {
       },
       body: JSON.stringify({name: 'New Project'})
     })
-    .then((json) => _getProjects())
+    .then((response) => response.json())
+    .then((json) => {
+      app.setProject(json.id)
+    })
     .catch((error) => console.error(error))
     .finally(() => setModalState(false))
   }

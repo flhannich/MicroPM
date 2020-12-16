@@ -1,9 +1,11 @@
 import React, {useEffect, useContext} from "react";
 
-import { Login, Dashboard, Project, Task, Timer } from "./components"
+import { Login, Dashboard, Project, Settings, Task, Timer } from "./components"
 
 import { AuthContext } from './context/AuthContext';
 import { AppContext } from './context/AppContext';
+
+// window.ipcRenderer.on('logout', m => console.log(m));
 
 export default function App( probs ) {
 
@@ -39,10 +41,12 @@ export default function App( probs ) {
         {(auth.token === null)
           ? <Login />
           : <>
+              
+              {/* <Timer /> */}
 
-              <Timer />
+              <Settings />
 
-              {app.project === null && app.task === null &&
+              {/* {app.project === null && app.task === null &&
                 <Dashboard />
               }
 
@@ -52,7 +56,7 @@ export default function App( probs ) {
 
               {app.task !== null &&
                 <Task />
-              }
+              } */}
 
             </>
         }
