@@ -3,11 +3,13 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
 
-import { Header, Logout, CardTask, CardProject, FooterModal, Footer } from '../components';
+import { Header, CardTask, CardProject, FooterModal, Footer } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
 const Dashboard = () => {
+
+  const abortController = new AbortController();
 
   const token = useContext(AuthContext).token;
   const app = useContext(AppContext);
@@ -20,7 +22,6 @@ const Dashboard = () => {
   const projectsRef = useRef(projects);
   projectsRef.current = projects;
 
-
   const _getTasksByStatus = (status) => {
     if(!token) return;
     setLoading(true)
@@ -31,7 +32,8 @@ const Dashboard = () => {
         'Content-Type': 'application/json',
         'authorization': token,
       },
-      body: JSON.stringify({status: status})
+      body: JSON.stringify({status: status}),
+      signal: abortController.signal
     })
     .then((response) => response.json())
     .then((json) => setTasks(json))
@@ -48,7 +50,8 @@ const Dashboard = () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'authorization': token,
-      }
+      },
+      signal: abortController.signal
     })
     .then((response) => response.json())
     .then((json) => setProjects(json))
@@ -121,6 +124,10 @@ const Dashboard = () => {
       _getTasksByStatus('In Progress');
       contextMenu();
     }
+
+    return () => {
+      abortController.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [app.api]);
 

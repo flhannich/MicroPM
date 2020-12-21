@@ -40,7 +40,6 @@ class Client extends Model
         'updated_at',
         'password',
         'updated_at',
-        'email',
         'remember_token',
     ];
 

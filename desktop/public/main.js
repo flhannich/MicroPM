@@ -11,7 +11,9 @@ let Tray = null
 const schema = {
   launchAtStart: true
 }
+
 const store = new Store(schema);
+
 
 const createMainWindow = () => {
   mainWindow = new BrowserWindow({
@@ -21,6 +23,7 @@ const createMainWindow = () => {
     frame: false,
     vibrancy: 'ultra-dark',
     fullscreenable: false,
+    backgroundThrottling: false,
     resizable: false,
     webPreferences: {
       devTools: is.development,
@@ -46,15 +49,16 @@ const createMainWindow = () => {
 
 app.on('ready', () => {
   createMainWindow();
+
   Tray = new TrayGenerator(mainWindow, store);
   Tray.createTray();
+
   ipcMain.on('TOKEN', (event, data) => {
     store.set('token', data);
   });
-
+  
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('INIT_TOKEN', store.get('token'));
-    console.log(store.get('api'));
   });
 
 });
@@ -63,8 +67,8 @@ app.setLoginItemSettings({
   openAtLogin: store.get('launchAtStart'),
 });
 
-
 app.dock.hide();
+
 
 const template = [
   {
@@ -118,6 +122,9 @@ const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
 
 
+ipcMain.on('CHANNEL_NAME', (event, data) => {
+  Tray.tray.setTitle(data);
+});
 
 var settingsWindow = null;
 

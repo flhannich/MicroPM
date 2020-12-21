@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 
-import { SettingsAccount, SettingsClients } from '../components';
+import { Account, SettingsClientList, Logout } from '../components';
 
 
 const Settings = () => {
 
-const [tabKey, setTabKey] = useState('client');
+const [tabKey, setTabKey] = useState('account');
 
 // window.ipcRenderer.send('logout', `This message goes back to the main window.`);
 
@@ -18,14 +18,14 @@ const [tabKey, setTabKey] = useState('client');
 
       <div className="tab-navigation">
 
-       <button 
+       {/* <button 
           className={`btn btn--none ${tabKey === "client" ? 'is-active' : ''}`}
           onClick={() => setTabKey('client')}
         >Clients
-        </button>
+        </button> */}
 
         <button
-          className={`btn btn--none ${tabKey === "account" ? 'is-active' : 'n'}`}
+          className={`btn btn--none ${tabKey === "account" ? 'is-active' : ''}`}
           onClick={() => setTabKey('account')}
         >Account
         </button>
@@ -35,7 +35,6 @@ const [tabKey, setTabKey] = useState('client');
           onClick={() => setTabKey('user')}
         >User
         </button> */}
-
 
         {/* <button 
           className={`btn btn--none ${tabKey === "app" ? 'is-active' : ''}`}
@@ -51,7 +50,7 @@ const [tabKey, setTabKey] = useState('client');
         <div 
           className={`tab ${tabKey === "account" ? 'is-active' : 'is-hidden'}`}
         >
-            <SettingsAccount />
+            <Account />
         </div>
 
         {/* <div 
@@ -67,7 +66,7 @@ const [tabKey, setTabKey] = useState('client');
         <div 
           className={`tab ${tabKey === "client" ? 'is-active' : 'is-hidden'}`}
         >
-          <SettingsClients />
+          <SettingsClientList />
 
         {/* <div 
           className={`tab ${tabKey === "app" ? 'is-active' : 'is-hidden'}`}

@@ -1,7 +1,6 @@
 export { default as Login } from './Login';
 export { default as Logout } from './Logout';
 export { default as Dashboard } from './Dashboard';
-export { default as Settings } from './Settings';
 export { default as Project } from './Project';
 export { default as Task } from './Task';
 export { default as TaskList } from './TaskList';
@@ -23,5 +22,6 @@ export { default as ModalMessage } from './ModalMessage';
 export { default as Dropdown } from './Dropdown';
 export { default as Textarea } from './Textarea';
 
-export { default as SettingsAccount } from './SettingsAccount';
-export { default as SettingsClients } from './SettingsClients';
+export { default as ClientList } from './ClientList';
+export { default as TimerList } from './TimerList';
+export { default as Account } from './Account';

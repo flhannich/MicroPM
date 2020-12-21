@@ -17,13 +17,22 @@ a.btn {
       background-color: var(--background-color--grey);
     }
   }
+  &.btn--primary {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 16px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color--dark);
+    color: var(--font-color)
+  }
   &.btn--secondary {
     display: inline-block;
     height: 28px;
     line-height: 28px;
     padding: 0 12px;
     border-radius: var(--border-radius);
-    background-color: var(--background-color--dark);
+    background-color: var(--background-color--lightgrey);
     color: var(--font-color)
   }
   &.btn--cta {

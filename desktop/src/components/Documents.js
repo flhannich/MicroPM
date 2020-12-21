@@ -60,7 +60,7 @@ const Documents = ( { data, callback }) => {
         onDrop={(e) => onDrop(e)}
         >
         <span className="label pb2">Attachments</span>
-          {data.document.map((item, index) =>
+          {data.map((item, index) =>
             <li
               key={index}
             >

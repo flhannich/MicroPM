@@ -55,6 +55,9 @@ export const TimerProvider = ({ children }) => {
         count: h + ':' + min + ':' + sec,
       })
 
+      window.ipcRenderer.send('CHANNEL_NAME', h + ':' + min + ':' + sec,);
+
+    
       }, 1000);
 
     };
@@ -64,6 +67,7 @@ export const TimerProvider = ({ children }) => {
       setPause(true);
       // setTime({count: null});
       clearInterval(timer.current);
+      window.ipcRenderer.send('CHANNEL_NAME', '');
     };
 
   return (

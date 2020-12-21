@@ -34,9 +34,11 @@ class TimeController extends Controller
 
     if($user) {
 
-      Time::where('task_id', $task)->get();
+      $times = Time::where('task_id', $task)
+      ->orderBy('created_at', 'DESC')
+      ->get();
 
-      return response()->json(['message' => 'Time deleted'], 201);
+      return response()->json($times, 201);
     }
   }
 

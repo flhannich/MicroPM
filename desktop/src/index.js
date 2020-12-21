@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/app.scss';
 import App from './App';
-import Settings from './pages/Settings';
 import { BrowserRouter, Route } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
@@ -16,10 +15,7 @@ ReactDOM.render(
       <AuthProvider>
         <AppProvider>
           <TimerProvider>
-            <div className="App">
-              <Route path="/" exact component={App} />
-              <Route path="/settings" exact component={Settings} />
-            </div>
+            <Route path="/" exact component={App} />
           </TimerProvider>
         </AppProvider>
       </AuthProvider>

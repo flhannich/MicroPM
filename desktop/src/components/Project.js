@@ -2,14 +2,17 @@ import React, {useEffect, useState, useRef, useContext} from "react";
 
 import { AuthContext } from '../context/AuthContext';
 import { AppContext } from '../context/AppContext';
-import { Header, TaskList, CardTask, Textarea, FooterModal, Footer, Dropdown } from '../components';
+import { Header, TaskList, CardTask, Textarea, FooterModal, ClientList, Footer, Dropdown } from '../components';
 
 const { Menu, MenuItem } = window.remote;
 
 const Project = () => {
 
+const abortController = new AbortController();
+
 const token = useContext(AuthContext).token;
 const app = useContext(AppContext);
+
 const [project, setProject] = useState([]);
 const [projectClient, setProjectClient] = useState(null);
 const [tasks, setTasks] = useState([]);
@@ -19,11 +22,8 @@ const [loading, setLoading] = useState(true);
 const [modalState, setModalState] = useState(false);
 const [dropdownState, setDropdownState] = useState(false);
 
-console.log(project);
-
 const tasksRef = useRef(tasks);
 tasksRef.current = tasks;
-
 
 const _getTasks = () => {
   if(!token) return;
@@ -34,7 +34,8 @@ const _getTasks = () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
-    }
+    },
+    signal: abortController.signal
   })
   .then((response) => response.json())
   .then((json) => {
@@ -53,7 +54,8 @@ const _getProject = () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
-    }
+    },
+    signal: abortController.signal
   })
   .then((response) => response.json())
   .then((json) => {
@@ -73,7 +75,8 @@ const _getClients = () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
-    }
+    },
+    signal: abortController.signal
   })
   .then((response) => response.json())
   .then((json) => {
@@ -91,7 +94,8 @@ const _updateProject = () => {
       'Content-Type': 'application/json',
       'authorization': token,
     },
-    body: JSON.stringify({project})
+    body: JSON.stringify({project}),
+    signal: abortController.signal
   })
   .then((response) => response.json())
   .catch((error) => console.error(error))
@@ -105,7 +109,8 @@ const _createTask = () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'authorization': token,
-    }
+    },
+    signal: abortController.signal
   })
   .then((response) => response.json())
   .then((json) => {
@@ -125,7 +130,8 @@ const _updateTask = (task) => {
       'Content-Type': 'application/json',
       'authorization': token,
     },
-    body: JSON.stringify({task})
+    body: JSON.stringify({task}),
+    signal: abortController.signal
   })
   .catch((error) => console.error(error))
 
@@ -159,14 +165,18 @@ const contextMenu = () => {
    }, false)
 }
 
-const updateClient = (client) => {
+const updateProjectClient = (client) => {
   if(project.client_id !== client.id) {
     project.client_id = client.id;
     setProjectClient(client.name);
+    _updateProject();
     setDropdownState(false);
-    _updateProject()
   }
 }
+
+const editClient = (id) => {
+  console.log(id);
+} 
 
 const updateName = (data) => {
   if(project.name !== data) {
@@ -188,7 +198,6 @@ const updateTaskStatus = (id, status) => {
 }
 
 
-
 const updateSync = () => {
   setIsSync(!isSync)
   if(isSync) {
@@ -201,7 +210,7 @@ const updateSync = () => {
 
 const removeTask = (id) => {
   _deleteTask(id)
-
+  console.log('blub');
   const filteredTasks = tasksRef.current.filter(item => item.id !== parseInt(id))
   setTasks(filteredTasks)
 }
@@ -213,6 +222,9 @@ useEffect(() => {
   _getTasks();
   contextMenu();
 
+  return () => {
+    abortController.abort();
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
@@ -289,15 +301,10 @@ useEffect(() => {
                     setDropdownState={setDropdownState}
                     dropdownState={dropdownState}
                   >
-                   { clients.map((item, index) => 
-                      <button 
-                      key={index}
-                      onClick={() => updateClient(item)}
-                      className="btn btn--none">
-                      {item.name}
-                    </button>
-                    )}
-          
+                    <ClientList 
+                      callback={updateProjectClient}
+                    />
+         
                   </Dropdown>
 
                 </div>

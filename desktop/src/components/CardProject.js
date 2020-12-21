@@ -33,7 +33,7 @@ const CardProject = ( { data }) => {
           </div>
           {(data.client !== null && data.client !== undefined)
             ? <span className="info">{data.client.name}</span>
-            : <span className="info">Personal</span>
+            : <span className="info">No Client</span>
           }
         </div>
 

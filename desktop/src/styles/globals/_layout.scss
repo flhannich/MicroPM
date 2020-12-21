@@ -11,7 +11,7 @@ ul {
     > span,
     a {
       display: flex;
-      padding: 4px 12px;
+      padding: 6px 12px;
       margin-left: -12px;
       margin-right: -12px;
       border-radius: 5px;
@@ -31,10 +31,10 @@ ul {
       align-items: center;
     }
     .card-subtask {
-      padding: 4px 0;
+      padding: 6px 0;
     }
     .card-document {
-      padding: 4px 0;
+      padding: 6px 0;
     }
     .card-text-wrapper {
       flex: 1;
@@ -44,8 +44,8 @@ ul {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        button {
-          margin-right: 4px;
+        .dropdown-wrapper {
+          margin: 0 12px;
         }
         .checkbox-container {
           margin-left: 12px;
@@ -64,12 +64,12 @@ ul {
 
 
 section.modal {
-  position: absolute;
+  position: fixed;
   bottom: 44px;
   left: 50%;
   transform: translate(-50%, 0);
   border-radius: var(--border-radius);
-  background-color: var(--background-color--dark);
+  background-color: var(--background-color--dropdown);
   > div {
     display: flex;
   }
@@ -86,18 +86,42 @@ section.modal {
 
 .dropdown-wrapper {
   position: relative;
+  section.dropdown {
+    left: 0;
+  }
+  &.dropdown--left {
+    section.dropdown {
+      right: 0;
+      left: inherit;
+    }
+  }
 }
+
 section.dropdown {
   position: absolute;
   top: 32px;
-  left: 0;
-  padding: 8px 16px;
+  padding: 4px 4px;
   border-radius: var(--border-radius);
-  background-color: var(--background-color--dark);
+  background-color: var(--background-color--dropdown);
+  z-index: 1;
+  min-width: 56px;
   > div {
     button {
       display: block;
     }
+  }
+  p {
+    padding: 4px 8px;
+    border-radius: var(--border-radius);
+    width: 100%;
+    -webkit-user-select:none;
+    &:hover {
+      background-color: var(--background-color--grey);
+    }
+  }
+  .editable {
+    padding: 4px 10px !important;
+    opacity: 0.5;
   }
   &.is-hidden {
     pointer-events: none;
@@ -109,15 +133,64 @@ section.dropdown {
   }
 }
 
+.account-wrapper {
+  min-width: 200px;
+  padding: 8px;
+}
+
+.account-footer {
+  border-top: 1px solid var(--border-color--light);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.client-list-wrapper {
+  display: flex;
+  align-items: center;
+  min-width: 116px;
+  button {
+    width: 100%;
+    margin: 0 !important;
+    text-align: left;
+  }
+}
+
+.client-list-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.timer-list-wrapper {
+  display: flex;
+  align-items: center;
+  min-width: 116px;
+  button {
+    width: 100%;
+    margin: 0 !important;
+    text-align: left;
+  }
+}
+
+.timer-list-footer {
+  display: flex;
+  justify-content: center;
+}
+
+
 .timer-wrapper {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+  height: 44px;
+  padding-right: 24px;
+  border-bottom: 1px solid var(--border-color--light);
   button.btn--none {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: 0;
+    right: 0;
     color: var(--font-color--lightest) !important;
   }
   .timer {
@@ -156,10 +229,31 @@ section.dropdown {
   }
 }
 
+// .dropzone {
+//   &.is-active {
+//     background-color: var(--background-color--lightgrey)
+//   }
+// }
+
 .dropzone {
-  &.is-active {
-    background-color: var(--background-color--lightgrey)
-  }
+  position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: -8px;
+      padding: 8px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color--lightest);
+      // background-color: var(--background-color--lightgrey);
+      display: none;
+    }
+   &.is-active:before {
+      display: block;
+   }
 }
 
 
@@ -267,25 +361,22 @@ header.main {
 
 article.main {
   position: absolute;
-  top: 48px;
+  top: 44px;
   bottom: 38px;
   left: 0;
   right: 0;
   overflow: auto;
-  padding-top: 0;
+  padding-top: 16px;
 }
 
 footer.main {
   position: fixed;
+  display: flex;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  a {
-    display: inline-block;
-    margin: 0 10px;
-  }
 }
 
 .text--center {

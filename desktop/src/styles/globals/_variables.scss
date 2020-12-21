@@ -68,23 +68,23 @@ $desktop: 1200px;
   --background-color--light: rgba(255,255,255, .4);
   --background-color--lightest: rgba(255,255,255, .5);
   --background-color--grey: rgba(0,0,0, .2);
-  // --background-color--lightgrey: rgb(65, 65, 65);
-  --background-color--lightgrey: rgba(255,255,255, .0675);
+  --background-color--dropdown: rgb(24, 24, 24);
+  --background-color--lightgrey: rgba(255,255,255, .0375);
   --background-color--dark: #191919;
   --background-color--warn: #fdd8d8;
   --background-color--brand: #71A9E0;
   --background-color--brand--dark: #4b86c0;
   --background-color--warning: rgba(255,0,0, .2);
-  --background-color--input: #555;
+  --background-color--input: rgba(255,255,255, .0675);
   /*
     Colors Border
   */
-  --border-color--lightest: #f5f5f5;
-  --border-color--light: rgba(255,255,255, .15);
+  --border-color--lightest: rgba(255,255,255, .2);
+  --border-color--light: rgba(255,255,255, .0675);
   --border-color--brand: #71A9E0;
   --border-color: rgba(255,255,255, .3);
-  --border-color--input: rgba(255,255,255, .54);
-  --border-color--input--focus: rgba(255,255,255, .38);
+  --border-color--input: rgba(255,255,255, .1);
+  --border-color--input--focus: rgba(255,255,255, .3);
   --border-color--warning: red;
 
   --input-color--border-focus: 1px solid #000;

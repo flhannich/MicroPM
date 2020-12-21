@@ -2,22 +2,13 @@ const { Tray, Menu, ipcMain } = require('electron');
 
 const path = require('path');
 
-// let timer = '';
-//
-//   ipcMain.on('TOKEN', (event, data) => {
-//     if(data !== null) {
-//       timer = String(data);
-//     } else {
-//       timer = ''
-//     }
-//   });
-
 
 class TrayGenerator {
   constructor(mainWindow, store) {
     this.tray = null;
     this.store = store;
     this.mainWindow = mainWindow;
+    // this.time = time;
   }
   getWindowPosition = () => {
     const windowBounds = this.mainWindow.getBounds();
@@ -64,3 +55,6 @@ class TrayGenerator {
 }
 
 module.exports = TrayGenerator;
+
+
+

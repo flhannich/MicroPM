@@ -21,8 +21,6 @@ const FooterModal = ( { children, modalState, setModalState }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(modalState);
-
   return (
 
     <section

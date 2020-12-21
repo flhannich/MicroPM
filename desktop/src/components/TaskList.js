@@ -1,33 +1,17 @@
-import { useContext, useState } from 'react';
+import { useEffect } from 'react';
 
 import { CardTask } from './';
-import { AppContext } from '../context/AppContext';
-import { AuthContext } from '../context/AuthContext';
 
 
 const TaskList = ({ data, callback }) => {
-
-  // const statusSet = [...new Set(data.map(item => item.status))]
 
   const statusSet = [
     'In Progress', 'Not Started', 'Completed'
   ]
   
-  let dropzone;
-
   const onDragOver = e => {
     e.preventDefault(); 
-    // if(dropzone !== null) {
-    //   if(e.target.tagName === 'ul') {
-    //     dropzone = e.target;
-    //   } else {
-    //     dropzone = e.target.closest('ul');
-    //   }
-    //   dropzone.classList.add('is-active');
-    // }
-    // setDropState(true);
   }
-
 
   const onDragLeave = e => {
     e.preventDefault(); 
@@ -36,12 +20,15 @@ const TaskList = ({ data, callback }) => {
 
   const onDrop = e => {
     e.preventDefault();
+    let dropzone;
 
     if(e.target.tagName === 'ul') {
       dropzone = e.target;
     } else {
       dropzone = e.target.closest('ul');
     }
+
+    dropzone.classList.remove('is-active');
 
     let status = dropzone.dataset.status;
     let id = e.dataTransfer.getData("text/plain");
@@ -52,8 +39,28 @@ const TaskList = ({ data, callback }) => {
   }
 
 
-  // ${dropState && 'is-active'}
+  useEffect(() => {
+    let dropzones = document.querySelectorAll('.dropzone');
 
+    dropzones.forEach((item, index) => {
+      item.ondragenter = (event) => {
+        let target = event.target;
+
+        if(target.tagName === "UL") {
+          event.target.classList.add('is-active');
+        }
+      }
+      item.ondragleave = (event) => {
+        let target = event.target;
+
+        if(target.tagName === "UL") {
+         event.target.classList.remove('is-active');
+        }
+      }
+    });
+  }, []);
+
+  
   return (
     <>
 

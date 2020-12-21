@@ -6,12 +6,13 @@ import { AuthContext } from '../context/AuthContext';
 
 const Timer = () => {
 
+  const abortController = new AbortController();
+
   const app = useContext(AppContext);
   const token = useContext(AuthContext).token;
   const timer = useContext(TimerContext);
 
   const [activeTimer, setActiveTimer] = useState(null)
-
 
   const _createTime = () => {
     if(!token) return;
@@ -26,7 +27,8 @@ const Timer = () => {
         {
           task: timer.time.id
         }
-      )
+      ),
+      signal: abortController.signal
     })
     .then((response) => response.json())
     .then((json) => setActiveTimer(json))
@@ -47,7 +49,8 @@ const Timer = () => {
         {
           time: timer.time.count,
         }
-      )
+      ),
+      signal: abortController.signal
     })
     .catch((error) => console.error(error))
   }
@@ -70,6 +73,17 @@ const Timer = () => {
   };
 
 
+  const shortenTitle = (title, value) => {
+    if(title !== null) {
+      if(title.length > value) {
+        return title.substring(0, value) + '...';
+      } else {
+        return title;
+      }
+    }
+  }
+
+
   useEffect(() => {
 
     if(timer.pause === true) {
@@ -82,6 +96,9 @@ const Timer = () => {
       }
     }
 
+    return () => {
+      abortController.abort();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[timer.pause, timer.time.id])
 
@@ -93,17 +110,17 @@ const Timer = () => {
         <button 
          className="btn btn--none"
          onClick={() => app.setTask(timer.time.id)}
-        >{timer.time.name}</button>
+        >{shortenTitle(timer.time.name, 30)}</button>
 
         {timer.time.id &&
 
           <div className="timer">
 
-            {!timer.pause &&
+            {/* {!timer.pause &&
 
               <h2 className="pr2">{timer.time.count}</h2>
 
-            }
+            } */}
 
             {timer.pause
 

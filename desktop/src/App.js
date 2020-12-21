@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from "react";
 
-import { Login, Dashboard, Project, Settings, Task, Timer } from "./components"
+import { Login, Dashboard, Project, Task, Timer } from "./components"
 
 import { AuthContext } from './context/AuthContext';
 import { AppContext } from './context/AppContext';
@@ -11,6 +11,7 @@ export default function App( probs ) {
 
   const auth = useContext(AuthContext);
   const app = useContext(AppContext);
+
 
   useEffect(() => {
     window.ipcRenderer.on('INIT_TOKEN', function (event,data) {
@@ -28,8 +29,8 @@ export default function App( probs ) {
           // auth.setUsername(null)
         }
       }
-
     })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -42,11 +43,9 @@ export default function App( probs ) {
           ? <Login />
           : <>
               
-              {/* <Timer /> */}
+              <Timer />
 
-              <Settings />
-
-              {/* {app.project === null && app.task === null &&
+              {app.project === null && app.task === null &&
                 <Dashboard />
               }
 
@@ -56,7 +55,7 @@ export default function App( probs ) {
 
               {app.task !== null &&
                 <Task />
-              } */}
+              }
 
             </>
         }

@@ -6,7 +6,7 @@ import { TimerContext } from '../context/TimerContext';
 
 import { taskTotalTime } from '../utils/helpers';
 
-import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer, ModalMessage, Dropdown } from '../components';
+import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend, FooterModal, Footer, ModalMessage, Dropdown, TimerList } from '../components';
 
 // console.log(Notification);
 
@@ -15,6 +15,8 @@ import { Header, CardSubTask, CardMessage, Documents, Textarea, CardMessageSend,
 const { Menu, MenuItem } = window.remote;
 
 const Task = () => {
+
+  const abortController = new AbortController();
 
   const auth = useContext(AuthContext);
   const app = useContext(AppContext);
@@ -27,13 +29,14 @@ const Task = () => {
   const [taskStatus, setTaskStatus] = useState();
   const [messages, setMessages] = useState([]);
   const [subTasks, setSubTasks] = useState([]);
+  const [documents, setDocuments] = useState([]);
   const [modalMessage, setModalMessage] = useState(false);
   const [modalMessageCallback, setModalStateCallback] = useState(null);
   const [messageRead, setMessageRead] = useState(0);
   const [isReview, setIsReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
-  const [dropdownStatus, setDropdownStatus] = useState(false);
+  const [dropdownState, setDropdownState] = useState(false);
 
 
   const messagesRef = useRef(messages);
@@ -42,6 +45,11 @@ const Task = () => {
   const subTasksRef = useRef(subTasks);
   subTasksRef.current = subTasks;
 
+  const documentsRef = useRef(documents);
+  documentsRef.current = documents;
+
+  console.log(task);
+  
   const _getTask = () => {
     if(!token) return;
     fetch(`${app.api}/api/tasks/${app.task}`, {
@@ -50,11 +58,13 @@ const Task = () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'authorization': token,
-      }
+      },
+      signal: abortController.signal
     })
     .then((response) => response.json())
     .then((json) => {
       setTask(json)
+      setDocuments(json.document)
       setTaskStatus(json.status)
     })
     .catch((error) => console.error(error))
@@ -69,7 +79,8 @@ const Task = () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'authorization': token,
-      }
+      },      
+      signal: abortController.signal
     })
     .then((response) => response.json())
     .then((json) => setMessages(json))
@@ -85,7 +96,8 @@ const Task = () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'authorization': token,
-      }
+      },
+      signal: abortController.signal
     })
     .then((response) => response.json())
     .then((json) => setSubTasks(json))
@@ -105,7 +117,8 @@ const Task = () => {
       body: JSON.stringify({
         message: data,
         task: app.task
-      })
+      }),
+      signal: abortController.signal
     })
     .then((response) =>  _getMessages(messageRead))
     .catch((error) => console.error(error))
@@ -122,6 +135,7 @@ const Task = () => {
         'Content-Type': 'application/json',
         'authorization': token,
       },
+      signal: abortController.signal,
     })
     .catch((error) => console.error(error))
   }
@@ -135,7 +149,8 @@ const Task = () => {
         'Content-Type': 'application/json',
         'authorization': token,
       },
-      body: JSON.stringify({task})
+      body: JSON.stringify({task}),
+      signal: abortController.signal,
     })
     .then((response) => response.json())
     .catch((error) => console.error(error))
@@ -151,9 +166,8 @@ const Task = () => {
         'Content-Type': 'application/json',
         'authorization': token,
       },
-      body: JSON.stringify({
-          subtask
-        })
+      body: JSON.stringify({subtask}),
+      signal: abortController.signal,
     })
     .catch((error) => console.error(error))
   }
@@ -168,7 +182,8 @@ const Task = () => {
         'Content-Type': 'application/json',
         'authorization': token,
       },
-      body: JSON.stringify({name: selection})
+      body: JSON.stringify({name: selection}),
+      signal: abortController.signal,
     })
     .then((json) => _getSubTasks())
     .catch((error) => console.error(error))
@@ -183,8 +198,9 @@ const Task = () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'authorization': token,
-      }
+        'authorization': token
+      },
+      signal: abortController.signal,
     })
     .catch((error) => console.error(error))
   }
@@ -197,8 +213,9 @@ const Task = () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'authorization': token,
+        'authorization': token
       },
+      signal: abortController.signal,
     })
     .then((response) => _getTask())
     .catch((error) => console.error(error))
@@ -277,6 +294,13 @@ const Task = () => {
     setMessages(filteredMessages)
   }
 
+  const removeDocument = (id) => {
+    _deleteDocument(id)
+  
+    const filteredDocuments = documentsRef.current.filter(item => item.id !== parseInt(id))
+    setDocuments(filteredDocuments)
+  }
+
   const updateTasks = () => {
     _getTask()
   }
@@ -291,7 +315,6 @@ const Task = () => {
     _updateTask()
   };
 
-  
   const updateStatus = (status) => {
     if(task.status !== status) {
       task.status = status;
@@ -299,6 +322,7 @@ const Task = () => {
       _updateTask();
     }
   }
+
 
 
   console.log('render');
@@ -319,7 +343,7 @@ const Task = () => {
          menu.append(new MenuItem({
            label: "Delete Attachment",
            click: () => {
-             _deleteDocument(e.target.dataset.id)
+             removeDocument(e.target.dataset.id)
            }
          }))
        }
@@ -350,6 +374,10 @@ const Task = () => {
     _getTask();
     _getSubTasks();
     contextMenu();
+
+    return () => {
+      abortController.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -357,6 +385,9 @@ const Task = () => {
   useEffect(() => {
     _getMessages(messageRead);
 
+    return () => {
+      abortController.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageRead]);
 
@@ -392,25 +423,43 @@ const Task = () => {
 
             {timer.time.id !== task.id && task.status === 'In Progress' &&
 
-              <button
-                className="btn btn--icon"
+              <button 
+                className="btn btn--small"
                 onClick={() => timer.startTimer(task.id, task.name)}
-              >
-                <svg viewBox="0 0 100 100" className="ic-svg s10"> 
-                  <use xlinkHref="/assets/sprite.svg#play"></use>
-                </svg>
+                >
+                  <svg viewBox="0 0 100 100" className="ic-svg s10"> 
+                    <use xlinkHref="/assets/sprite.svg#play"></use>
+                  </svg>
               </button>
 
             }
 
+
             {taskStatus === 'In Progress' &&
+
             <>
 
-            <button
-              className="btn btn--small mr2"
-            >
-              {taskTotalTime(task.time)}
-            </button>
+            <div className="dropdown-wrapper dropdown--left">
+
+              <button
+                className="btn btn--small mr2"
+                onClick={() => setDropdownState(!dropdownState)}
+              >
+                {taskTotalTime(task.time)}
+              </button>
+              
+              <Dropdown
+                setDropdownState={setDropdownState}
+                dropdownState={dropdownState}
+              >
+                <TimerList 
+                  taskId={task.id}
+                />
+
+              </Dropdown>
+            
+            </div>
+
 
             <span className="checkbox-status-container">
 
@@ -428,8 +477,11 @@ const Task = () => {
               </span>
 
             </span>
+
           </>
+
           }
+
           </div>
 
           {/* <div className="dropdown-wrapper pt1">
@@ -511,7 +563,7 @@ const Task = () => {
 
       { subTasks.length > 0 &&
         <ul>
-        <span className="label pb2">Sub Tasks</span>
+        <span className="label pb2">Subtasks</span>
           {subTasks.map((item, index) =>
             <li
               key={index}
@@ -540,7 +592,7 @@ const Task = () => {
 
 
       <Documents
-        data={task}
+        data={documents}
         callback={updateTasks}
       />
 
@@ -559,7 +611,7 @@ const Task = () => {
           <button
             className="btn btn--secondary"
             onClick={() => _createSubTask()}
-          >Add Task</button>
+          >Add Subtask</button>
           <button
             className="btn btn--secondary btn--upload">
             <input 
@@ -567,7 +619,7 @@ const Task = () => {
               onChange={(event) => _storeDocuments(event.target.files)}
               multiple
             />  
-          Upload File</button>
+          Upload Attachment</button>
       </FooterModal>
 
       <Footer>

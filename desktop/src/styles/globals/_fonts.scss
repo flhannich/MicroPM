@@ -39,6 +39,7 @@ h2 {
 
 label {
   font-size: 12px;
+  color: var(--font-color--lightest);
   -webkit-user-select:none;
 }
 
@@ -77,7 +78,7 @@ span {
     color: var(--font-color--lightest);
   }
   &.label {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--font-color--lightest);
   }
 }

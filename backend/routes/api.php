@@ -55,10 +55,21 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 
   Route::get('/clients', [ClientController::class, 'index']);
+  Route::post('/client', [ClientController::class, 'create']);
+  Route::get('/client/{id}', [ClientController::class, 'show']);
+  Route::patch('/client/{id}', [ClientController::class, 'update']);
+  Route::delete('/client/{id}', [ClientController::class, 'delete']);
+  Route::get('/client/{id}/password', [ClientController::class, 'password']);
 
-  Route::get('/settings', [SettingsController::class, 'show']);
-  Route::patch('/settings', [SettingsController::class, 'update']);
-  Route::delete('/settings', [SettingsController::class, 'update']);
+
+  Route::get('/timer/task/{task}', [TimeController::class, 'index']);
+  Route::post('/timer/task/{task}', [TimeController::class, 'create']);
+  Route::patch('/timer/{id}', [TimeController::class, 'update']);
+  Route::delete('/timer/{id}', [TimeController::class, 'delete']);
+
+  // Route::get('/settings', [SettingsController::class, 'show']);
+  // Route::patch('/settings', [SettingsController::class, 'update']);
+  // Route::delete('/settings', [SettingsController::class, 'update']);
 
   Route::patch('/time/{id}', [TimeController::class, 'update']);
   Route::post('/time', [TimeController::class, 'create']);

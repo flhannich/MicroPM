@@ -126,7 +126,6 @@ const Login = () => {
       action=""
       >
 
-
       <div className="form-group pb3">
         <div className={`group-item ${usernameError && 'has-error'}`}>
           <label htmlFor="username">Username</label>
@@ -157,7 +156,7 @@ const Login = () => {
       </div>
 
 
-      <div className="form-group pb3">
+      <div className="form-group pb4">
         <div className={`group-item ${apiError && 'has-error'}`}>
           <label htmlFor="api">Api URL</label>
           <input
@@ -175,9 +174,10 @@ const Login = () => {
       <div className="form-group pb3">
         <div className="group-item">
           <button
+            className="btn btn--primary"
             type="submit"
             onClick={validateForm}
-          >Submit</button>
+          >Login</button>
         </div>
       </div>
 

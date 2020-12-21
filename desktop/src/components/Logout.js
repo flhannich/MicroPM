@@ -35,7 +35,7 @@ const Logout = () => {
 
   return (
 
-        <button className="btn btn--secondary" onClick={logout}>Logout</button>
+        <button className="btn btn--none" onClick={logout}>Logout from account</button>
 
   )
 }
