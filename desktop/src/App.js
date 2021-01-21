@@ -7,6 +7,8 @@ import { AppContext } from './context/AppContext';
 
 // window.ipcRenderer.on('logout', m => console.log(m));
 
+// php artisan serve --host=192.168.178.121 --port=8000
+
 export default function App( probs ) {
 
   const auth = useContext(AuthContext);
