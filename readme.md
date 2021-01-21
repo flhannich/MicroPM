@@ -1,11 +1,12 @@
 
-#Micro PM
+# Micro Project Managment Tool
 This project is under development.
 
+OSX Menu Bar Project Managment Tool with Laravel Server and Android/IOS App for clients.
 Build with Electron, React Native and Laravel.
 
 
-### Setup Laravel backend
+## Setup Laravel backend
 
 Go to your backend folder and make a production copy of .env.local
 
