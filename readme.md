@@ -1,6 +1,8 @@
 
-# Micro Project Managment Tool
-This project is under development.
+# Micro Project Management Tool
+
+*This project is under development!*
+
 
 OSX Menu Bar Project Managment Tool with Laravel Server and Android/IOS App for clients.
 Build with Electron, React Native and Laravel.
